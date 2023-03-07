@@ -1,2 +1,2 @@
-# tinySA-interface
-An interface application developed for the low-cost spectrum analyzer, the tinySA.
+# tinySCPI
+A Python library that enables the use of SCPI commands on the tinySA
