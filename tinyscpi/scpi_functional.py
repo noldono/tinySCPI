@@ -39,5 +39,5 @@ class SCPI_funcitnoal:
 
 
     def read(self) -> str:
-        return ""
+        return self.inst.read()
 
