@@ -2,15 +2,15 @@ import argparse
 import serial
 from serial.tools import list_ports
 import sys
-import usb_cmds
 import pyvisa
+import csv
+import scpi_lookup_dict
 
 
 class SCPI_functional:
-    SCPILookUpTable = {"*TST?":"selftest", "PROGram:SELected:STATe PAUSe":"pause", "PROGram:SELected:STATe CONTinue":"resume", "BAND:RES":"rbw", "*IDN?":"info"}
     def __init__(self):
-        self.VID = 0x0483 # Version ID
-        self.PID = 0x5740 # Product ID
+        self.VID = 0x0483  # Version ID
+        self.PID = 0x5740  # Product ID
 
         # Variables for using pySerial
         self.cr = b'\r'
@@ -30,7 +30,9 @@ class SCPI_functional:
     args: self
     desc: finds the tinySA device if it is connected
     '''
+
     def getDevice(self) -> str:
+        # In the future, append the device to a list to enable the use of multiple tinySA's
         device_list = list_ports.comports()
         for device in device_list:
             if device.vid == self.VID and device.pid == self.PID:
@@ -41,10 +43,12 @@ class SCPI_functional:
     args: self, command, args(list)
     desc: it will take in a SCPI command, 
     '''
-    def convertSCPItoUSB(self, command: str, args: list) -> str:
-        if len(args) == 0: return self.SCPILookUpTable[command]
-        else: return self.SCPILookUpTable[command] + " TODO: add arguments"
 
+    def convertSCPItoUSB(self, command: str, args: list) -> str:
+        if len(args) == 0:
+            return scpi_lookup_dict.SCPILookUpTable[command]
+        else:
+            return scpi_lookup_dict.SCPILookUpTable[command] + " TODO: add arguments"
 
     def send(self, command) -> None:
         device = self.getDevice()
@@ -52,6 +56,4 @@ class SCPI_functional:
             tinySA_device.write(command.encode() + self.cr)
             echo = tinySA_device.read_until(command.encode() + self.crlf)
             echo = tinySA_device.read_until(self.crlf + self.prompt)
-            return echo[ :-len( self.crlf + self.prompt ) ].decode()
-
-
+            return echo[:-len(self.crlf + self.prompt)].decode()
