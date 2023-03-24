@@ -4,7 +4,7 @@ class SCPI_Parser:
     def __init__(self):
         self.a = 0
 
-    def parseCommand(self, commmand: str) -> (str, list):
+    def parseCommand(self, commmand: str) -> tuple(str, list):
         return "", []
 
     def parseArgument(self, args)->list:
