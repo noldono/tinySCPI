@@ -45,3 +45,24 @@ class SCPI_functional:
                 break
         
         return version
+    
+    def get_version(self) -> str:
+        # Call the Python function to get the instrument ID
+        # ...
+        self.write('version')
+        response = self.read()
+
+        words = response.split()
+        new_string = ' '.join(words[1:-1])
+        return new_string
+    
+    def get_battery(self) -> str:
+        # Call the Python function to get the instrument ID
+        # ...
+        self.write('vbat')
+        response = self.read()
+
+        words = response.split()
+        new_string = ' '.join(words[1:-1])
+        return new_string
+

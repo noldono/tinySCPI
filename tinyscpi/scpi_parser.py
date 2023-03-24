@@ -5,7 +5,9 @@ class SCPI_Parser:
     def __init__(self):
         # Initialize valid command table
         self.validCommandTable = {
-            "*IDN?": self.get_instrument_id
+            "*IDN?": self.get_instrument_id,
+            "SYSTem:VERSion?": self.get_instrument_version,
+            "MEASure:VOLTage:DC?": self.get_instrument_battery
         }
         self.Functional = SCPI_functional()
 
@@ -31,3 +33,9 @@ class SCPI_Parser:
     def get_instrument_id(self, command: str) -> str:
         # Call the get_id method of the Instrument instance to get the instrument ID
         return self.Functional.get_id()
+    
+    def get_instrument_version(self, command: str) -> str:
+        return self.Functional.get_version()
+    
+    def get_instrument_battery(self, command: str) -> str:
+        return self.Functional.get_battery()
