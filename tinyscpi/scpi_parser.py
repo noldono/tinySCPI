@@ -1,14 +1,33 @@
+from scpi_functional import SCPI_functional
 class SCPI_Parser:
-    #what if parser drops every singlelower case insturctions?
-    validCommandTable = {'PROGram:SELected:STATe CONTinue':0, 'PROGram:SELected:STATe CONTinue':0, '*TST?':0, "BAND:RES": 1}
+    validCommandTable = {}
+
     def __init__(self):
-        self.a = 0
+        # Initialize valid command table
+        self.validCommandTable = {
+            "*IDN?": self.get_instrument_id
+        }
+        self.Functional = SCPI_functional()
 
-    def parseCommand(self, commmand: str) -> (str, list):
-        return "", []
+    def parseCommand(self, command: str) -> int:
+        # Look up command in valid command table
+        if command in self.validCommandTable:
+            # Execute the corresponding Python function and return the result
+            return self.validCommandTable[command](command)
+        else:
+            # Invalid command
+            return -1
 
-    def parseArgument(self, args)->list:
+    def parseArgument(self, args: str) -> list:
+        # Parse the argument string and return a list of values
+        # ...
         return []
 
-    def parseResult(self, result)->str:
+    def parseResult(self, result: str) -> str:
+        # Format the result string in a user-friendly format and return it
+        # ...
         return ""
+    
+    def get_instrument_id(self, command: str) -> str:
+        # Call the get_id method of the Instrument instance to get the instrument ID
+        return self.Functional.get_id()
