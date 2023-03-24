@@ -8,8 +8,8 @@ class SCPI_Parser:
     def parseCommand(self, commmand: str) -> tuple[str, list]:
         return "", []
 
-    def parseArgument(self, args) -> list:
+    def parseArgument(self, args: str) -> list:
         return []
 
-    def parseResult(self, result) -> str:
+    def parseResult(self, result: str) -> str:
         return ""
