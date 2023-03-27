@@ -1,6 +1,5 @@
 from scpi_functional import SCPI_functional
 class SCPI_Parser:
-    validCommandTable = {}
 
     def __init__(self):
         # Initialize valid command table
@@ -39,3 +38,12 @@ class SCPI_Parser:
     
     def get_instrument_battery(self, command: str) -> str:
         return self.Functional.get_battery()
+
+    def parseCommand(self, commmand: str) -> tuple[str, list]:
+        return "", []
+
+    def parseArgument(self, args: str) -> list:
+        return []
+
+    def parseResult(self, result: str) -> str:
+        return ""
