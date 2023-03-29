@@ -40,15 +40,15 @@ class SCPI_functional:
         raise OSError("device not found")
 
     '''
-    args: self, command, args(list)
-    desc: it will take in a SCPI command, 
+    Create tinySA usb command, given the valid command and arguments.
     '''
-
     def convertSCPItoUSB(self, command: str, args: list) -> str:
-        if len(args) == 0:
-            return scpi_lookup_dict.SCPILookUpTable[command]
-        else:
-            return scpi_lookup_dict.SCPILookUpTable[command] + " TODO: add arguments"
+        usb_cmd: str = scpi_lookup_dict.SCPILookUpTable[command]
+        for arg in args:
+            usb_cmd += str(arg)
+            usb_cmd += ' '
+
+        return usb_cmd
 
     def send(self, command) -> None:
         device = self.getDevice()
