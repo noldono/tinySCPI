@@ -25,10 +25,20 @@ class SCPI_Parser:
         new_args = []
         args = strs[1:]
         for arg, val in zip(args, validation):
-            if val == 'int':
-                new_args.append(int(arg))
-            if val == 'str':
-                new_args.append(arg)
+            if val[0] == 'int':
+                arg = int(arg)
+                if val[1] > arg or val[2] < arg:
+                    raise ValueError
+
+            if val[0] == 'bool':
+                if arg != 'ON' and arg != 'OFF':
+                    raise ValueError
+
+            if val[0] == 'str':
+                if arg == 'str' or arg not in val:
+                    raise ValueError
+
+            new_args.append(arg)
         return cmd, new_args
 
     def parseResult(self, result: str) -> str:

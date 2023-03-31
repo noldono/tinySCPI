@@ -7,7 +7,7 @@ class ParserTestCase(unittest.TestCase):
 
     def testParseCommand(self):
         self.assertEqual(self.parser.parseCommand('*IDN?'), ('*IDN?',[]))
-        self.assertEqual(self.parser.parseCommand('BAND:RES 1'), ('BAND:RES', [1]))
+        self.assertEqual(self.parser.parseCommand('BAND:RES 3'), ('BAND:RES', [3]))
         with self.assertRaises(KeyError):
             self.parser.parseCommand('*IDN')
         with self.assertRaises(ValueError):
