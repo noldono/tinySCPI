@@ -8,7 +8,7 @@ class SCPI_Parser:
         self.a = 0
         self.validCommandTable = scpi_valid_dict.validCommandTable
 
-    def parseCommand(self, command: str) -> (str, list):
+    def parseCommand(self, command: str):
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
         strs = command.split(' ')

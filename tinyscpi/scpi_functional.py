@@ -2,7 +2,6 @@ import argparse
 import serial
 from serial.tools import list_ports
 import sys
-import pyvisa
 import csv
 import scpi_lookup_dict
 
@@ -43,11 +42,14 @@ class SCPI_functional:
     Create tinySA usb command, given the valid command and arguments.
     '''
     def convertSCPItoUSB(self, command: str, args: list) -> str:
+        print(command)
         usb_cmd: str = scpi_lookup_dict.SCPILookUpTable[command]
+        usb_cmd += ' '
         for arg in args:
             usb_cmd += str(arg)
             usb_cmd += ' '
 
+        print(usb_cmd)
         return usb_cmd
 
     def send(self, command) -> None:

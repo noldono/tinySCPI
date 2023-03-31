@@ -13,5 +13,7 @@ SCPILookUpTable = {
     'DISPlay:GRAPhics:COLor?': 'color',
     'DISPlay:GRAPhics:COLor': 'color',
     'SENSe:CORRection?': 'correction',
-
+    'SENSe:CORRection': 'correction',
+    'DISPlay:GRAPhics:COLor?' : 'color',
+    'DISPlay:GRAPhics:COLor': 'color'
 }
