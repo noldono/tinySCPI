@@ -14,7 +14,8 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('BAND:RES str')
         with self.assertRaises(SyntaxError):
             self.parser.parseCommand('BAND:RES')
-        #TODO: Unimplemented Method Stub
+        self.assertEqual(self.parser.parseCommand('DISPlay:GRAPhics:COLor 3 0x000000'), ('DISPlay:GRAPhics:COLor', [3, '0x000000']))
+                    #TODO: Unimplemented Method Stub
 
     def testParseResult(self):
         self.assertEqual(1, 1)
