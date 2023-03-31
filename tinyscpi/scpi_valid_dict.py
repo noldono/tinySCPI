@@ -9,4 +9,5 @@ validCommandTable = {'*IDN?': [],
                      'DISPlay:GRAPhics:COLor?': [],
                      'DISPlay:GRAPhics:COLor': [['int', 0, 65535]],
                      'SENSe:CORRection': [],
+                     'DISPLay:DATA:START':[['int', 0, 320], ['int', 0, 240]]
                     }
