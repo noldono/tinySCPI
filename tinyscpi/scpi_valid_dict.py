@@ -35,5 +35,4 @@ validCommandTable = {'*IDN?': [],
                      'SYSTem:SAVE': [['input']],
                      'SYSTem:SERialnumber?': [],
                      'SYSTem:SERialnumber': [['input']],
-
                     }
