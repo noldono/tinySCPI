@@ -1,3 +1,5 @@
+import re
+
 import scpi_valid_dict
 class SCPI_Parser:
     # what if parser drops every single lower case insturctions?
@@ -37,6 +39,13 @@ class SCPI_Parser:
             if val[0] == 'str':
                 if arg == 'str' or arg not in val:
                     raise ValueError
+
+            if val[0] == 'input':
+                if not re.match(arg, 'A-Za-z0-9'):
+                    raise ValueError
+                if not re.match(arg.at(0), 'A-Za-z'):
+                    raise ValueError
+
 
             new_args.append(arg)
         return cmd, new_args

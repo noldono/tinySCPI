@@ -9,6 +9,17 @@ validCommandTable = {'*IDN?': [],
                      '*RST:CONFIGDATA':[],
                      'DISPlay:GRAPhics:COLor?': [],
                      'DISPlay:GRAPhics:COLor': [['int', 0, 65535]],
+                     'SENSe:CORRection?': [],
+                     'SYSTem:HELP?': [],
+                     'SOURce:POWer:LEVel:IMMediate:AMPLitude': [['int', -76, 13]],
+                     'SOURCe:POWer:LEVel:IMMediate:AMPLitude:OFFSet': [['int', -70, 70]],
+                     'FREQuency:OFFSet?': [],
+                     'FREQuency:OFFSet': [['str', 'low', 'high', 'switch']], # Needs tweaking
+                     'SYSTem:PRESet': [['int', 0, 4]],
+                     'SOURce:DM:FORMat' : [['str', 'off', 'AM_1kHz', 'AM_10Hz', 'NFM', 'WFM', 'extern']],
+                     'SOURce:POWer:AMPLitude': [['int', -100, 100]],
+                     'OUTPut': [['bool']],
+                     'PROGram:SELected:STATe:PAUSe': [],
                      'SENSe:CORRection': [],
                      'DISPLay:DATA:START':[['int', 0, 320], ['int', 0, 240]],
                      'HCOPy:SDUMp:DATA?':[],
@@ -16,8 +27,13 @@ validCommandTable = {'*IDN?': [],
                      'SOURce:VOLTage:LEVel:IMMediate:AMPLitude': [['int', 0, 4096]],
                      'TRACe:DATA?': ['int', 0, 2],
                      'MARKer:LEVel?': [],
-                     'MARKer:LEVel?': [['int', 1, 4], ['int or str', 0, 355, 'on', 'off', 'peak']] # TODO: change int limit on second argument.
-
-
+                     'MARKer:LEVel?': [['int', 1, 4], ['int or str', 0, 355, 'on', 'off', 'peak']], # TODO: change int limit on second argument.
+                     'DISPlay:ENABle': [['bool']],
+                     '*RST?': [],
+                     'PROGram:SELected:STATe:CONTinue': [],
+                     'TRACe:MEMory:SAVE': [['int', 0, 4]],
+                     'SYSTem:SAVE': [['input']],
+                     'SYSTem:SERialnumber?': [],
+                     'SYSTem:SERialnumber': [['input']],
 
                     }
