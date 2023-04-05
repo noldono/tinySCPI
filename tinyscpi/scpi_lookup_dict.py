@@ -9,11 +9,14 @@ SCPILookUpTable = {
     'CONFigure': 'calc',
     'SOURce:POWer:LEVel:IMMediate:AMPLitude': 'caloutput',
     ':HCOPy:SDUMp:DATA?': 'capture',
-    '*RST:CONFIGDATA': 'clearconfig',
+    '*RST:CLEARCONFIG': 'clearconfig 1234',
+    '*RST': 'reset',
     'DISPlay:GRAPhics:COLor?': 'color',
     'DISPlay:GRAPhics:COLor': 'color',
     'SENSe:CORRection?': 'correction',
     'SENSe:CORRection': 'correction',
     'DISPlay:GRAPhics:COLor?' : 'color',
-    'DISPlay:GRAPhics:COLor': 'color'
+    'DISPlay:GRAPhics:COLor': 'color',
+    'SYSTem:SERialnumber?': 'deviceid',
+    'SYSTem:SERialnumber': 'deviceid'
 }

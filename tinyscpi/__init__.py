@@ -3,9 +3,9 @@ from threading import Event
 
 def main():
     #placeholder
-    info = tinySCPI.userInput('DISPlay:GRAPhics:COLor 3 0x00FF00')
+    info = tinySCPI.capture("file.png")
+    #tinySCPI.userInput("*RST:CONFIGDATA")
     print(info)
-    #Event().wait(10)
     #tinySCPI.userInput('PROGram:SELected:STATe CONTinue')
 if __name__=="__main__":
     main()

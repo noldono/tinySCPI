@@ -41,10 +41,10 @@ class SCPI_Parser:
                     raise ValueError
 
             elif val[0] == 'input':
-                if not re.match(arg, 'A-Za-z0-9'):
+                if not arg.isalnum():
                     raise ValueError
-                if not re.match(arg.at(0), 'A-Za-z'):
-                    raise ValueError
+                # if not re.match(arg.at(0), 'A-Za-z'):
+                #     raise ValueError
 
             elif val[0] == 'hex':
                 if int(val[1], 16) > int(arg, 16) or int(val[2], 16) < int(arg, 16):
