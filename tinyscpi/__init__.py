@@ -3,8 +3,7 @@ from threading import Event
 
 def main():
     #placeholder
-    info = tinySCPI.capture("file.png")
-    #tinySCPI.userInput("*RST:CONFIGDATA")
+    info = tinySCPI.userInput("SENSe:CORRection?")
     print(info)
     #tinySCPI.userInput('PROGram:SELected:STATe CONTinue')
 if __name__=="__main__":

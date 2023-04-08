@@ -33,7 +33,7 @@ class SCPI_Parser:
                     raise ValueError
 
             elif val[0] == 'bool':
-                if arg != 'ON' and arg != 'OFF':
+                if arg != 'on' and arg != 'off':
                     raise ValueError
 
             elif val[0] == 'str':

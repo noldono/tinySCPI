@@ -18,5 +18,7 @@ SCPILookUpTable = {
     'DISPlay:GRAPhics:COLor?' : 'color',
     'DISPlay:GRAPhics:COLor': 'color',
     'SYSTem:SERialnumber?': 'deviceid',
-    'SYSTem:SERialnumber': 'deviceid'
+    'SYSTem:SERialnumber': 'deviceid',
+    'DISPlay:ENABle': 'refresh',
+    'SENSe:CORRection?': 'correction low',
 }
