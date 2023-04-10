@@ -21,4 +21,7 @@ SCPILookUpTable = {
     'SYSTem:SERialnumber': 'deviceid',
     'DISPlay:ENABle': 'refresh',
     'SENSe:CORRection?': 'correction low',
+    'SOURce:POWer:LEVel:IMMediate:AMPLitude:OFFset': 'levelchange',
+    'SYSTem:MODE': 'mode',
+    'SYSTem:VERSion?': 'version',
 }

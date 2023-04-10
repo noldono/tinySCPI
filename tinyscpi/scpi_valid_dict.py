@@ -41,6 +41,8 @@ validCommandTable = {'*IDN?': [],
                      'DISPlay:DATA:STOP': [['int', 0, 320], ['int', 0, 320]],
                      'DISPlay:DATA:WIDTH': [['int', 0, 320]],
                      'DISPlay:DATA:HEIGHT': [['int', 0, 240]],
-                     'DISPlay:DATA:TYPE': [['']]
-
+                     'DISPlay:DATA:TYPE': [['']],
+                     'SOURce:POWer:LEVel:IMMediate:AMPLitude:OFFset': [['int', -70, 70]],
+                     'SYSTem:VERSion?': [],
+                     'SYSTem:MODE': [['str', 'low', 'high'], ['str', 'input', 'output']],
                     }
