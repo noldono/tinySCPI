@@ -2,9 +2,12 @@ import argparse
 import serial
 from serial.tools import list_ports
 import sys
-import pyvisa
 import csv
 import scpi_lookup_dict
+import struct
+import numpy
+from PIL import Image
+import datetime
 
 
 class SCPI_functional:
@@ -17,6 +20,9 @@ class SCPI_functional:
         self.lf = b'\n'
         self.crlf = self.cr + self.lf
         self.prompt = b'ch> '
+        self.screen_width = 320
+        self.screen_height = 240
+        self.device_name = "TinySA"
 
         # # Variables for using pyVISA
         # self.rm = pyvisa.ResourceManager()
@@ -40,20 +46,53 @@ class SCPI_functional:
         raise OSError("device not found")
 
     '''
-    args: self, command, args(list)
-    desc: it will take in a SCPI command, 
+    Create tinySA usb command, given the valid command and arguments.
     '''
 
     def convertSCPItoUSB(self, command: str, args: list) -> str:
-        if len(args) == 0:
-            return scpi_lookup_dict.SCPILookUpTable[command]
-        else:
-            return scpi_lookup_dict.SCPILookUpTable[command] + " TODO: add arguments"
+        print(command)
+        usb_cmd: str = scpi_lookup_dict.SCPILookUpTable[command]
+        usb_cmd += ' '
+        for arg in args:
+            usb_cmd += str(arg)
+            usb_cmd += ' '
+
+        print(usb_cmd)
+        return usb_cmd
 
     def send(self, command) -> None:
-        device = self.getDevice()
-        with serial.Serial(device, timeout=1) as tinySA_device:
-            tinySA_device.write(command.encode() + self.cr)
-            echo = tinySA_device.read_until(command.encode() + self.crlf)
-            echo = tinySA_device.read_until(self.crlf + self.prompt)
-            return echo[:-len(self.crlf + self.prompt)].decode()
+        try:
+            device = self.getDevice()
+            with serial.Serial(device, timeout=1) as tinySA_device:
+                tinySA_device.write(command.encode() + self.cr)
+                echo = tinySA_device.read_until(command.encode() + self.crlf)
+                echo = tinySA_device.read_until(self.crlf + self.prompt)
+                decoded = echo[:-len(self.crlf + self.prompt)].decode()
+                return decoded
+        except Exception as e:
+            return f"Error sending commmand '{command}': {str(e)}"
+
+    # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
+    def takeScreenshot(self, filename: str = "") -> None:
+        try:
+            device = self.getDevice()
+            with serial.Serial(device, timeout=1) as tinySA_device:
+                tinySA_device.write(b'pause\r')  # stop screen update
+                echo = tinySA_device.read_until(b'pause' + self.crlf + self.prompt)  # wait for completion
+                tinySA_device.write(b'capture\r')  # request screen capture
+                echo = tinySA_device.read_until(b'capture' + self.crlf)  # wait for start of transfer
+                captured_bytes = tinySA_device.read(2 * self.screen_width * self.screen_height)
+                echo = tinySA_device.read_until(self.prompt)  # wait for cmd completion
+            rgb565 = struct.unpack(f'>{self.screen_width * self.screen_height}H', captured_bytes)
+            # convert to 32bit numpy array Rrrr.rGgg.gggB.bbbb -> 0000.0000.0000.0000.Rrrr.rGgg.gggB.bbbb
+            rgb565_32 = numpy.array(rgb565, dtype=numpy.uint32)
+            rgba8888 = 0xFF000000 + (
+                    ((rgb565_32 & 0xF800) >> 8) + ((rgb565_32 & 0x07E0) << 5) + ((rgb565_32 & 0x001F) << 19))
+            image = Image.frombuffer('RGBA', (self.screen_width, self.screen_height), rgba8888, 'raw', 'RGBA', 0, 1)
+            file = filename or datetime.now().strftime(f'{self.device_name}_%Y%m%d_%H%M%S.png')
+            try:
+                image.save(filename)  # .. and save it to file (format according extension)
+            except ValueError:  # unknown (or missing) exension
+                image.save(filename + '.png')  # force PNG format
+        except Exception as e:
+            return f"Error sending capture command: {str(e)}"
