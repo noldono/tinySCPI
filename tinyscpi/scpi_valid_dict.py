@@ -45,5 +45,8 @@ validCommandTable = {'*IDN?': [],
                      'SOURce:POWer:LEVel:IMMediate:AMPLitude:OFFset': [['int', -70, 70]],
                      'SYSTem:VERSion?': [],
                      'SYSTem:MODE': [['str', 'low', 'high'], ['str', 'input', 'output']],
-                     'SWEep:BEGin': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 290]], # TODO: Add the high input bounds, currently 0-350MHz are the low bounds
+                     'MEASure:SWEep:BEGin:LOW': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 290]], # TODO: Add the high input bounds, currently 0-350MHz are the low bounds
+                     'MEASure:SWEep:BEGin:HIGH': [['int', 240000000, 959000000], ['int', 240000000, 959000000], ['int', 0, 290]],
+                     'MEASure:SWEep:TIME': [['int', 0, 600]],
+                     'MEASure:SCAN:RAW:START': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 2147483647]],
                     }

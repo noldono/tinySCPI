@@ -18,3 +18,9 @@ def capture(filename:str) -> str:
     functional.takeScreenshot(filename)
     return f"Success, saved as {filename} in current directory"
 
+def scanRawPoints() -> str:
+    parser = scpi_parser.SCPI_Parser()
+    functional = scpi_functional.SCPI_functional()
+    result = functional.scanRaw(0, 350000000, 200)
+    return result
+
