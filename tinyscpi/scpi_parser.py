@@ -51,7 +51,7 @@ class SCPI_Parser:
                 if int(val[1], 16) > int(arg, 16) or int(val[2], 16) < int(arg, 16):
                     raise ValueError
 
-            elif val[0] == 'strint': #TODO
+            elif val[0] == 'int or str': #TODO
                 if not arg.isalnum():
                     raise TypeError
                 if arg.isnumeric():
