@@ -35,6 +35,7 @@ class SCPI_Parser:
             elif val[0] == 'bool':
                 if arg != 'ON' and arg != 'OFF':
                     raise ValueError
+                return cmd, new_args
 
             elif val[0] == 'str':
                 if arg == 'str' or arg not in val:
