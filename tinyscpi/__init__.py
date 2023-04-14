@@ -3,7 +3,7 @@ from threading import Event
 
 def main():
     #Serial
-    info = tinySCPI.debugInput('trace')
+    info = tinySCPI.debugInput('scan 1000000000 2000000000 5 3')
 
     #SCPI
     #info = tinySCPI.userInput("FREQuency:OFFSet low output")
