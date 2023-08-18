@@ -27,14 +27,6 @@ class SCPI_functional:
         self.screen_height = 240
         self.device_name = "TinySA"
 
-        # # Variables for using pyVISA
-        # self.rm = pyvisa.ResourceManager()
-        # print(self.rm.list_resources())
-        # self.inst = self.rm.open_resource('ASRL/dev/ttyACM0::INSTR')
-        # self.inst.baud_rate = 115200
-        # self.inst.read_termination = "\r"
-        # self.inst.write_termination = "\r"
-
     '''
     args: self
     desc: finds the tinySA device if it is connected
