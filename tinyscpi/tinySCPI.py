@@ -12,6 +12,10 @@ def userInput(input:str)->str:
     usb_str = functional.convertSCPItoUSB(cmd, args)
     return functional.send(usb_str)
 
+def debugInput(input:str)->str:
+    functional = scpi_functional.SCPI_functional()
+    return functional.send(input)
+
 def capture(filename:str) -> str:
     parser = scpi_parser.SCPI_Parser()
     functional = scpi_functional.SCPI_functional()

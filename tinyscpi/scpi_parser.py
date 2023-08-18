@@ -33,22 +33,33 @@ class SCPI_Parser:
                     raise ValueError
 
             elif val[0] == 'bool':
-                if arg != 'on' and arg != 'off':
+                if arg != 'ON' and arg != 'OFF':
                     raise ValueError
+                return cmd, new_args
 
             elif val[0] == 'str':
                 if arg == 'str' or arg not in val:
                     raise ValueError
 
             elif val[0] == 'input':
-                if not arg.isalnum():
+                if not re.match(arg, 'A-Za-z0-9'):
                     raise ValueError
-                # if not re.match(arg.at(0), 'A-Za-z'):
-                #     raise ValueError
+                if not re.match(arg.at(0), 'A-Za-z'):
+                    raise ValueError
 
             elif val[0] == 'hex':
                 if int(val[1], 16) > int(arg, 16) or int(val[2], 16) < int(arg, 16):
                     raise ValueError
+
+            elif val[0] == 'int or str': #TODO
+                if not arg.isalnum():
+                    raise TypeError
+                if arg.isnumeric():
+                    if int(val[1]) > int(arg) or int(val[2]) < int(arg):
+                        raise ValueError
+                if arg.isalpha():
+                    if arg not in val[1:]:
+                        raise ValueError
             else:
                 raise TypeError
 
