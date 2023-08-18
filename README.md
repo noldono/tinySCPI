@@ -8,3 +8,5 @@ python -m unittest discover
 pip install coverage
 coverage run scpi_functional.py
 
+## Contact Us:
+Email: tinyscpi@vt.edu
