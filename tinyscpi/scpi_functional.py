@@ -1,4 +1,7 @@
 import argparse
+import time
+
+import numpy as np
 import serial
 from serial.tools import list_ports
 import sys
@@ -23,14 +26,6 @@ class SCPI_functional:
         self.screen_width = 320
         self.screen_height = 240
         self.device_name = "TinySA"
-
-        # # Variables for using pyVISA
-        # self.rm = pyvisa.ResourceManager()
-        # print(self.rm.list_resources())
-        # self.inst = self.rm.open_resource('ASRL/dev/ttyACM0::INSTR')
-        # self.inst.baud_rate = 115200
-        # self.inst.read_termination = "\r"
-        # self.inst.write_termination = "\r"
 
     '''
     args: self
@@ -73,7 +68,7 @@ class SCPI_functional:
             return f"Error sending commmand '{command}': {str(e)}"
 
     # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
-    def takeScreenshot(self, filename: str = "") -> None:
+    def takeScreenshot(self, filename: str = ""):
         try:
             device = self.getDevice()
             with serial.Serial(device, timeout=1) as tinySA_device:
@@ -94,5 +89,55 @@ class SCPI_functional:
                 image.save(filename)  # .. and save it to file (format according extension)
             except ValueError:  # unknown (or missing) exension
                 image.save(filename + '.png')  # force PNG format
+        except Exception as e:
+            return f"Error sending capture command: {str(e)}"
+
+    # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/tinysa_scanraw.py
+    def scanRaw(self, f_low: int, f_high: int, points: int, filename: str = "", verbose=None, rbw=0):
+        try:
+            device = self.getDevice()
+            with serial.Serial(device, timeout=1) as tinySA:
+                tinySA.timeout = 1
+                while tinySA.inWaiting():
+                    tinySA.read_all()  # keep the serial buffer clean
+                    time.sleep(0.1)
+
+                span_k = (f_high - f_low) / 1e3
+                if 0 == rbw:  # calculate from scan range and steps
+                    rbw_k = span_k / points  # RBW / kHz
+                else:
+                    rbw_k = rbw / 1e3
+
+                if rbw_k < 3:
+                    rbw_k = 3
+                elif rbw_k > 600:
+                    rbw_k = 600
+
+                rbw_command = f'rbw {int(rbw_k)}\r'.encode()
+                tinySA.write(rbw_command)
+                tinySA.read_until(b'ch> ')  # skip command echo and prompt
+
+                # set timeout accordingly - can be very long - use a heuristic approach
+                timeout = int(span_k / (rbw_k * rbw_k) + points / 1e3 + 5)
+                tinySA.timeout = timeout
+
+                if verbose:
+                    sys.stderr.write(f'frequency step: {int(span_k / (points - 1))} kHz\n')
+                    sys.stderr.write(f'RBW: {int(rbw_k)} kHz\n')
+                    sys.stderr.write(f'serial timeout: {timeout} s\n')
+
+                scan_command = f'scanraw {int(f_low)} {int(f_high)} {int(points)}\r'.encode()
+                tinySA.write(scan_command)
+                tinySA.read_until(b'{')  # skip command echoes
+                raw_data = tinySA.read_until(b'}ch> ')
+                tinySA.write('rbw auto\r'.encode())  # switch to auto RBW for faster tinySA screen update
+
+            raw_data = struct.unpack('<' + 'xH' * points, raw_data[:-5])  # ignore trailing '}ch> '
+            raw_data = np.array(raw_data, dtype=np.uint16)
+            # tinySA:  SCALE = 128
+            # tinySA4: SCALE = 174
+            SCALE = 128
+            dBm_power = raw_data / 32 - SCALE  # scale 0..4095 -> -128..-0.03 dBm
+            return dBm_power
         except Exception as e:
             return f"Error sending capture command: {str(e)}"
