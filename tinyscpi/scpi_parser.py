@@ -1,6 +1,6 @@
 import re
 
-import scpi_valid_dict
+import dictionaries.scpi_valid_dict as scpi_valid_dict
 class SCPI_Parser:
     # what if parser drops every single lower case insturctions?
 

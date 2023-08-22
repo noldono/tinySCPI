@@ -6,7 +6,6 @@ import serial
 from serial.tools import list_ports
 import sys
 import csv
-import scpi_lookup_dict
 import struct
 import numpy
 from PIL import Image
@@ -45,30 +44,37 @@ class SCPI_functional:
     '''
 
     def convertSCPItoUSB(self, command: str, args: list) -> str:
+        import dictionaries.scpi_lookup_dict as scpi_lookup_dict
         print(command)
         usb_cmd: str = scpi_lookup_dict.SCPILookUpTable[command]
+        
+        if callable(usb_cmd):
+            usb_cmd(self)
+            return usb_cmd
+        
         usb_cmd += ' '
         for arg in args:
             usb_cmd += str(arg)
             usb_cmd += ' '
 
-        print(usb_cmd)
+        print("Running " + usb_cmd)
         return usb_cmd
 
     def send(self, command) -> None:
-        try:
-            device = self.getDevice()
-            with serial.Serial(device, timeout=1) as tinySA_device:
-                tinySA_device.write(command.encode() + self.cr)
-                echo = tinySA_device.read_until(command.encode() + self.crlf)
-                echo = tinySA_device.read_until(self.crlf + self.prompt)
-                decoded = echo[:-len(self.crlf + self.prompt)].decode()
-                return decoded
-        except Exception as e:
-            return f"Error sending commmand '{command}': {str(e)}"
+        if not callable(command):
+            try:
+                device = self.getDevice()
+                with serial.Serial(device, timeout=1) as tinySA_device:
+                    tinySA_device.write(command.encode() + self.cr)
+                    echo = tinySA_device.read_until(command.encode() + self.crlf)
+                    echo = tinySA_device.read_until(self.crlf + self.prompt)
+                    decoded = echo[:-len(self.crlf + self.prompt)].decode()
+                    return decoded
+            except Exception as e:
+                return f"Error sending commmand '{command}': {str(e)}"
 
     # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
-    def takeScreenshot(self, filename: str = ""):
+    def takeScreenshot(self, filename: str = "capture"):
         try:
             device = self.getDevice()
             with serial.Serial(device, timeout=1) as tinySA_device:
