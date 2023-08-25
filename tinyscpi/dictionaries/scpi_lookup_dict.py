@@ -1,3 +1,5 @@
+import scpi_functional as sf
+
 SCPILookUpTable = {
     "*TST?":"selftest",
     "PROGram:SELected:STATe PAUSe":"pause",
@@ -7,6 +9,7 @@ SCPILookUpTable = {
     'AMPLitude:ATTenuation': 'attenuate',
     'AMPLitude:ATTenuation:AUTO': 'attenuate auto',
     'CONFigure': 'calc',
+    'CAPTure': sf.SCPI_functional.takeScreenshot,
     'SOURce:POWer:LEVel:IMMediate:AMPLitude': 'caloutput',
     ':HCOPy:SDUMp:DATA?': 'capture',
     '*RST:CONFIGDATA': 'clearconfig',
@@ -37,14 +40,14 @@ SCPILookUpTable = {
     'SOURce:DM:FORMat': 'modulation',
     'SOURce:POWer AMPLitude': 'ext_gain',
     'OUTPut': 'output',
-    'PROGram:SELected:STATe': 'pause',
+    'PROGram:SELected:STATe:PAUSe': 'pause',
     'BAND:RES': 'rbw',
     'BAND:RES:AUTO': 'rbw auto',
     'SYSTem:Preset': 'recall',
     'DISPlay:ENABle': 'refresh',
     '*RST': 'reset',
     'SYSTem:PRESet': 'reset',
-    'PROGram:SELected:STATe': 'resume',
+    'PROGram:SELected:STATe:RESUme': 'resume',
     'TRACe:MEMory:SAVE': 'save',
     'SYST:SET:USER': 'saveconfig',
     'INITiate:IMMediate': 'scan',

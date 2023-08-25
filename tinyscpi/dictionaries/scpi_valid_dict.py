@@ -31,7 +31,7 @@ validCommandTable = {'*IDN?': [],
                      'MARKer:LEVel?': [['int', 1, 4], ['int or str', 0, 355, 'on', 'off', 'peak']], # TODO: change int limit on second argument.
                      'DISPlay:ENABle': [['bool']],
                      '*RST?': [],
-                     'PROGram:SELected:STATe:CONTinue': [],
+                     'PROGram:SELected:STATe:RESUme': [],
                      'TRACe:MEMory:SAVE': [['int', 0, 4]],
                      'SYSTem:SAVE': [['input']],
                      'SYSTem:SERialnumber?': [],
@@ -51,4 +51,5 @@ validCommandTable = {'*IDN?': [],
                      'MEASure:SWEep:BEGin:HIGH': [['int', 240000000, 959000000], ['int', 240000000, 959000000], ['int', 0, 290]],
                      'MEASure:SWEep:TIME': [['int', 0, 600]],
                      'MEASure:SCAN:RAW:START': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 2147483647]],
+                     'CAPTure': []
                     }
