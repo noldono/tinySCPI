@@ -4,7 +4,7 @@ import tinySCPI
 from threading import Event
 
 def main():
-    info = tinySCPI.userInput("CAPTure")
-    tinySCPI.userInput("PROGram:SELected:STATe:RESUme")
+    info = tinySCPI.userInput("SYSTem:THREADs?")
+    print(info)
 if __name__=="__main__":
     main()
