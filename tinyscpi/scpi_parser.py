@@ -52,7 +52,7 @@ class SCPI_Parser:
                     raise ValueError
 
             elif val[0] == 'int or str': #TODO
-                if not arg.isalnum():
+                if not arg.replace("-", "").isalnum():
                     raise TypeError
                 if arg.isnumeric():
                     if int(val[1]) > int(arg) or int(val[2]) < int(arg):
