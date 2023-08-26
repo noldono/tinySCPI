@@ -4,7 +4,6 @@ import tinySCPI
 from threading import Event
 
 def main():
-    info = tinySCPI.userInput("SYSTem:THREADs?")
-    print(info)
+    tinySCPI.userInput("MEASure:TRIGger -140")
 if __name__=="__main__":
     main()

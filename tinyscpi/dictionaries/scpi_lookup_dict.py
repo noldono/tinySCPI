@@ -77,4 +77,5 @@ SCPILookUpTable = {
     'MEASure:SWEep:BEGin:HIGH': 'sweep',
     'MEASure:SWEep:TIME': 'sweeptime',
     'MEASure:SCAN:RAW:START': 'scanraw',
+    'MEASure:TRIGger': 'trigger'
 }
