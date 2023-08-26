@@ -52,5 +52,6 @@ validCommandTable = {'*IDN?': [],
                      'MEASure:SWEep:BEGin:HIGH': [['int', 240000000, 959000000], ['int', 240000000, 959000000], ['int', 0, 290]],
                      'MEASure:SWEep:TIME': [['int', 0, 600]],
                      'MEASure:SCAN:RAW:START': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 2147483647]],
-                     'CAPTure': []
+                     'CAPTure': [],
+                     'SYSTem:THREADs?': []
                     }
