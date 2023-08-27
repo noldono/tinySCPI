@@ -1,6 +1,6 @@
 import time
 
-import tinySCPI
+from tinyscpi import tinySCPI
 from threading import Event
 
 def main():

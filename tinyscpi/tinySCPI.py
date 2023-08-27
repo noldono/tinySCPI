@@ -3,9 +3,7 @@ This file contains all of the functions that will be available to the user of ou
 '''
 import numpy as np
 
-import scpi_functional
-import scpi_parser
-import helpers
+from  tinyscpi import scpi_functional, scpi_parser
 
 def userInput(input:str)->str:
     parser = scpi_parser.SCPI_Parser()

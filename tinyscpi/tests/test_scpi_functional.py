@@ -7,11 +7,11 @@ class FunctionalTestCase(unittest.TestCase):
         self.functional = SCPI_functional()
         self.parser = SCPI_Parser()
     def testConvertSCPItoUSB(self):
-        self.assertEqual(True)
+        self.assertEqual(True, True)
         #TODO: Unimplemented Method Stub
 
     def testSend(self):
-        self.assertEqual(True)
+        self.assertEqual(True, True)
         #TODO: Unimplemented Method Stub
 
 if __name__ == '__main__':
