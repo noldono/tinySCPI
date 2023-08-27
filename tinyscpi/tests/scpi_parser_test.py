@@ -1,5 +1,6 @@
 import scpi_parser
 import unittest
+
 class ParserTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = scpi_parser.SCPI_Parser()

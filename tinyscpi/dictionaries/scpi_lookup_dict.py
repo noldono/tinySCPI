@@ -2,8 +2,8 @@ import scpi_functional as sf
 
 SCPILookUpTable = {
     "*TST?":"selftest",
-    "PROGram:SELected:STATe PAUSe":"pause",
-    "PROGram:SELected:STATe CONTinue":"resume",
+    "PROGram:SELected:STATe:PAUSe":"pause",
+    "PROGram:SELected:STATe:RESUme":"resume",
     "BAND:RES":"rbw",
     "*IDN?":"info",
     'AMPLitude:ATTenuation': 'attenuate',
@@ -11,7 +11,6 @@ SCPILookUpTable = {
     'CONFigure': 'calc',
     'CAPTure': sf.SCPI_functional.takeScreenshot,
     'SOURce:POWer:LEVel:IMMediate:AMPLitude': 'caloutput',
-    ':HCOPy:SDUMp:DATA?': 'capture',
     '*RST:CONFIGDATA': 'clearconfig',
     'DISPlay:GRAPhics:COLor?': 'color',
     'DISPlay:GRAPhics:COLor': 'color',
@@ -77,5 +76,5 @@ SCPILookUpTable = {
     'MEASure:SWEep:BEGin:HIGH': 'sweep',
     'MEASure:SWEep:TIME': 'sweeptime',
     'MEASure:SCAN:RAW:START': 'scanraw',
-    'MEASure:TRIGger': 'trigger'
+    'MEASure:TRIGger': 'trigger',
 }
