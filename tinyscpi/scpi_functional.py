@@ -1,15 +1,13 @@
-import argparse
+import datetime
+import struct
+import sys
 import time
 
+import numpy
 import numpy as np
 import serial
-from serial.tools import list_ports
-import sys
-import csv
-import struct
-import numpy
 from PIL import Image
-import datetime
+from serial.tools import list_ports
 
 
 class SCPI_functional:
@@ -47,11 +45,11 @@ class SCPI_functional:
         import dictionaries.scpi_lookup_dict as scpi_lookup_dict
         print(command)
         usb_cmd = scpi_lookup_dict.SCPILookUpTable[command]
-        
+
         if callable(usb_cmd):
             usb_cmd(self)
             return usb_cmd
-        
+
         usb_cmd += ' '
         for arg in args:
             usb_cmd += str(arg)

@@ -1,9 +1,9 @@
-import time
-
 import tinySCPI
-from threading import Event
+
 
 def main():
-    tinySCPI.userInput("pause")
-if __name__=="__main__":
+    tinySCPI.userInput("capture")
+
+
+if __name__ == "__main__":
     main()
