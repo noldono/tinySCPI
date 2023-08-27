@@ -1,0 +1,5 @@
+serial
+pillow
+numpy
+setuptools
+wheel

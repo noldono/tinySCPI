@@ -1,27 +1,38 @@
 import re
 
-import dictionaries.scpi_valid_dict as scpi_valid_dict
+import tinyscpi.dictionaries.scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
+import tinyscpi.dictionaries.scpi_lookup_dict as scpi_lookup_dict
+import tinyscpi.dictionaries.scpi_valid_dict as scpi_valid_dict
+import tinyscpi.helpers as helpers
+
+
 class SCPI_Parser:
     # what if parser drops every single lower case insturctions?
 
     def __init__(self):
         self.a = 0
         self.validCommandTable = scpi_valid_dict.validCommandTable
+        self.scpiLookupTable = scpi_lookup_dict.SCPILookUpTable
+        self.scpiCmdsMappedToFuncs = scpi_commands_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
+        self.cmd = ""
 
     def parseCommand(self, command: str):
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
         strs = command.split(' ')
-        cmd = strs[0]
-        if cmd not in self.validCommandTable:
+        self.cmd = strs[0]
+
+        self.handleUSBCommandInput()
+
+        if self.cmd not in self.validCommandTable:
             raise KeyError('not a valid scpi command')
 
-        validation = self.validCommandTable.get(cmd)
+        validation = self.validCommandTable.get(self.cmd)
 
         if len(strs) == 1 and len(validation) == 0:
-            return cmd, []
+            return self.cmd, []
 
-        if (len(strs)-1) != len(validation):
+        if (len(strs) - 1) != len(validation):
             raise SyntaxError
 
         new_args = []
@@ -35,7 +46,7 @@ class SCPI_Parser:
             elif val[0] == 'bool':
                 if arg != 'ON' and arg != 'OFF':
                     raise ValueError
-                return cmd, new_args
+                return self.cmd, new_args
 
             elif val[0] == 'str':
                 if arg == 'str' or arg not in val:
@@ -51,7 +62,7 @@ class SCPI_Parser:
                 if int(val[1], 16) > int(arg, 16) or int(val[2], 16) < int(arg, 16):
                     raise ValueError
 
-            elif val[0] == 'int or str': #TODO
+            elif val[0] == 'int or str':  # TODO
                 if not arg.replace("-", "").isalnum():
                     raise TypeError
                 if arg.isnumeric():
@@ -64,7 +75,17 @@ class SCPI_Parser:
                 raise TypeError
 
             new_args.append(arg)
-        return cmd, new_args
+        return self.cmd, new_args
 
     def parseResult(self, result: str) -> str:
         return ""
+
+    def handleUSBCommandInput(self) -> None:
+        # If user inputs a usb command instead of a SCPI command, set cmd equal to the corresponding scpi command
+        matching_scpi_command = helpers.find_key_by_value(self.scpiLookupTable, self.cmd)
+        cmd_mapped_to_func = self.scpiCmdsMappedToFuncs.get(self.cmd, None)
+
+        if matching_scpi_command is not None:
+            self.cmd = matching_scpi_command
+        elif cmd_mapped_to_func is not None:
+            self.cmd = cmd_mapped_to_func
