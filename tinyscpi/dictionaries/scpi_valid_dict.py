@@ -53,5 +53,6 @@ validCommandTable = {'*IDN?': [],
                      'MEASure:SWEep:TIME': [['int', 0, 600]],
                      'MEASure:SCAN:RAW:START': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 2147483647]],
                      'CAPTure': [],
-                     'SYSTem:THREADs?': []
+                     'SYSTem:THREADs?': [],
+                     'SYSTem:VOLTage:DC:OFFSet':[['int', 0, 4095]]
                     }
