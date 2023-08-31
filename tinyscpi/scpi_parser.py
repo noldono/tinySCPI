@@ -5,7 +5,6 @@ import tinyscpi.dictionaries.scpi_lookup_dict as scpi_lookup_dict
 import tinyscpi.dictionaries.scpi_valid_dict as scpi_valid_dict
 import tinyscpi.helpers as helpers
 
-
 class SCPI_Parser:
     # what if parser drops every single lower case insturctions?
 
