@@ -1,4 +1,5 @@
 import re
+import string
 
 import tinyscpi.dictionaries.scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
 import tinyscpi.dictionaries.scpi_lookup_dict as scpi_lookup_dict
@@ -16,6 +17,7 @@ class SCPI_Parser:
         self.cmd = ""
 
     def parseCommand(self, command: str):
+
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
         strs = command.split(' ')
