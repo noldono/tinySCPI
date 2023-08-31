@@ -1,9 +1,9 @@
-from tinyscpi.scpi_parser import SCPI_Parser
+from tinyscpi import scpi_parser
 import unittest
 
 class ParserTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self.parser = SCPI_Parser()
+        self.parser = scpi_parser.SCPI_Parser()
         #TODO: Unimplemented Method Stub
 
     def testParseCommand_IDN(self):
