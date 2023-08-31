@@ -16,6 +16,7 @@ validCommandTable = {'*IDN?': [],
                      'DISPlay:GRAPhics:COLor': [['int', 0, 31], ['hex', '0x000000', '0xFFFFFF']],
                      'SENSe:CORRection?': [],
                      'SYSTem:HELP?': [],
+                     'MEASure:TRIGger': [['int or str', -200, 10, 'auto', 'normal', 'single']],
                      'SOURce:POWer:LEVel:IMMediate:AMPLitude': [['int', -76, 13]],
                      'SOURCe:POWer:LEVel:IMMediate:AMPLitude:OFFSet': [['int', -70, 70]],
                      'FREQuency:OFFSet?': [],
@@ -55,5 +56,7 @@ validCommandTable = {'*IDN?': [],
                      'MEASure:SWEep:BEGin:HIGH': [['int', 240000000, 959000000], ['int', 240000000, 959000000], ['int', 0, 290]],
                      'MEASure:SWEep:TIME': [['int', 0, 600]],
                      'MEASure:SCAN:RAW:START': [['int', 0, 350000000], ['int', 0, 350000000], ['int', 0, 2147483647]],
-                     'CAPTure': []
+                     'CAPTure': [],
+                     'SYSTem:THREADs?': [],
+                     'SYSTem:VOLTage:DC:OFFSet':[['int', 0, 4095]]
                     }
