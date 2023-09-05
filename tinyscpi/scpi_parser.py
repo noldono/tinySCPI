@@ -1,10 +1,9 @@
 import re
 import string
 
-from .dictionaries import scpi_valid_dict
-from .dictionaries import scpi_lookup_dict
-from .dictionaries import scpi_cmds_mapped_to_funcs_dict
-
+from .dictionaries import scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
+from .dictionaries import scpi_lookup_dict as scpi_lookup_dict
+from .dictionaries import scpi_valid_dict as scpi_valid_dict
 from . import helpers
 
 class SCPI_Parser:
@@ -16,15 +15,15 @@ class SCPI_Parser:
         self.scpiLookupTable = scpi_lookup_dict.SCPILookUpTable
         self.scpiCmdsMappedToFuncs = scpi_cmds_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
         self.cmd = ""
+        self.table = str.maketrans('', '', string.ascii_lowercase)
 
     def parseCommand(self, command: str):
-        table = str.maketrans('', '', string.ascii_lowercase)
 
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
         strs = command.split(' ')
         self.cmd = strs[0]
-        self.cmd = self.cmd.translate(table)
+        self.cmd = self.cmd.translate(self.table)
         self.handleUSBCommandInput()
 
         if self.cmd not in self.validCommandTable:

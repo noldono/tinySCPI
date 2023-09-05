@@ -1,4 +1,4 @@
-import tinySCPI
+from . import tinySCPI
 
 
 def main():

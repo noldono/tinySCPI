@@ -42,7 +42,7 @@ class SCPI_functional:
     '''
 
     def convertSCPItoUSB(self, command: str, args: list) -> str:
-        import dictionaries.scpi_lookup_dict as scpi_lookup_dict
+        from .dictionaries import scpi_lookup_dict
         print(command)
         usb_cmd = scpi_lookup_dict.SCPILookUpTable[command]
 
