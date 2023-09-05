@@ -1,10 +1,11 @@
 import re
 import string
 
-import tinyscpi.dictionaries.scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
-import tinyscpi.dictionaries.scpi_lookup_dict as scpi_lookup_dict
-import tinyscpi.dictionaries.scpi_valid_dict as scpi_valid_dict
-import tinyscpi.helpers as helpers
+from .dictionaries import scpi_valid_dict
+from .dictionaries import scpi_lookup_dict
+from .dictionaries import scpi_cmds_mapped_to_funcs_dict
+
+from . import helpers
 
 class SCPI_Parser:
     # what if parser drops every single lower case insturctions?
@@ -13,7 +14,7 @@ class SCPI_Parser:
         self.a = 0
         self.validCommandTable = scpi_valid_dict.validCommandTable
         self.scpiLookupTable = scpi_lookup_dict.SCPILookUpTable
-        self.scpiCmdsMappedToFuncs = scpi_commands_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
+        self.scpiCmdsMappedToFuncs = scpi_cmds_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
         self.cmd = ""
 
     def parseCommand(self, command: str):
