@@ -1,4 +1,4 @@
-import tinyscpi.scpi_functional as sf
+import scpi_functional as sf
 
 SCPILookUpTable = {
     "*TST?":"selftest",
