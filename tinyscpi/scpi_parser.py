@@ -17,12 +17,13 @@ class SCPI_Parser:
         self.cmd = ""
 
     def parseCommand(self, command: str):
+        table = str.maketrans('', '', string.ascii_lowercase)
 
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
         strs = command.split(' ')
         self.cmd = strs[0]
-
+        self.cmd = self.cmd.translate(table)
         self.handleUSBCommandInput()
 
         if self.cmd not in self.validCommandTable:
