@@ -1,10 +1,10 @@
 import re
 import string
 
-import tinyscpi.dictionaries.scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
-import tinyscpi.dictionaries.scpi_lookup_dict as scpi_lookup_dict
-import tinyscpi.dictionaries.scpi_valid_dict as scpi_valid_dict
-import tinyscpi.helpers as helpers
+from .dictionaries import scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
+from .dictionaries import scpi_lookup_dict as scpi_lookup_dict
+from .dictionaries import scpi_valid_dict as scpi_valid_dict
+from . import helpers
 
 class SCPI_Parser:
     # what if parser drops every single lower case insturctions?

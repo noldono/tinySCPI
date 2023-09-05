@@ -1,4 +1,4 @@
-import tinyscpi.scpi_functional as sf
+from tinyscpi import scpi_functional as sf
 
 SCPILookUpTable = {
     "*TST?":"selftest",
@@ -20,7 +20,6 @@ SCPILookUpTable = {
     'TRACe:DATA?': 'data',
     'SYSTem:SERialnumber?': 'deviceid',
     'SYSTem:SERialnumber': 'deviceid',
-    'SYSTem:SERialnumber?': 'deviceid',
     'SOURce:FREQuency:FIXed': 'freq',
     'FREQuency:CENTer': 'freq',
     'SOURce:FREQuency:STARt?': 'frequencies',
@@ -40,7 +39,6 @@ SCPILookUpTable = {
     'SOURce:POWer AMPLitude': 'ext_gain',
     'OUTPut': 'output',
     'PROGram:SELected:STATe:PAUSe': 'pause',
-    'BAND:RES': 'rbw',
     'BAND:RES:AUTO': 'rbw auto',
     'SYSTem:Preset': 'recall',
     'DISPlay:ENABle': 'refresh',
