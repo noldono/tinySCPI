@@ -31,7 +31,8 @@ validCommandTable = {'*IDN?': [],
                      'HCOPy:SDUMp:DATA?':[],
                      'SOURce:VOLTage:LEVel:IMMediate:AMPLitude?': [],
                      'SOURce:VOLTage:LEVel:IMMediate:AMPLitude': [['int', 0, 4096]],
-                     'TRACe:DATA?': ['int', 0, 2], #TODO: modify args
+                     'TRAC:DATA:DUMP': [['int', 0, 2]],
+                     'TRACe:DATA?': [['int', 0, 2]], #TODO: modify args
                      'MARKer:LEVel?': [],
                      'MARKer:LEVel?': [['int', 1, 4], ['int or str', 0, 355, 'on', 'off', 'peak']], # TODO: change int limit on second argument.
                      'DISPlay:ENABle': [['bool']],

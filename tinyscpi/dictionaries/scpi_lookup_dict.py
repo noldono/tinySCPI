@@ -17,7 +17,7 @@ SCPILookUpTable = {
     'SENSe:CORRection': 'correction',
     'SOURce:VOLTage:LEVel:IMMediate:AMPLitude?': 'dac',
     'SOURce:VOLTage:LEVel:IMMediate:AMPLitude': 'dac',
-    'TRACe:DATA?': 'data',
+    'TRAC:DATA:DUMP': 'data',
     'SYSTem:SERialnumber?': 'deviceid',
     'SYSTem:SERialnumber': 'deviceid',
     'SOURce:FREQuency:FIXed': 'freq',
