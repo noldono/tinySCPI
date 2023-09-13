@@ -1,7 +1,7 @@
 import re
 import string
 
-from .dictionaries import scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
+from .dictionaries import scpi_cmds_mapped_to_funcs_dict
 from .dictionaries import scpi_lookup_dict as scpi_lookup_dict
 from .dictionaries import scpi_valid_dict as scpi_valid_dict
 from . import helpers
@@ -13,17 +13,17 @@ class SCPI_Parser:
         self.a = 0
         self.validCommandTable = scpi_valid_dict.validCommandTable
         self.scpiLookupTable = scpi_lookup_dict.SCPILookUpTable
-        self.scpiCmdsMappedToFuncs = scpi_commands_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
+        self.scpiCmdsMappedToFuncs = scpi_cmds_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
         self.cmd = ""
+        self.table = str.maketrans('', '', string.ascii_lowercase)
 
     def parseCommand(self, command: str):
-        table = str.maketrans('', '', string.ascii_lowercase)
 
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
         strs = command.split(' ')
         self.cmd = strs[0]
-        self.cmd = self.cmd.translate(table)
+        self.cmd = self.cmd.translate(self.table)
         self.handleUSBCommandInput()
 
         if self.cmd not in self.validCommandTable:
@@ -67,7 +67,7 @@ class SCPI_Parser:
             elif val[0] == 'int or str':  # TODO
                 if not arg.replace("-", "").isalnum():
                     raise TypeError
-                if arg.isnumeric():
+                if arg.replace("-", "").isnumeric():
                     if int(val[1]) > int(arg) or int(val[2]) < int(arg):
                         raise ValueError
                 if arg.isalpha():
