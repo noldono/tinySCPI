@@ -22,27 +22,26 @@ validCommandTable = {'*IDN?': [],
                      'SOUR:POW:AMPL': [['int', -100, 100]],
                      'OUTP': [['bool']],
                      'PROG:SEL:STAT:PAUS': [],
-                     'SENS:CORR': [],
-                     'DISPL:DATA:START':[['int', 0, 320], ['int', 0, 240]],
+                     'SENS:CORR': [], #TODO: is this command valid?
                      'HCOP:SDUM:DATA?':[],
                      'SOUR:VOLT:LEV:IMM:AMPL?': [],
                      'SOUR:VOLT:LEV:IMM:AMPL': [['int', 0, 4096]],
-                     'TRAC:DATA?': ['int', 0, 2], #TODO: modify args
+                     'TRAC:DATA?': [['int', 0, 2]], #TODO: modify args
                      'MARK:LEV?': [],
                      'MARK:LEV': [['int', 1, 4], ['int or str', 0, 355, 'on', 'off', 'peak']], # TODO: change int limit on second argument.
                      'DISP:ENAB': [['bool']],
-                     '*RST?': [],
+                     '*RST?': [], #TODO is *RST same with *RST?
                      'PROG:SEL:STAT:RESU': [],
                      'TRAC:MEM:SAVE': [['int', 0, 4]],
-                     'SYST:SAVE': [['input']],
+                     'SYST:SAVE': [['input']], # WHAT IS THIS?
                      'SYST:SER?': [],
-                     'SYST:SER': [['input']],
+                     'SYST:SER': [['input']], # WHAT IS THIS?
                      'CONF':[['str', 'off', 'minh', 'maxh', 'maxd', 'aver4', 'aver16', 'quasi']],
                      'DISP:DATA:START': [['int', 0, 320], ['int', 0, 240]],
                      'DISP:DATA:STOP': [['int', 0, 320], ['int', 0, 320]],
                      'DISP:DATA:WIDTH': [['int', 0, 320]],
                      'DISP:DATA:HEIGHT': [['int', 0, 240]],
-                     'DISP:DATA:TYPE': [['']],
+                     'DISP:DATA:TYPE': [['']], # TODO: Validate Arguments.
                      'CALC:MEAS:PN:SPUR:OMIS:STAT': [['str', 'on', 'off']],
                      'SENS:FREQ:STAR:STOP:DATA':[['int', 0, 1000000000], ['int', 0, 1000000000]],
                      'SOUR:POW:LEV:IMM:AMPL:OFF': [['int', -70, 70]],
