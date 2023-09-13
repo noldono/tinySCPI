@@ -1,7 +1,7 @@
 import re
 import string
 
-from .dictionaries import scpi_cmds_mapped_to_funcs_dict as scpi_commands_mapped_to_funcs_dict
+from .dictionaries import scpi_cmds_mapped_to_funcs_dict
 from .dictionaries import scpi_lookup_dict as scpi_lookup_dict
 from .dictionaries import scpi_valid_dict as scpi_valid_dict
 from . import helpers
@@ -67,7 +67,7 @@ class SCPI_Parser:
             elif val[0] == 'int or str':  # TODO
                 if not arg.replace("-", "").isalnum():
                     raise TypeError
-                if arg.isnumeric():
+                if arg.replace("-", "").isnumeric():
                     if int(val[1]) > int(arg) or int(val[2]) < int(arg):
                         raise ValueError
                 if arg.isalpha():

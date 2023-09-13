@@ -192,9 +192,9 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('SYST:HELP')
 
     def testParseCommand_MEAS_TRIG(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG -200'), ('MEAS:TRIG', [-200]))
-        self.assertEqual(self.parser.parseCommand('MEASure:TRIGger -200'), ('MEAS:TRIG', [-200]))
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG 10'), ('MEAS:TRIG', [10]))
+        self.assertEqual(self.parser.parseCommand('MEAS:TRIG -200'), ('MEAS:TRIG', ['-200']))
+        self.assertEqual(self.parser.parseCommand('MEASure:TRIGger -200'), ('MEAS:TRIG', ['-200']))
+        self.assertEqual(self.parser.parseCommand('MEAS:TRIG 10'), ('MEAS:TRIG', ['10']))
         self.assertEqual(self.parser.parseCommand('MEAS:TRIG auto'),('MEAS:TRIG', ['auto']))
         self.assertEqual(self.parser.parseCommand('MEAS:TRIG normal'), ('MEAS:TRIG', ['normal']))
         self.assertEqual(self.parser.parseCommand('MEAS:TRIG single'), ('MEAS:TRIG', ['single']))
