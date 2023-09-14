@@ -3,8 +3,8 @@ This file contains all of the functions that will be available to the user of ou
 '''
 import numpy as np
 
-import scpi_functional
-import scpi_parser
+from . import scpi_functional
+from . import scpi_parser
 
 
 def userInput(input: str) -> str:
