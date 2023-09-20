@@ -65,16 +65,26 @@ class SCPI_Parser:
                     raise ValueError
 
             elif val[0] == 'int or str':  # TODO
-                if not arg.replace("-", "").isalnum():
-                    raise TypeError
-                if arg.replace("-", "").isnumeric():
-                    if int(val[1]) > int(arg) or int(val[2]) < int(arg):
-                        raise ValueError
-                if arg.isalpha():
-                    if arg not in val[1:]:
-                        raise ValueError
-            else:
-                raise TypeError
+                arg_int = None
+                arg_str = None
+                try:
+                    arg_int = int(arg)
+                except:
+                    arg_int = None
+
+                try:
+                    arg_str = str(arg)
+                except:
+                    arg_str = None
+
+                if arg_int != None:
+                    if arg_int < int(val[1]) or arg_int > int(val[2]):
+                        raise Exception("Param out of range")
+                elif arg_str != None:
+                    if arg_str == 'str' or arg_str not in val:
+                        raise Exception("Invalid param")
+                else:
+                    raise Exception('Not supported type')
 
             new_args.append(arg)
         return self.cmd, new_args
