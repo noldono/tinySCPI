@@ -7,9 +7,9 @@ class FunctionalTestCase(unittest.TestCase):
         self.p = SCPI_Parser()
     def testConvertSCPItoUSB(self):
         # IDN
-        self.assertEqual(self.parser.parseCommand('*IDN?'), ('*IDN?', []))
-        self.assertEqual(self.parser.parseCommand('BAND:RES 3'), ('BAND:RES', [3]))
-        self.assertEqual(self.parser.parseCommand('DISP:GRAP:COLor 3 0x000000'),
+        self.assertEqual(self.p.parseCommand('*IDN?'), ('*IDN?', []))
+        self.assertEqual(self.p.parseCommand('BAND:RES 3'), ('BAND:RES', [3]))
+        self.assertEqual(self.p.parseCommand('DISP:GRAP:COLor 3 0x000000'),
                                  ('DISP:GRAP:COL', [3, '0x000000']))
     #
     #             self.assertEqual(self.parser.parseCommand('*TST?'), ('*TST?', []))

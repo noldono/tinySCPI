@@ -27,7 +27,7 @@ class SCPI_Parser:
         self.handleUSBCommandInput()
 
         if self.cmd not in self.validCommandTable:
-            raise KeyError('not a valid scpi command')
+            raise Exception('"', self.cmd + '" is not a valid scpi command')
 
         validation = self.validCommandTable.get(self.cmd)
 
@@ -35,7 +35,7 @@ class SCPI_Parser:
             return self.cmd, []
 
         if (len(strs) - 1) != len(validation):
-            raise SyntaxError
+            raise Exception(len(validation), ' inputs required but ', len(strs - 1), ' inputs given' )
 
         new_args = []
         args = strs[1:]
@@ -43,26 +43,30 @@ class SCPI_Parser:
             if val[0] == 'int':
                 arg = int(arg)
                 if val[1] > arg or val[2] < arg:
-                    raise ValueError
+                    raise Exception('Invalid Param')
 
             elif val[0] == 'bool':
-                if arg != 'ON' and arg != 'OFF':
-                    raise ValueError
-                return self.cmd, new_args
+                if arg == 'ON':
+                    arg = True
+                elif arg == 'OFF':
+                    arg = False
+                else:
+                    raise Exception('Invalid Param')
+
 
             elif val[0] == 'str':
                 if arg == 'str' or arg not in val:
-                    raise ValueError
+                    raise Exception('Invalid Param')
 
             elif val[0] == 'input':
                 if not re.match(arg, 'A-Za-z0-9'):
-                    raise ValueError
+                    raise Exception('Invalid Param')
                 if not re.match(arg.at(0), 'A-Za-z'):
-                    raise ValueError
+                    raise Exception('Invalid Param')
 
             elif val[0] == 'hex':
                 if int(val[1], 16) > int(arg, 16) or int(val[2], 16) < int(arg, 16):
-                    raise ValueError
+                    raise Exception('Invalid Param')
 
             elif val[0] == 'int or str':  # TODO
                 arg_int = None
@@ -79,12 +83,14 @@ class SCPI_Parser:
 
                 if arg_int != None:
                     if arg_int < int(val[1]) or arg_int > int(val[2]):
-                        raise Exception("Param out of range")
+                        raise Exception('Invalid Param')
+                    arg = arg_int
                 elif arg_str != None:
                     if arg_str == 'str' or arg_str not in val:
                         raise Exception("Invalid param")
+                    arg = arg_str
                 else:
-                    raise Exception('Not supported type')
+                    raise Exception('Not supported param')
 
             new_args.append(arg)
         return self.cmd, new_args
