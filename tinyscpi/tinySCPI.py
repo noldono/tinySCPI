@@ -13,6 +13,7 @@ def userInput(input: str) -> str:
     # Consider adding an args checking function here so that we don't waste resources trying to send an invalid command
     cmd, args = parser.parseCommand(input)
     usb_str = functional.convertSCPItoUSB(cmd, args)
+
     return functional.send(usb_str)
 
 

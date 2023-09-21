@@ -55,14 +55,17 @@ class SCPI_functional:
             usb_cmd += str(arg)
             usb_cmd += ' '
 
-        print("Running " + usb_cmd)
-        return usb_cmd
+        
+        new_usb_cmd = usb_cmd.rstrip()
+        print("Running " + new_usb_cmd)
+        return new_usb_cmd
 
     def send(self, command) -> None:
         if not callable(command):
             try:
                 device = self.getDevice()
                 with serial.Serial(device, timeout=1) as tinySA_device:
+                    print("Debug:", command.encode() + self.cr)
                     tinySA_device.write(command.encode() + self.cr)
                     echo = tinySA_device.read_until(command.encode() + self.crlf)
                     echo = tinySA_device.read_until(self.crlf + self.prompt)
