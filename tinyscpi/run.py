@@ -2,7 +2,7 @@ from . import tinySCPI
 
 
 def main():
-    print(tinySCPI.userInput("TRACe:DATA:DUMP 0"))
+    print(tinySCPI.userInput("TRAC:FREZ:ON 1"))
 
 
 if __name__ == "__main__":

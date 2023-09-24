@@ -2,6 +2,7 @@ import datetime
 import struct
 import sys
 import time
+import helpers
 
 import numpy
 import numpy as np
@@ -48,6 +49,11 @@ class SCPI_functional:
 
         if callable(usb_cmd):
             usb_cmd(self)
+            return usb_cmd
+
+        if "[src]" in usb_cmd or "[dst]" in usb_cmd:
+            usb_cmd = helpers.replace_src_dst(usb_cmd, args)
+            print("Running" + usb_cmd)
             return usb_cmd
 
         usb_cmd += ' '
