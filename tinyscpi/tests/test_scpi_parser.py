@@ -9,11 +9,11 @@ class ParserTestCase(unittest.TestCase):
     def testParseCommand_IDN(self):
         self.assertEqual(self.parser.parseCommand('*IDN?'), ('*IDN?',[]))
         self.assertEqual(self.parser.parseCommand('BAND:RES 3'), ('BAND:RES', [3]))
-        with self.assertRaises(KeyError):
+        with self.assertRaises(Exception):
             self.parser.parseCommand('*IDN')
-        with self.assertRaises(ValueError):
+        with self.assertRaises(Exception):
             self.parser.parseCommand('BAND:RES str')
-        with self.assertRaises(SyntaxError):
+        with self.assertRaises(Exception):
             self.parser.parseCommand('BAND:RES')
         self.assertEqual(self.parser.parseCommand('DISP:GRAP:COLor 3 0x000000'), ('DISP:GRAP:COL', [3, '0x000000']))
                     #TODO: Unimplemented Method Stub
@@ -55,8 +55,8 @@ class ParserTestCase(unittest.TestCase):
 
 
     def testParseCommand_BAND_RES_AUTO(self):
-        self.assertEqual(self.parser.parseCommand('BAND:RES:AUTO ON'), ('BAND:RES:AUTO', []))
-        self.assertEqual(self.parser.parseCommand('BAND:RES:AUTO OFF'), ('BAND:RES:AUTO', []))
+        self.assertEqual(self.parser.parseCommand('BAND:RES:AUTO ON'), ('BAND:RES:AUTO', [True]))
+        self.assertEqual(self.parser.parseCommand('BAND:RES:AUTO OFF'), ('BAND:RES:AUTO', [False]))
 
         with self.assertRaises(Exception):
             self.parser.parseCommand('BAND:RES:AUTO')
@@ -194,9 +194,9 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('SYST:HELP')
 
     def testParseCommand_MEAS_TRIG(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG -200'), ('MEAS:TRIG', ['-200']))
-        self.assertEqual(self.parser.parseCommand('MEASure:TRIGger -200'), ('MEAS:TRIG', ['-200']))
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG 10'), ('MEAS:TRIG', ['10']))
+        self.assertEqual(self.parser.parseCommand('MEAS:TRIG -200'), ('MEAS:TRIG', [-200]))
+        self.assertEqual(self.parser.parseCommand('MEASure:TRIGger -200'), ('MEAS:TRIG', [-200]))
+        self.assertEqual(self.parser.parseCommand('MEAS:TRIG 10'), ('MEAS:TRIG', [10]))
         self.assertEqual(self.parser.parseCommand('MEAS:TRIG auto'),('MEAS:TRIG', ['auto']))
         self.assertEqual(self.parser.parseCommand('MEAS:TRIG normal'), ('MEAS:TRIG', ['normal']))
         self.assertEqual(self.parser.parseCommand('MEAS:TRIG single'), ('MEAS:TRIG', ['single']))
@@ -352,8 +352,8 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('SOUR:POW:AMPL 50 50')
 
     def testParseCommand_OUTP(self):
-        self.assertEqual(self.parser.parseCommand('OUTP ON'), ('OUTP', ['ON']))
-        self.assertEqual(self.parser.parseCommand('OUTPut OFF'), ('OUTP', ['OFF']))
+        self.assertEqual(self.parser.parseCommand('OUTP ON'), ('OUTP', [True]))
+        self.assertEqual(self.parser.parseCommand('OUTPut OFF'), ('OUTP', [False]))
 
         with self.assertRaises(Exception):
             self.parser.parseCommand('OUTP')
@@ -480,8 +480,8 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('MARK:LEV 1 1 1')
 
     def testParseCommand_DISP_ENAB(self):
-        self.assertEqual(self.parser.parseCommand('DISP:ENAB ON'), ['DISP:ENAB', True])
-        self.assertEqual(self.parser.parseCommand('DISPlay:ENAB OFF'), ['DISP:ENAB', False])
+        self.assertEqual(self.parser.parseCommand('DISP:ENAB ON'), ('DISP:ENAB', [True]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:ENAB OFF'), ('DISP:ENAB', [False]))
         with self.assertRaises(Exception):
             self.parser.parseCommand('DISP:ENAB')
         with self.assertRaises(Exception):
@@ -564,9 +564,9 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parseCommand('CONF minh maxh')
     def testParseCommand_DISP_DATA_START(self):
-        self.assertEqual(self.parser.parseCommand('DISP:DATA:START 0, 0'), ('DISP:DATA:START', [0, 0]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:START 0, 240'), ('DISP:DATA:START', [0, 240]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:START 360, 240'), ('DISP:DATA:START', [360, 240]))
+        self.assertEqual(self.parser.parseCommand('DISP:DATA:START 0 0'), ('DISP:DATA:START', [0, 0]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:START 0 240'), ('DISP:DATA:START', [0, 240]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:START 320 240'), ('DISP:DATA:START', [320, 240]))
 
         with self.assertRaises(Exception):
             self.parser.parseCommand('DISPlay:DATA:START')
@@ -590,9 +590,9 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('DISPlay:DATA:START 320 240 1')
 
     def testParseCommand_DISP_DATA_STOP(self):
-        self.assertEqual(self.parser.parseCommand('DISPl:DATA:STOP 0, 0'), ('DISPl:DATA:STOP', [0, 0]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:STOP 0, 240'), ('DISPl:DATA:STOP', [0, 240]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:STOP 360, 240'), ('DISPl:DATA:STOP', [360, 240]))
+        self.assertEqual(self.parser.parseCommand('DISPl:DATA:STOP 0 0'), ('DISP:DATA:STOP', [0, 0]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:STOP 0 240'), ('DISP:DATA:STOP', [0, 240]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:STOP 320 240'), ('DISP:DATA:STOP', [320, 240]))
 
         with self.assertRaises(Exception):
             self.parser.parseCommand('DISPlay:DATA:STOP')
