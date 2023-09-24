@@ -38,7 +38,7 @@ validCommandTable = {'*IDN?': [],
                      'SYST:SER': [['input']], # WHAT IS THIS?
                      'CONF':[['str', 'off', 'minh', 'maxh', 'maxd', 'aver4', 'aver16', 'quasi']],
                      'DISP:DATA:START': [['int', 0, 320], ['int', 0, 240]],
-                     'DISP:DATA:STOP': [['int', 0, 320], ['int', 0, 320]],
+                     'DISP:DATA:STOP': [['int', 0, 320], ['int', 0, 240]],
                      'DISP:DATA:WIDTH': [['int', 0, 320]],
                      'DISP:DATA:HEIGHT': [['int', 0, 240]],
                      'DISP:DATA:TYPE': [['']], # TODO: Validate Arguments.
