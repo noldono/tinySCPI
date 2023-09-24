@@ -45,6 +45,11 @@ class SCPI_Parser:
                 if val[1] > arg or val[2] < arg:
                     raise Exception('Invalid Param')
 
+            elif val[0] == 'float':
+                arg = float(arg)
+                if val[1] > arg or val[2] < arg:
+                    raise Exception('Invalid Param')
+
             elif val[0] == 'bool':
                 if arg == 'ON':
                     arg = True
