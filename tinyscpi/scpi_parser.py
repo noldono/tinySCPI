@@ -24,6 +24,7 @@ class SCPI_Parser:
         strs = command.split(' ')
         self.cmd = strs[0]
         self.cmd = self.cmd.translate(self.table)
+        print(self.cmd)
         self.handleUSBCommandInput()
 
         if self.cmd not in self.validCommandTable:
