@@ -3,7 +3,7 @@ validCommandTable = {
                      '*IDN?': [],
                      '*RST': [],
                      '*CLR': [],
-                     '*TST': [],
+                     '*TST?': [],
                      '*HLP': [],
 
                      # FREQuency Subsystem
@@ -42,13 +42,14 @@ validCommandTable = {
                      'DISP:RESUME': [],
                      'DISP:REFRESH': [],
                      'DISP:COLOR': [['int', 0, 31], ['hex']], #TODO: double check int range
-                     'DISP:SWEEPTIME': [['int', 0, 10]], # TODO: double check range
+                     'DISP:TIME': [['int', 0, 10]], # TODO: double check range
                      'DISP:SPUR': [['bool']],
 
                      # MARKer Subsystem
                      'MARK:DIFF': [['int', 1, 4], ['int', 1, 4]],
                      'MARK:DIFF:OFF': [['int', 1, 4]],
-                     'MARK:NOIS': [['int', 1, 4]],
+                     'MARK:NOIS:SET': [['int', 1, 4]],
+                     'MARK:NOIS:OFF': [['int', 1, 4]],
                      'MARK:TRAKING': [['int', 1, 4]],
                      'MARK:TRAC': [['int', 1, 4], ['int', 1, 3]],
                      'MARK:AVER': [['int', 1, 4]],
