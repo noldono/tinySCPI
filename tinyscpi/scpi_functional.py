@@ -10,6 +10,8 @@ import serial
 from PIL import Image
 from serial.tools import list_ports
 
+import tinyscpi.tinySCPI
+
 
 class SCPI_functional:
     def __init__(self):
@@ -76,6 +78,7 @@ class SCPI_functional:
                     return decoded
             except Exception as e:
                 return f"Error sending commmand '{command}': {str(e)}"
+
 
     # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
     def takeScreenshot(self, filename: str = "capture"):

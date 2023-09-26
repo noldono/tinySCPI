@@ -5,6 +5,7 @@ validCommandTable = {
                      '*CLR': [],
                      '*TST?': [],
                      '*HLP': [],
+                     'CAPT': [],
 
                      # FREQuency Subsystem
                      'FREQ:START': [['int', 0, 350000000]],
