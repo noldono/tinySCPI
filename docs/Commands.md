@@ -1,19 +1,19 @@
 ## System Commands
 ```
 *IDN?
-  Displays the information of the tinySA, including version
+	Displays the information of the tinySA, including version
 
 *RST
-  Resets the tinySA. Will require a serial connection again.
+	Resets the tinySA. Will require a serial connection again.
 
 *CLR
-  Clears configuration data.
+	Clears configuration data.
 
 *TST
-  Runs the tinySA diagnostics test.
+	Runs the tinySA diagnostics test.
 
 *HLP
-  Returns a list of all available tinySA USB serial commands
+	Returns a list of all available tinySA USB serial commands
 ```
 
 ## Frequency Subtree
@@ -39,13 +39,16 @@ FREQuency:
 
 	SPAN:ZERO
 		arguments: none
-    Sets the span to zero
+                Sets the span to zero
 
 	RBW
-		rbw [3 | 10 | 30 | 100  | 300 | 600]
-		Sets the resolution bandwidth to 3k, 10k , 30k
+		arguments: One of the following values: [3 | 10 | 30 | 100  | 300 | 600]
+		Sets the resolution bandwidth to 3k, 10k, 30k, etc.
+
 	RBW:AUTO
-		rbw auto
+		arguments: none
+		Sets the resolution bandwidth to "auto" mode
 	DUMP
-		frequencies
+		arguments: none
+		Dumps a list of the frequencies being analyzed on the tinySA.
 ```
