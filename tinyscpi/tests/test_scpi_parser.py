@@ -1,934 +1,1024 @@
 from tinyscpi import scpi_parser
 import unittest
 
+
 class ParserTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.parser = scpi_parser.SCPI_Parser()
-        #TODO: Unimplemented Method Stub
 
-    def testParseCommand_IDN(self):
-        self.assertEqual(self.parser.parseCommand('*IDN?'), ('*IDN?',[]))
-        self.assertEqual(self.parser.parseCommand('BAND:RES 3'), ('BAND:RES', [3]))
+    def testBasics(self) -> None:
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('')
+
+    def testParseCommand_IDN(self) -> None:
+        self.assertEqual(self.parser.parseCommand('*IDN?'), ('*IDN?', []))
+
         with self.assertRaises(Exception):
             self.parser.parseCommand('*IDN')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES str')
+            self.parser.parseCommand('*IDN? on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES')
-        self.assertEqual(self.parser.parseCommand('DISP:GRAP:COLor 3 0x000000'), ('DISP:GRAP:COL', [3, '0x000000']))
-                    #TODO: Unimplemented Method Stub
+            self.parser.parseCommand('*IDN? 1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('*IDN? 1.1')
 
-
-    def testParseCommand_TST(self):
-        self.assertEqual(self.parser.parseCommand('*TST?'), ('*TST?', []))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('*TST')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('TST?')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('*TST? 1')
-
-    def testParseCommand_BAND_RES(self):
-        self.assertEqual(self.parser.parseCommand('BAND:RES 3'), ('BAND:RES', [3]))
-        self.assertEqual(self.parser.parseCommand('BAND:RES 600'), ('BAND:RES', [600]))
-        self.assertEqual(self.parser.parseCommand('BAND:RESolution 3'), ('BAND:RES', [3]))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BANDRES')
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES')
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES 601')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES 2')
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES 3.5')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES band')
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES 3 600')
-
-
-    def testParseCommand_BAND_RES_AUTO(self):
-        self.assertEqual(self.parser.parseCommand('BAND:RES:AUTO ON'), ('BAND:RES:AUTO', [True]))
-        self.assertEqual(self.parser.parseCommand('BAND:RES:AUTO OFF'), ('BAND:RES:AUTO', [False]))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES:AUTO')
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('BAND:RES:AUTO auto')
-
-    def testParseCommand_SYST_VERS(self):
-        self.assertEqual(self.parser.parseCommand('SYST:VERS?'), ('SYST:VERS?', []))
-        self.assertEqual(self.parser.parseCommand('SYSTem:VERSion?'), ('SYST:VERS?', []))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS? 1')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS? 1.5')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS? new')
-
-
-    def testParseCommand_AMPL_ATT(self):
-        self.assertEqual(self.parser.parseCommand('AMPL:ATT 0'), ('AMPL:ATT', [0]))
-        self.assertEqual(self.parser.parseCommand('AMPLitude:ATTenuation 15'), ('AMPL:ATT', [15]))
-        self.assertEqual(self.parser.parseCommand('AMPL:ATT 31'), ('AMPL:ATT', [31]))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL:ATT 32')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL:ATT -1')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL:ATT 0.2')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL:ATT')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL:ATT 0 1')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL:ATT std')
-
-
-    def testParseCommand_AMPL_ATT_AUTO(self):
-        self.assertEqual(self.parser.parseCommand('AMPL:ATT:AUTO'), ('AMPL:ATT:AUTO', []))
-        self.assertEqual(self.parser.parseCommand('AMPLitude:ATTenuation:AUTO'), ('AMPL:ATT:AUTO', []))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL_ATT_AUTO On')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL_ATT_AUT')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL_ATT_AUTO 1')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('AMPL_ATT_AUTO 1.5')
-
-    def testParseCommand_SOUR_POW_LEV_IMM_AMPL(self):
-        self.assertEqual(self.parser.parseCommand('SOURce:POWer:LEVel:IMMediate:AMPLitude OFF'), ('SOUR:POW:LEV:IMM:AMPL', ['OFF']))
-        self.assertEqual(self.parser.parseCommand('SOURce:POWer:LEVel:IMMediate:AMPLitude 2'), ('SOUR:POW:LEV:IMM:AMPL', [2]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL OFF'), ('SOUR:POW:LEV:IMM:AMPL', ['OFF']))
-        self.assertEqual(self.parser.parseCommand('SOURce:POWer:LEVel:IMMediate:AMPLitude 30'), ('SOUR:POW:LEV:IMM:AMPL', [30]))
-
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 5')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL ON')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 20')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 1.7')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL ON OFF')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 5 OFF')
-
-    def testParseCommand_RST(self):
+    def testParseCommand_RST(self) -> None:
         self.assertEqual(self.parser.parseCommand('*RST'), ('*RST', []))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('RST')
+            self.parser.parseCommand('*RST?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('RST?')
+            self.parser.parseCommand('*RST factory')
         with self.assertRaises(Exception):
             self.parser.parseCommand('*RST 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('*RST reset')
+            self.parser.parseCommand('*RST 3.1')
 
-    def testParseCommand_CLEARCONFIG(self):
-        self.assertEqual(self.parser.parseCommand('*RST:CLEARCONFIG'), ('*RST:CLEARCONFIG', []))
+    def testParseCommand_CLR(self) -> None:
+        self.assertEqual(self.parser.parseCommand('*CLR'), ('*CLR', []))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('RST:CLEARCONFIG')
+            self.parser.parseCommand('*CLR?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('*RST:CLEARCONFIG clear')
+            self.parser.parseCommand('*CLR clear')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('RST:CLEARCONFIG 0')
+            self.parser.parseCommand('*CLR 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('*CLR 3.5')
+
+    def testParseCommand_TST(self) -> None:
+        self.assertEqual(self.parser.parseCommand('*TST'), ('*TST', []))
 
-    def testParseCommand_DISP_GRAP_COL1(self):
-        self.assertEqual(self.parser.parseCommand('DISP:GRAP:COL?'), ('DISP:GRAP:COL?', []))
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL? red')
+            self.parser.parseCommand('*TST?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL? 0x111111')
+            self.parser.parseCommand('*TST all')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL? 0 0xFFFFFF')
+            self.parser.parseCommand('*TST 1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('*TST 3.3')
 
-    def testParseCommand_DISP_GRAP_COL2(self):
-        self.assertEqual(self.parser.parseCommand('DISP:GRAP:COL 0 0x000000'), ('DISP:GRAP:COL', [0, '0x000000']))
-        self.assertEqual(self.parser.parseCommand('DISP:GRAP:COL 31 0x0'), ('DISP:GRAP:COL', [31, '0x0']))
-        self.assertEqual(self.parser.parseCommand('DISP:GRAP:COL 20 0x9F9F0F'), ('DISP:GRAP:COL', [20, '0x9F9F0F']))
+    def testParseCommand_HLP(self) -> None:
+        self.assertEqual(self.parser.parseCommand('*HLP'), ('*HLP', []))
 
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL -1 0x000000')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL 32 0x000000')
+            self.parser.parseCommand('*HLP?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL 10 0xg00000')
+            self.parser.parseCommand('*HLP show')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL 1 red')
+            self.parser.parseCommand('*HLP 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL 1')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:GRAP:COL 10 0x000000 1')
+            self.parser.parseCommand('*HLP 2.2')
 
-    def testParseCommand_SENS_CORR(self):
-        self.assertEqual(self.parser.parseCommand('SENS:CORR?'), ('SENS:CORR?', []))
-        self.assertEqual(self.parser.parseCommand('SENSor:CORRection?'), ('SENS:CORR?', []))
+    def testParseCommand_FREQ_START(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:START 0'), ('FREQ:START', [0]))
+        self.assertEqual(self.parser.parseCommand('FREQuency:START 350000000'), ('FREQ:START', [350000000]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:CORR? correction')
+            self.parser.parseCommand('FREQ:START')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:CORR? 0')
-
-    def testParseCommand_SYST_HELP(self):
-        self.assertEqual(self.parser.parseCommand('SYST:HELP?'), ('SYST:HELP?', []))
-        self.assertEqual(self.parser.parseCommand('SYSTem:HELP?'), ('SYST:HELP?', []))
+            self.parser.parseCommand('FREQ:START -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:HELP? help')
+            self.parser.parseCommand('FREQ:START 350000001')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:HELP')
-
-    def testParseCommand_MEAS_TRIG(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG -200'), ('MEAS:TRIG', [-200]))
-        self.assertEqual(self.parser.parseCommand('MEASure:TRIGger -200'), ('MEAS:TRIG', [-200]))
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG 10'), ('MEAS:TRIG', [10]))
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG auto'),('MEAS:TRIG', ['auto']))
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG normal'), ('MEAS:TRIG', ['normal']))
-        self.assertEqual(self.parser.parseCommand('MEAS:TRIG single'), ('MEAS:TRIG', ['single']))
-
+            self.parser.parseCommand('FREQ:START start')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG')
+            self.parser.parseCommand('FREQ:START 5.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG -201')
+            self.parser.parseCommand('FREQ:START 1 1')
+
+    def testParseCommand_FREQ_STOP(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:STOP 0'), ('FREQ:STOP', [0]))
+        self.assertEqual(self.parser.parseCommand('FREQuency:STOP 350000000'), ('FREQ:STOP', [350000000]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG 11')
+            self.parser.parseCommand('FREQ:STOP')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG high')
+            self.parser.parseCommand('FREQ:STOP -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG 1.1')
+            self.parser.parseCommand('FREQ:STOP 350000001')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG 10 auto')
+            self.parser.parseCommand('FREQ:STOP default')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG single 1')
+            self.parser.parseCommand('FREQ:STOP 350000.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:TRIG 1 1')
+            self.parser.parseCommand('FREQ:STOP 340000000 350000000')
 
-    def testParseCommand_SOUR_POW_LEV_IMM_AMPL(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL -76'), ('SOUR:POW:LEV:IMM:AMPL', [-76]))
-        self.assertEqual(self.parser.parseCommand('SOURce:POWer:LEVel:IMMediate:AMPL -76'), ('SOUR:POW:LEV:IMM:AMPL', [-76]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 13'), ('SOUR:POW:LEV:IMM:AMPL', [13]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 0'), ('SOUR:POW:LEV:IMM:AMPL', [0]))
+    def testParseCommand_FREQ_CENT(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:CENT 0'), ('FREQ:CENT', [0]))
+        self.assertEqual(self.parser.parseCommand('FREQuency:CENTer 350000000'), ('FREQ:CENT', [350000000]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL')
+            self.parser.parseCommand('FREQ:CENT')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL -77')
+            self.parser.parseCommand('FREQ:CENT -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 14')
+            self.parser.parseCommand('FREQ:CENT 350000001')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 12.1')
+            self.parser.parseCommand('FREQ:CENT peak')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL auto')
+            self.parser.parseCommand('FREQ:CENT 100000.02')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL 1 1')
+            self.parser.parseCommand('FREQ:CENT 0 0')
 
-    def testParseCommand_SOUR_POW_LEV_IMM_AMPL_OFFS(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS 0'),('SOUR:POW:LEV:IMM:AMPL:OFFS', [0]))
-        self.assertEqual(self.parser.parseCommand('SOURce:POW:LEVel:IMM:AMPL:OFFS 0'), ('SOUR:POW:LEV:IMM:AMPL:OFFS', [0]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS 70'), ('SOUR:POW:LEV:IMM:AMPL:OFFS', [70]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS -70'), ('SOUR:POW:LEV:IMM:AMPL:OFFS', [-70]))
+    def testParseCommand_FREQ_SPAN(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:SPAN 0'), ('FREQ:SPAN', [0]))
+        self.assertEqual(self.parser.parseCommand('FREQuency:SPAN 290'),
+                         ('FREQ:SPAN', [290]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS')
+            self.parser.parseCommand('FREQ:SPAN')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS -71')
+            self.parser.parseCommand('FREQ:SPAN -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS 71')
+            self.parser.parseCommand('FREQ:SPAN 350000001')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS On')
+            self.parser.parseCommand('FREQ:SPAN span')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS 7.1')
+            self.parser.parseCommand('FREQ:SPAN 5.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFFS 1 1')
+            self.parser.parseCommand('FREQ:SPAN 1 1')
 
-    def testParseCommand_FREQ_OFFS(self):
-        self.assertEqual(self.parser.parseCommand('FREQ:OFFS?'), ('FREQ:OFFS?', []))
-        self.assertEqual(self.parser.parseCommand('FREQuency:OFFS?'), ('FREQ:OFFS?', []))
+    def testParseCommand_FREQ_SPAN_ZERO(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:SPAN:ZERO'), ('FREQ:SPAN:ZERO', []))
+        self.assertEqual(self.parser.parseCommand('FREQuency:SPAN:ZERO'), ('FREQ:SPAN:ZERO', []))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS')
+            self.parser.parseCommand('FREQ:SPAN:ZERO?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS? 1')
+            self.parser.parseCommand('FREQ:SPAN:ZERO 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS? on')
+            self.parser.parseCommand('FREQ:SPAN:ZERO zero')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('FREQ:SPAN:ZERO 3.5')
 
-    def testParseCommand_FREQ_OFFS2(self):
-        self.assertEqual(self.parser.parseCommand('FREQ:OFFS low -20'), ('FREQ:OFFS', ['low', -20]))
-        self.assertEqual(self.parser.parseCommand('FREQuency:OFFS low -20'), ('FREQ:OFFS', ['low', -20]))
-        self.assertEqual(self.parser.parseCommand('FREQ:OFFS high 0'), ('FREQ:OFFS', ['high', 0]))
-        self.assertEqual(self.parser.parseCommand('FREQ:OFFS switch 20'), ('FREQ:OFFS', ['switch', 20]))
+    def testParseCommand_FREQ_RBW(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:RBW 3'), ('FREQ:RBW', ['3']))
+        self.assertEqual(self.parser.parseCommand('FREQuency:RBW 10'), ('FREQ:RBW', ['10']))
+        self.assertEqual(self.parser.parseCommand('FREQ:RBW 30'), ('FREQ:RBW', ['30']))
+        self.assertEqual(self.parser.parseCommand('FREQuency:RBW 100'), ('FREQ:RBW', ['100']))
+        self.assertEqual(self.parser.parseCommand('FREQ:RBW 300'), ('FREQ:RBW', ['300']))
+        self.assertEqual(self.parser.parseCommand('FREQuency:RBW 600'), ('FREQ:RBW', ['600']))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('FREQ:RBW')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('FREQ:RBW 2')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('FREQ:RBW 601')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS')
+            self.parser.parseCommand('FREQ:RBW 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS 20')
+            self.parser.parseCommand('FREQ:RBW 3.01')    
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS low')
+            self.parser.parseCommand('FREQ:RBW center')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS 20 switch')
+            self.parser.parseCommand('FREQ:RBW 3 600')
+        
+    def testParseCommand_FREQ_RBW_AUTO(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:RBW:AUTO'), ('FREQ:RBW:AUTO', []))
+        self.assertEqual(self.parser.parseCommand('FREQuency:RBandWidth:AUTO'), ('FREQ:RBW:AUTO', []))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS 20 20')
+            self.parser.parseCommand('FREQ:RBW:AUTO?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS low switch')
+            self.parser.parseCommand('FREQ:RBW:AUTO auto')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS low 21')
+            self.parser.parseCommand('FREQ:RBW:AUTO 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('FREQ:RBW:AUTO 1.1')
+
+    def testParseCommand_FREQ_DUMP(self):
+        self.assertEqual(self.parser.parseCommand('FREQ:DUMP'), ('FREQ:DUMP', []))
+        self.assertEqual(self.parser.parseCommand('FREQuency:DUMP'), ('FREQ:DUMP', []))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS high -21')
+            self.parser.parseCommand('FREQ:DUMP?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS high 1.3')
+            self.parser.parseCommand('FREQ:DUMP all')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS on 1')
+            self.parser.parseCommand('FREQ:DUMP 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('FREQ:OFFS 20 low on')
+            self.parser.parseCommand('FREQ:DUMP 3.3')
 
-    def testParseCommand_SYST_PRES(self):
-        self.assertEqual(self.parser.parseCommand('SYST:PRES 0'), ('SYST:PRES', [0]))
-        self.assertEqual(self.parser.parseCommand('SYSTem:PRESet 1'), ('SYST:PRES', [1]))
-        self.assertEqual(self.parser.parseCommand('SYSTem:PRESet 4'), ('SYST:PRES', [4]))
+    def testParseCommand_LVL_ATT(self):
+        self.assertEqual(self.parser.parseCommand('LVL:ATT 0'), ('LVL:ATT', [0]))
+        self.assertEqual(self.parser.parseCommand('LeVeL:ATTenuation 30'), ('LVL:ATT', [30]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:PRES')
+            self.parser.parseCommand('LVL:ATT')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:PRES -1')
+            self.parser.parseCommand('LVL:ATT -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:PRES 1.2')
+            self.parser.parseCommand('LVL:ATT 31')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:PRES 5')
+            self.parser.parseCommand('LVL:ATT default')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:PRES preset')
+            self.parser.parseCommand('LVL:ATT 0.2')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:PRES 2 1')
+            self.parser.parseCommand('LVL:ATT 1 20')
 
-    def testParseCommand_SOUR_DM_FORM(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:DM:FORM off'), ('SOUR:DM:FORM', ['off']))
-        self.assertEqual(self.parser.parseCommand('SOURce:DM:FORM AM_1kHz'), ('SOUR:DM:FORM', ['AM_1kHz']))
-        self.assertEqual(self.parser.parseCommand('SOUR:DM:FORM AM_10Hz'), ('SOUR:DM:FORM', ['AM_10Hz']))
-        self.assertEqual(self.parser.parseCommand('SOUR:DM:FORM NFM'), ('SOUR:DM:FORM', ['NFM']))
-        self.assertEqual(self.parser.parseCommand('SOURce:DM:FORM WFM'), ('SOUR:DM:FORM', ['WFM']))
-        self.assertEqual(self.parser.parseCommand('SOUR:DM:FORM extern'), ('SOUR:DM:FORM', ['extern']))
+    def testParseCommand_LVL_ATT_AUTO(self):
+        self.assertEqual(self.parser.parseCommand('LVL:ATT:AUTO'), ('LVL:ATT:AUTO', []))
+        self.assertEqual(self.parser.parseCommand('LeVeL:ATTeunuation:AUTO'), ('LVL:ATT:AUTO', []))
 
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:DM:FORM')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:DM:FORM on')
+            self.parser.parseCommand('LVL:ATT:AUTO?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:DM:FORM 1')
+            self.parser.parseCommand('LVL:ATT:AUTO auto')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:DM:FORM 1.1')
+            self.parser.parseCommand('LVL:ATT:AUTO 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:DM:FORM off off')
+            self.parser.parseCommand('LVL:ATT:AUTO 3.1')
 
-    def testParseCommand_SOUR_POW_AMPL(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:AMPL -100'), ('SOUR:POW:AMPL', [-100]))
-        self.assertEqual(self.parser.parseCommand('SOURce:POW:AMPLlitude 100'), ('SOUR:POW:AMPL', [100]))
-        self.assertEqual(self.parser.parseCommand('SOURce:POW:AMPLlitude 0'), ('SOUR:POW:AMPL', [0]))
+    def testParseCommand_LVL_ATT_QUERY(self):
+        self.assertEqual(self.parser.parseCommand('LVL:ATT?'), ('LVL:ATT?', []))
+        self.assertEqual(self.parser.parseCommand('LeVeL:ATTenuation?'), ('LVL:ATT?', []))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:ATT')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:ATT? 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:AMPL')
+            self.parser.parseCommand('LVL:ATT? 1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:AMPL 101')
+            self.parser.parseCommand('LVL:ATT? one')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:AMPL -101')
+            self.parser.parseCommand('LVL:ATT? 0 1')
+
+    def testParseCommand_LVL_REF(self):
+        self.assertEqual(self.parser.parseCommand('LVL:REF -100'), ('LVL:REF', [-100]))
+        self.assertEqual(self.parser.parseCommand('LeVeL:REFerence 100.33'), ('LVL:REF', [100.33]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:AMPL 5.1')
+            self.parser.parseCommand('LVL:REF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:AMPL max')
+            self.parser.parseCommand('LVL:REF default')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:AMPL 50 50')
+            self.parser.parseCommand('LVL:REF 1.1 20.1')
 
-    def testParseCommand_OUTP(self):
-        self.assertEqual(self.parser.parseCommand('OUTP ON'), ('OUTP', [True]))
-        self.assertEqual(self.parser.parseCommand('OUTPut OFF'), ('OUTP', [False]))
+    def testParseCommand_LVL_REF_AUTO(self):
+        self.assertEqual(self.parser.parseCommand('LVL:REF:AUTO'), ('LVL:REF:AUTO', []))
+        self.assertEqual(self.parser.parseCommand('LeVeL:REFerence:AUTO'), ('LVL:REF:AUTO', []))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('OUTP')
+            self.parser.parseCommand('LVL:REF:AUTO?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('OUTP 1')
+            self.parser.parseCommand('LVL:REF:AUTO auto')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('OUTP True')
+            self.parser.parseCommand('LVL:REF:AUTO 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('OUTP ON ON')
+            self.parser.parseCommand('LVL:REF:AUTO 5.5')
 
-    def testParseCommand_PROG_SEL_STAT_PAUS(self):
-        self.assertEqual(self.parser.parseCommand('PROG:SELect:STAT:PAUSe'), ('PROG:SEL:STAT:PAUS', []))
+    def testParseCommand_LVL_SCAL(self):
+        self.assertEqual(self.parser.parseCommand('LVL:SCAL 1'), ('LVL:SCAL', ['1']))
+        self.assertEqual(self.parser.parseCommand('LeVeL:SCALe 2'), ('LVL:SCAL', ['2']))
+        self.assertEqual(self.parser.parseCommand('LVL:SCAL 5'), ('LVL:SCAL', ['5']))
+        self.assertEqual(self.parser.parseCommand('LeVeL:SCALe 10'), ('LVL:SCAL', ['10']))
+        self.assertEqual(self.parser.parseCommand('LVL:SCAL 20'), ('LVL:SCAL', ['20']))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:SCAL')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:SCAL 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('PROG:SEL:STAT:PAUS On')
+            self.parser.parseCommand('LVL:SCAL 3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('PROG:SEL:STAT:PAUS 1')
+            self.parser.parseCommand('LVL:SCAL 3.1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:SCAL scale')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:SCAL 1 20')
 
-    def testParseCommand_HCOP_SDUM_DATA(self):
-        self.assertEqual(self.parser.parseCommand('HCOP:SDUM:DATA?'), ('HCOP:SDUM:DATA?', []))
-        self.assertEqual(self.parser.parseCommand('HCOP:SDUMp:DATA?'), ('HCOP:SDUM:DATA?', []))
+    def testParseCommand_LVL_SCAL_AUTO(self):
+        self.assertEqual(self.parser.parseCommand('LVL:SCAL:AUTO'), ('LVL:SCAL:AUTO', []))
+        self.assertEqual(self.parser.parseCommand('LeVeL:SCALe:AUTO'), ('LVL:SCAL:AUTO', []))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('HCOP:SDUM:DATA')
+            self.parser.parseCommand('LVL:SCAL:AUTO?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('HCOP:SDUM:DATA? 1')
+            self.parser.parseCommand('LVL:SCAL:AUTO auto')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('HCOP:SDUM:DATA? True')
+            self.parser.parseCommand('LVL:SCAL:AUTO 2')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('HCOP:SDUM:DATA? 0.1')
+            self.parser.parseCommand('LVL:SCAL:AUTO 5.5')
 
-    def testParseCommand_SOUR_VOLT_LEV_IMM_AMPL(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL?'), ('SOUR:VOLT:LEV:IMM:AMPL?', []))
-        self.assertEqual(self.parser.parseCommand('SOUR:VOLTage:LEVel:IMM:AMPL?'), ('SOUR:VOLT:LEV:IMM:AMPL?', []))
+    def testParseCommand_LVL_UNIT(self):
+        self.assertEqual(self.parser.parseCommand('LVL:UNIT dBm'), ('LVL:UNIT', ['dBm']))
+        self.assertEqual(self.parser.parseCommand('LeVeL:UNIT dBmV'), ('LVL:UNIT', ['dBmV']))
+        self.assertEqual(self.parser.parseCommand('LVL:UNIT dBuV'), ('LVL:UNIT', ['dBuV']))
+        self.assertEqual(self.parser.parseCommand('LeVeL:UNIT V'), ('LVL:UNIT', ['V']))
+        self.assertEqual(self.parser.parseCommand('LVL:UNIT W'), ('LVL:UNIT', ['W']))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL')
+            self.parser.parseCommand('LVL:UNIT?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL? 1')
+            self.parser.parseCommand('LVL:UNIT 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL? True')
+            self.parser.parseCommand('LVL:UNIT 2.2')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL? 1.1')
+            self.parser.parseCommand('LVL:UNIT dB')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('LVL:UNIT dBm dBmV')
 
-    def testParseCommand_SOUR_VOLT_LEV_IMM_AMPL2(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL 0'), ('SOUR:VOLT:LEV:IMM:AMPL', [0]))
-        self.assertEqual(self.parser.parseCommand('SOURce:VOLTage:LEV:IMM:AMPL 4096'), ('SOUR:VOLT:LEV:IMM:AMPL', [4096]))
+    def testParseCommand_LVL_XGAIN(self):
+        self.assertEqual(self.parser.parseCommand('LVL:XGAIN 0'), ('LVL:XGAIN', [0]))
+        self.assertEqual(self.parser.parseCommand('LeVeL:eXtraGAIN 100'), ('LVL:XGAIN', [100]))
+        self.assertEqual(self.parser.parseCommand('LVL:XGAIN -100'), ('LVL:XGAIN', [-100]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL')
+            self.parser.parseCommand('LVL:XGAIN')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL -1')
+            self.parser.parseCommand('LVL:XGAIN 101')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL 4097')
+            self.parser.parseCommand('LVL:XGAIN -101')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL 1.02')
+            self.parser.parseCommand('LVL:XGAIN 0.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL Default')
+            self.parser.parseCommand('LVL:XGAIN OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:VOLT:LEV:IMM:AMPL 1 2')
+            self.parser.parseCommand('LVL:XGAIN 0 100')
 
-    def testParseCommand_TRAC_DATA(self):
-        self.assertEqual(self.parser.parseCommand('TRAC:DATA? 0'), ('TRAC:DATA?', [0]))
-        self.assertEqual(self.parser.parseCommand('TRACe:DATA? 1'), ('TRAC:DATA?', [1]))
-        self.assertEqual(self.parser.parseCommand('TRAC:DATA? 2'), ('TRAC:DATA?', [2]))
+    def testParseCommand_TRAC_FREZ_ON(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:FREZ:ON 1'), ('TRAC:FREZ:ON', [1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:FREeZe:ON 2'), ('TRAC:FREZ:ON', [2]))
+        self.assertEqual(self.parser.parseCommand('TRACe:FREZ:ON 3'), ('TRAC:FREZ:ON', [3]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:FREZ:ON')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA?')
+            self.parser.parseCommand('TRAC:FREZ:ON 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA 0')
+            self.parser.parseCommand('TRAC:FREZ:ON 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA? 1.1')
+            self.parser.parseCommand('TRAC:FREZ:ON 1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA? -1')
+            self.parser.parseCommand('TRAC:FREZ:ON ON')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA? 3')
+            self.parser.parseCommand('TRAC:FREZ:ON 1 2')
+
+    def testParseCommand_TRAC_FREZ_OFF(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:FREZ:OFF 1'), ('TRAC:FREZ:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:FREeZe:OFF 2'), ('TRAC:FREZ:OFF', [2]))
+        self.assertEqual(self.parser.parseCommand('TRACe:FREZ:OFF 3'), ('TRAC:FREZ:OFF', [3]))
+
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:FREZ:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA? One')
+            self.parser.parseCommand('TRAC:FREZ:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:DATA? 1 1')
+            self.parser.parseCommand('TRAC:FREZ:OFF 4')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:FREZ:OFF 3.3')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:FREZ:OFF all')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:FREZ:OFF 1 2')
 
-    def testParseCommand_MARK_LEV(self):
-        self.assertEqual(self.parser.parseCommand('MARK:LEV?'), ('MARK:LEV?', []))
-        self.assertEqual(self.parser.parseCommand('MARK:LEVel?'), ('MARK:LEV?', []))
+    def testParseCommand_TRAC_VIEW_ON(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:VIEW:ON 1'), ('TRAC:VIEW:ON', [1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:VIEW:ON 2'), ('TRAC:VIEW:ON', [2]))
+        self.assertEqual(self.parser.parseCommand('TRACe:VIEW:ON 3'), ('TRAC:VIEW:ON', [3]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:VIEW:ON')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV')
+            self.parser.parseCommand('TRAC:VIEW:ON 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV? 1')
+            self.parser.parseCommand('TRAC:VIEW:ON 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV? 1.1')
+            self.parser.parseCommand('TRAC:VIEW:ON 5.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV? One')
+            self.parser.parseCommand('TRAC:VIEW:ON all')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:VIEW:ON 1 2')
 
-    def testParseCommand_MARK_LEV2(self):
-        self.assertEqual(self.parser.parseCommand('MARK:LEV 1 0'), ('MARK:LEV', [1, 0]))
-        self.assertEqual(self.parser.parseCommand('MARK:LEVel 2 355'), ('MARK:LEV', [2, 355]))
-        self.assertEqual(self.parser.parseCommand('MARKer:LEV 3 on'), ('MARK:LEV', [3, 'on']))
-        self.assertEqual(self.parser.parseCommand('MARK:LEV 4 off'), ('MARK:LEV', [4, 'off']))
+    def testParseCommand_TRAC_VIEW_OFF(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:VIEW:OFF 1'), ('TRAC:VIEW:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:VIEW:OFF 2'), ('TRAC:VIEW:OFF', [2]))
+        self.assertEqual(self.parser.parseCommand('TRACe:VIEW:OFF 3'), ('TRAC:VIEW:OFF', [3]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV')
+            self.parser.parseCommand('TRAC:VIEW:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 1')
+            self.parser.parseCommand('TRAC:VIEW:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV on')
+            self.parser.parseCommand('TRAC:VIEW:OFF 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV -1 0')
+            self.parser.parseCommand('TRAC:VIEW:OFF 5.7')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 5 0')
+            self.parser.parseCommand('TRAC:VIEW:OFF all')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 2.5 0')
+            self.parser.parseCommand('TRAC:VIEW:OFF 1 3')
+
+    def testParseCommand_TRAC_VAL(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:VAL  1'), ('TRAC:VAL', [1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:VALue  2'), ('TRAC:VAL', [2]))
+        self.assertEqual(self.parser.parseCommand('TRAC:VALue 3'), ('TRAC:VAL', [3]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV on 0')
+            self.parser.parseCommand('TRAC:VAL')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 1 -1')
+            self.parser.parseCommand('TRAC:VAL 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 1 366')
+            self.parser.parseCommand('TRAC:VAL 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 1 300.1')
+            self.parser.parseCommand('TRAC:VAL 5.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 1 True')
+            self.parser.parseCommand('TRAC:VAL one')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MARK:LEV 1 1 1')
+            self.parser.parseCommand('TRAC:VAL 1 2')
+
+    def testParseCommand_TRAC_COPY(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:COPY  1 1'), ('TRAC:COPY', [1, 1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:COPY 1   3'), ('TRAC:COPY', [1, 3]))
+        self.assertEqual(self.parser.parseCommand('TRAC:COPY 3   1'), ('TRAC:COPY', [3, 1]))
+        self.assertEqual(self.parser.parseCommand('TRAC:COPY 3   3'), ('TRAC:COPY', [3, 3]))
 
-    def testParseCommand_DISP_ENAB(self):
-        self.assertEqual(self.parser.parseCommand('DISP:ENAB ON'), ('DISP:ENAB', [True]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:ENAB OFF'), ('DISP:ENAB', [False]))
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:COPY')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:COPY 1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:COPY 3.3')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRACe:COPY on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB')
+            self.parser.parseCommand('TRAC:COPY 0 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB on')
+            self.parser.parseCommand('TRAC:COPY 1 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB one')
+            self.parser.parseCommand('TRAC:COPY 3 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB 0')
+            self.parser.parseCommand('TRAC:COPY 4 3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB 1.5')
+            self.parser.parseCommand('TRAC:COPY 3 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB ON 1')
+            self.parser.parseCommand('TRAC:COPY 3 on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:ENAB ON OFF')
+            self.parser.parseCommand('TRAC:COPY 1 1 2')
 
-    def testParseCommand_PROG_SEL_STAT_RESU(self):
-        self.assertEqual(self.parser.parseCommand('PROG:SEL:STAT:RESU'), ('PROG:SEL:STAT:RESU', []))
-        self.assertEqual(self.parser.parseCommand('PROG:SELelct:STAT:RESUme'), ('PROG:SEL:STAT:RESU', []))
+    def testParseCommand_TRAC_SUB(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:SUB  1 1'), ('TRAC:SUB', [1, 1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:SUB 1   3'), ('TRAC:SUB', [1, 3]))
+        self.assertEqual(self.parser.parseCommand('TRAC:SUB 3   1'), ('TRAC:SUB', [3, 1]))
+        self.assertEqual(self.parser.parseCommand('TRAC:SUB 3   3'), ('TRAC:SUB', [3, 3]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('PROG:SEL:STAT:RESU?')
+            self.parser.parseCommand('TRAC:SUB')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('PROG:SEL:STAT:RESU True')
+            self.parser.parseCommand('TRAC:SUB 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('PROG:SEL:STAT:RESU 1')
+            self.parser.parseCommand('TRAC:SUB 3.3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('PROG:SEL:STAT:RESU 1.2')
+            self.parser.parseCommand('TRACe:SUB on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 0 1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 1 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 3 4')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 4 3')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 3 1.5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 3 on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('TRAC:SUB 1 1 2')
 
-    def testParseCommand_TRAC_MEM_SAVE(self):
-        self.assertEqual(self.parser.parseCommand('TRAC:MEM:SAVE 0'), ('TRAC:MEM:SAVE', [0]))
-        self.assertEqual(self.parser.parseCommand('TRAC:MEMory:SAVE 4'), ('TRAC:MEM:SAVE', [4]))
+    def testParseCommand_TRAC_SUB_OFF(self):
+        self.assertEqual(self.parser.parseCommand('TRAC:SUB:OFF 1'), ('TRAC:SUB:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('TRACe:SUBtract:OFF 2'), ('TRAC:SUB:OFF', [2]))
+        self.assertEqual(self.parser.parseCommand('TRAC:SUBtract:OFF   3'), ('TRAC:SUB:OFF', [3]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:MEM:SAVE')
+            self.parser.parseCommand('TRAC:SUB:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:MEM:SAVE -1')
+            self.parser.parseCommand('TRAC:SUB:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:MEM:SAVE 5')
+            self.parser.parseCommand('TRAC:SUB:OFF 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:MEM:SAVE 1.5')
+            self.parser.parseCommand('TRAC:SUB:OFF 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:MEM:SAVE save')
+            self.parser.parseCommand('TRAC:SUB:OFF off')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('TRAC:MEM:SAVE 1 1')
+            self.parser.parseCommand('TRAC:SUB:OFF 1 3')
 
-    def testParseCommand_SYST_SAVE(self):
-        self.assertEqual(1, 1)
-        #TODO: WHAT IS THIS
+    def testParseCommand_DISP_PAUSE(self):
+        self.assertEqual(self.parser.parseCommand('DISP:PAUSE '), ('DISP:PAUSE', []))
+        self.assertEqual(self.parser.parseCommand('DISPlay:PAUSE '), ('DISP:PAUSE', []))
 
-    def testParseCommand_SYST_SER(self):
-        self.assertEqual(self.parser.parseCommand('SYST:SER?'), ('SYST:SER?', []))
-        self.assertEqual(self.parser.parseCommand('SYSTem:SER?'), ('SYST:SER?', []))
-
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:SER')
+            self.parser.parseCommand('DISP:PAUSE?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:SER? True')
-
-    def testParseCommand_SYST_SER2(self):
-        self.assertEqual(1, 1)
-        #TODO: WHAT IS THIS
+            self.parser.parseCommand('DISP:PAUSE 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:PAUSE 0.1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:PAUSE pause')
 
-    def testParseCommand_CONF(self):
-        self.assertEqual(self.parser.parseCommand('CONF off'), ('CONF', ['off']))
-        self.assertEqual(self.parser.parseCommand('CONFig minh'), ('CONF', ['minh']))
-        self.assertEqual(self.parser.parseCommand('CONF maxh'), ('CONF', ['maxh']))
-        self.assertEqual(self.parser.parseCommand('CONFiguration maxd'), ('CONF', ['maxd']))
-        self.assertEqual(self.parser.parseCommand('CONF aver4'), ('CONF', ['aver4']))
-        self.assertEqual(self.parser.parseCommand('CONF aver16'), ('CONF', ['aver16']))
-        self.assertEqual(self.parser.parseCommand('CONF quasi'), ('CONF', ['quasi']))
+    def testParseCommand_DISP_RESUME(self):
+        self.assertEqual(self.parser.parseCommand('DISP:RESUME '), ('DISP:RESUME', []))
+        self.assertEqual(self.parser.parseCommand('DISPlay:RESUME '), ('DISP:RESUME', []))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CONF')
+            self.parser.parseCommand('DISP:RESUME?')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:RESUME 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:RESUME 0.1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:RESUME resume')
+
+    def testParseCommand_DISP_REFRESH(self):
+        self.assertEqual(self.parser.parseCommand('DISP:REFRESH '), ('DISP:REFRESH', []))
+        self.assertEqual(self.parser.parseCommand('DISPlay:REFRESH '), ('DISP:REFRESH', []))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CONF on')
+            self.parser.parseCommand('DISP:REFRESH?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CONF 0')
+            self.parser.parseCommand('DISP:REFRESH 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CONF 1.1')
+            self.parser.parseCommand('DISP:REFRESH 3.3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CONF minh maxh')
-    def testParseCommand_DISP_DATA_START(self):
-        self.assertEqual(self.parser.parseCommand('DISP:DATA:START 0 0'), ('DISP:DATA:START', [0, 0]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:START 0 240'), ('DISP:DATA:START', [0, 240]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:START 320 240'), ('DISP:DATA:START', [320, 240]))
+            self.parser.parseCommand('DISP:REFRESH on')
 
+    def testParseCommand_DISP_COLOR(self):
+        self.assertEqual(self.parser.parseCommand('DISP:COLOR 0 0x000000'), ('DISP:COLOR', [0, hex(0)]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:COLOR 30 0x000000'), ('DISP:COLOR', [30, hex(0)]))
+        self.assertEqual(self.parser.parseCommand('DISP:COLOR 0 0xffffff'), ('DISP:COLOR', [0, hex(0xffffff)]))
+
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:COLOR')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START')
+            self.parser.parseCommand('DISP:COLOR 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 0')
+            self.parser.parseCommand('DISP:COLOR 1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START -1 0')
+            self.parser.parseCommand('DISP:COLOR blue')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 0 -1')
+            self.parser.parseCommand('DISP:COLOR -1 0x000000')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 321 0')
+            self.parser.parseCommand('DISP:COLOR 31 0x000000')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 0 241')
+            self.parser.parseCommand('DISP:COLOR 0 0xfffffg')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 5.5 5')
+            self.parser.parseCommand('DISP:COLOR 0 0x1000000')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 5 5.5')
+            self.parser.parseCommand('DISP:COLOR 0 0x0.3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START True')
+            self.parser.parseCommand('DISP:COLOR 0 blue')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:START 320 240 1')
+            self.parser.parseCommand('DISP:COLOR 0 0x000000 0')
 
-    def testParseCommand_DISP_DATA_STOP(self):
-        self.assertEqual(self.parser.parseCommand('DISPl:DATA:STOP 0 0'), ('DISP:DATA:STOP', [0, 0]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:STOP 0 240'), ('DISP:DATA:STOP', [0, 240]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:STOP 320 240'), ('DISP:DATA:STOP', [320, 240]))
+    def testParseCommand_DISP_SWEEPTIME(self):
+        self.assertEqual(self.parser.parseCommand('DISP:SWEEPTIME 0'), ('DISP:SWEEPTIME', [0]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:SWEEPTIME 10'), ('DISP:SWEEPTIME', [10]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP')
+            self.parser.parseCommand('DISP:SWEEPTIME')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 0')
+            self.parser.parseCommand('DISP:SWEEPTIME -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP -1 0')
+            self.parser.parseCommand('DISP:SWEEPTIME 11')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 0 -1')
+            self.parser.parseCommand('DISP:SWEEPTIME 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 321 0')
+            self.parser.parseCommand('DISP:SWEEPTIME default')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 0 241')
+            self.parser.parseCommand('DISP:SWEEPTIME 1 3')
+
+    def testParseCommand_DISP_SPUR(self):
+        self.assertEqual(self.parser.parseCommand('DISP:SPUR ON'), ('DISP:SPUR', [True]))
+        self.assertEqual(self.parser.parseCommand('DISPlay:SPUR OFF'), ('DISP:SPUR', [False]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 5.5 5')
+            self.parser.parseCommand('DISP:SPUR')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 5 5.5')
+            self.parser.parseCommand('DISP:SPUR 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP True')
+            self.parser.parseCommand('DISP:SPUR 1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISPlay:DATA:STOP 320 240 1')
+            self.parser.parseCommand('DISP:SPUR on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('DISP:SPUR ON OFF')
 
-    def testParseCommand_DISP_DATA_WIDTH(self):
-        self.assertEqual(self.parser.parseCommand('DISP:DATA:WIDTH 0'), ('DISP:DATA:WIDTH', [0]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:WIDTH 320'), ('DISP:DATA:WIDTH', [320]))
+    def testParseCommand_MARK_FREQ(self):
+        self.assertEqual(self.parser.parseCommand('MARK:FREQ 1   0'), ('MARK:FREQ', [1, 0]))
+        self.assertEqual(self.parser.parseCommand('MARKer:FREQuency 4 0'), ('MARK:FREQ', [4, 0]))
+        self.assertEqual(self.parser.parseCommand('MARK:FREQ 1      350000000'), ('MARK:FREQ', [1, 350000000]))
+        self.assertEqual(self.parser.parseCommand('MARK:FREQ 4      350000000'), ('MARK:FREQ', [4, 350000000]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:FREQ')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:WIDTH')
+            self.parser.parseCommand('MARK:FREQ   1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:WIDTH -1')
+            self.parser.parseCommand('MARK:FREQ   1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:WIDTH 321')
+            self.parser.parseCommand('MARK:FREQ  default')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:WIDTH 4.0')
+            self.parser.parseCommand('MARK:FREQ  0  0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:WIDTH Default')
+            self.parser.parseCommand('MARK:FREQ  5 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:WIDTH 1 1')
+            self.parser.parseCommand('MARK:FREQ  1  -1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:FREQ  1  350000001')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:FREQ  1  1.5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:FREQ  1  on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:FREQ  1  1  1')
 
-    def testParseCommand_DISP_DATA_HEIGHT(self):
-        self.assertEqual(self.parser.parseCommand('DISP:DATA:HEIGHT 0'), ('DISP:DATA:HEIGHT', [0]))
-        self.assertEqual(self.parser.parseCommand('DISPlay:DATA:HEIGHT 240'), ('DISP:DATA:HEIGHT', [240]))
 
+    def testParseCommand_MARK_DELT(self):
+        self.assertEqual(self.parser.parseCommand('MARK:DELT 1   1'), ('MARK:DELT', [1, 1]))
+        self.assertEqual(self.parser.parseCommand('     MARKer:DELTa 4 1'), ('MARK:DELT', [4, 1]))
+        self.assertEqual(self.parser.parseCommand('MARK:DELT 1      4'), ('MARK:DELT', [1, 4]))
+        self.assertEqual(self.parser.parseCommand('MARK:DELTa 4   4'), ('MARK:DELT', [4, 4]))
+
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DELT')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:HEIGHT')
+            self.parser.parseCommand('MARK:DELT   1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:HEIGHT -1')
+            self.parser.parseCommand('MARK:DELT   1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:HEIGHT 241')
+            self.parser.parseCommand('MARK:DELT  default')
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:HEIGHT 4.0')
+            self.parser.parseCommand('MARK:DELT  0  1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:HEIGHT Default')
+            self.parser.parseCommand('MARK:DELT  5 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('DISP:DATA:HEIGHT 1 1')
-
-    def testParseCommand_DISP_DATA_TYPE(self):
-        self.assertEqual(1, 1)
-        #TODO: see valid dictionary
+            self.parser.parseCommand('MARK:DELT  1  0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DELT  1  5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DELT  1  1.5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DELT  1  on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DELT  1  1  1')
 
-    def testParseCommand_CALC_MEAS_PN_SPUR_OMIS_STAT(self):
-        self.assertEqual(self.parser.parseCommand('CALC:MEAS:PN:SPUR:OMIS:STAT on'), ('CALC:MEAS:PN:SPUR:OMIS:STAT', ['on']))
-        self.assertEqual(self.parser.parseCommand('CALCulate:MEASure:PN:SPUR:OMIS:STAT off'), ('CALC:MEAS:PN:SPUR:OMIS:STAT', ['off']))
+    def testParseCommand_MARK_DELT_OFF(self):
+        self.assertEqual(self.parser.parseCommand('MARK:DELT:OFF 1'), ('MARK:DELT:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:DELTa:OFF 4'), ('MARK:DELT:OFF', [4]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DELT:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CALC:MEAS:PN:SPUR:OMIS:STAT')
+            self.parser.parseCommand('MARK:DELT:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CALC:MEAS:PN:SPUR:OMIS:STAT 0')
+            self.parser.parseCommand('MARK:DELT:OFF 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CALC:MEAS:PN:SPUR:OMIS:STAT 1.1')
+            self.parser.parseCommand('MARK:DELT:OFF 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CALC:MEAS:PN:SPUR:OMIS:STAT start')
+            self.parser.parseCommand('MARK:DELT:OFF on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CALC:MEAS:PN:SPUR:OMIS:STAT on on')
+            self.parser.parseCommand('MARK:DELT:OFF 1 3')
 
-    def testParseCommand_SENS_FREQ_STAR_STOP_DATA(self):
-        self.assertEqual(self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 0 0'), ('SENS:FREQ:STAR:STOP:DATA', [0, 0]))
-        self.assertEqual(self.parser.parseCommand('SENS:FREQuency:STAR:STOP:DATA 1000000000 0'), ('SENS:FREQ:STAR:STOP:DATA', [1000000000, 0]))
-        self.assertEqual(self.parser.parseCommand('SENSe:FREQ:STARt:STOP:DATA 0 1000000000'), ('SENS:FREQ:STAR:STOP:DATA', [0, 1000000000]))
+    def testParseCommand_MARK_NOIS_SET(self):
+        self.assertEqual(self.parser.parseCommand('MARK:NOIS:SET 1'), ('MARK:NOIS:SET', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:NOISe:SET 4'), ('MARK:NOIS:SET', [4]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA')
+            self.parser.parseCommand('MARK:NOIS:SET')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 0')
+            self.parser.parseCommand('MARK:NOIS:SET 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 11.1')
+            self.parser.parseCommand('MARK:NOIS:SET 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA data')
+            self.parser.parseCommand('MARK:NOIS:SET 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA -1 0')
+            self.parser.parseCommand('MARK:NOIS:SET off')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 0 -1')
-        with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 1000000001 0')
+            self.parser.parseCommand('MARK:NOIS:SET 1 3')
+
+    def testParseCommand_MARK_NOIS_OFF(self):
+        self.assertEqual(self.parser.parseCommand('MARK:NOIS:OFF 1'), ('MARK:NOIS:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:NOISe:OFF 4'), ('MARK:NOIS:OFF', [4]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 0 1000000001')
+            self.parser.parseCommand('MARK:NOIS:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 0 1.1')
+            self.parser.parseCommand('MARK:NOIS:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 1.1 0')
+            self.parser.parseCommand('MARK:NOIS:OFF 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 1 raw')
+            self.parser.parseCommand('MARK:NOIS:OFF 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA raw 1')
+            self.parser.parseCommand('MARK:NOIS:OFF on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SENS:FREQ:STAR:STOP:DATA 0 1 2')
+            self.parser.parseCommand('MARK:NOIS:OFF 1 3')
 
-    def testParseCommand_SOUR_POW_LEV_IMM_AMPL_OFF(self):
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF 70'), ('SOUR:POW:LEV:IMM:AMPL:OFF', [70]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POWer:LEV:IMM:AMPLlitude:OFF 0'), ('SOUR:POW:LEV:IMM:AMPL:OFF', [0]))
-        self.assertEqual(self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF -70'), ('SOUR:POW:LEV:IMM:AMPL:OFF', [-70]))
+    def testParseCommand_MARK_TRAK_SET(self):
+        self.assertEqual(self.parser.parseCommand('MARK:TRAK:SET       1'), ('MARK:TRAK:SET', [1]))
+        self.assertEqual(self.parser.parseCommand('         MARKer:TRAcKing:SET 4'), ('MARK:TRAK:SET', [4]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF')
+            self.parser.parseCommand('MARK:TRAK:SET')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF -71')
+            self.parser.parseCommand('MARK:TRAK:SET 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF 71')
+            self.parser.parseCommand('MARK:TRAK:SET 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF 3.5')
+            self.parser.parseCommand('MARK:TRAK:SET 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF on')
+            self.parser.parseCommand('MARK:TRAK:SET off')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SOUR:POW:LEV:IMM:AMPL:OFF 20 30')
+            self.parser.parseCommand('MARK:TRAK:SET 1 3')
 
-    def testParseCommand_SYST_VERS(self):
-        self.assertEqual(self.parser.parseCommand('SYST:VERS?'), ('SYST:VERS?', []))
-        self.assertEqual(self.parser.parseCommand('SYSTem:VERSion?'), ('SYST:VERS?', []))
+    def testParseCommand_MARK_TRAK_OFF(self):
+        self.assertEqual(self.parser.parseCommand('MARK:TRAK:OFF 1'), ('MARK:TRAK:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:TRAcKing:OFF 4'), ('MARK:TRAK:OFF', [4]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:TRAK:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS')
+            self.parser.parseCommand('MARK:TRAK:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS? new')
+            self.parser.parseCommand('MARK:TRAK:OFF 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS? 0')
+            self.parser.parseCommand('MARK:TRAK:OFF 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VERS? 1.5')
+            self.parser.parseCommand('MARK:TRAK:OFF on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:TRAK:OFF 1 3')
+
 
-    def testParseCommand_SYST_MODE(self):
-        self.assertEqual(self.parser.parseCommand('SYST:MODE low input'), ('SYST:MODE', ['low', 'input']))
-        self.assertEqual(self.parser.parseCommand('SYSTem:MODE low output'), ('SYST:MODE', ['low', 'output']))
-        self.assertEqual(self.parser.parseCommand('SYST:MODE high input'), ('SYST:MODE', ['high', 'input']))
-        self.assertEqual(self.parser.parseCommand('SYSTem:MODE high output'), ('SYST:MODE', ['high', 'output']))
+    def testParseCommand_MARK_TRAC(self):
+        self.assertEqual(self.parser.parseCommand('MARK:TRAC 1 1'), ('MARK:TRAC', [1, 1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:TRACe 1 3'), ('MARK:TRAC', [1, 3]))
+        self.assertEqual(self.parser.parseCommand('MARK:TRACe 4 1'), ('MARK:TRAC', [4, 1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:TRAC 4  3'), ('MARK:TRAC', [4, 3]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE?')
+            self.parser.parseCommand('MARK:TRAC')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE low')
+            self.parser.parseCommand('MARK:TRAC 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE 1')
+            self.parser.parseCommand('MARK:TRAC 1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE 1.5')
+            self.parser.parseCommand('MARK:TRAC t')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE low low')
+            self.parser.parseCommand('MARK:TRAC 0 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE med input')
+            self.parser.parseCommand('MARK:TRAC 1 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE low 1')
+            self.parser.parseCommand('MARK:TRAC 5 3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE high 1.5')
+            self.parser.parseCommand('MARK:TRAC 4 4')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:MODE low input turbo')
+            self.parser.parseCommand('MARK:TRAC 4 1.5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:TRAC 4 on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:TRAC 1 1 2')
 
-    def testParseCommand_MEAS_SWE_BEG_LOW(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 0 0'), ('MEAS:SWE:BEG:LOW', [0, 0, 0]))
-        self.assertEqual(self.parser.parseCommand('MEASure:SWE:BEG:LOW 350000000 0 0'), ('MEAS:SWE:BEG:LOW', [350000000, 0, 0]))
-        self.assertEqual(self.parser.parseCommand('MEAS:SWEep:BEGin:LOW 0 350000000 0'), ('MEAS:SWE:BEG:LOW', [0, 350000000, 0]))
-        self.assertEqual(self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 0 290'), ('MEAS:SWE:BEG:LOW', [0, 0, 290]))
+    def testParseCommand_MARK_AVER_SET(self):
+        self.assertEqual(self.parser.parseCommand('MARK:AVER:SET 1'), ('MARK:AVER:SET', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:AVERage:SET 4'), ('MARK:AVER:SET', [4]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:AVER:SET')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:AVER:SET 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW')
+            self.parser.parseCommand('MARK:AVER:SET 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 100')
+            self.parser.parseCommand('MARK:AVER:SET 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW range')
+            self.parser.parseCommand('MARK:AVER:SET on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 1.5')
+            self.parser.parseCommand('MARK:AVER:SET 1 3')
+
+    def testParseCommand_MARK_AVER_OFF(self):
+        self.assertEqual(self.parser.parseCommand('MARK:AVER:OFF 1'), ('MARK:AVER:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:AVERage:OFF 4'), ('MARK:AVER:OFF', [4]))
+
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:AVER:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 100 200')
+            self.parser.parseCommand('MARK:AVER:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 100 1.5')
+            self.parser.parseCommand('MARK:AVER:OFF 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 100 on')
+            self.parser.parseCommand('MARK:AVER:OFF 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW -1 0 0')
+            self.parser.parseCommand('MARK:AVER:OFF on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:AVER:OFF 1 3')
+
+
+
+    def testParseCommand_MARK_SRCH_PEAK(self):
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:PEAK 1'), ('MARK:SRCH:PEAK', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:PEAK 4'), ('MARK:SRCH:PEAK', [4]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 -1 0')
+            self.parser.parseCommand('MARK:SRCH:PEAK')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 0 -1')
+            self.parser.parseCommand('MARK:SRCH:PEAK 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 350000001 0 0')
+            self.parser.parseCommand('MARK:SRCH:PEAK 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 350000001 0 0')
+            self.parser.parseCommand('MARK:SRCH:PEAK 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 0 291')
+            self.parser.parseCommand('MARK:SRCH:PEAK on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:LOW 0 0 0 0')
+            self.parser.parseCommand('MARK:SRCH:PEAK 1 3')
 
-    def testParseCommand_MEAS_SWE_BEG_HIGH(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 240000000 0'), ('MEAS:SWE:BEG:HIGH', [240000000, 240000000, 0]))
-        self.assertEqual(self.parser.parseCommand('MEAS:SWEep:BEGin:HIGH 959000000 240000000 0'), ('MEAS:SWE:BEG:HIGH', [959000000, 240000000, 0]))
-        self.assertEqual(self.parser.parseCommand('MEASure:SWE:BEG:HIGH 240000000 959000000 0'), ('MEAS:SWE:BEG:HIGH', [240000000, 959000000, 0]))
-        self.assertEqual(self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 240000000 290'), ('MEAS:SWE:BEG:HIGH', [240000000, 240000000, 290]))
+    def testParseCommand_MARK_SRCH_MINR(self):
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:MINR 1'), ('MARK:SRCH:MINR', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:MINRight 4'), ('MARK:SRCH:MINR', [4]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:SRCH:MINR')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:SRCH:MINR 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:SRCH:MINR 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH')
+            self.parser.parseCommand('MARK:SRCH:MINR 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000')
+            self.parser.parseCommand('MARK:SRCH:MINR on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH range')
+            self.parser.parseCommand('MARK:SRCH:MINR 1 3')
+
+    def testParseCommand_MARK_SRCH_MINL(self):
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:MINL 1'), ('MARK:SRCH:MINL', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:MINLeft 4'), ('MARK:SRCH:MINL', [4]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000.5')
+            self.parser.parseCommand('MARK:SRCH:MINL')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 240000000')
+            self.parser.parseCommand('MARK:SRCH:MINL 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 240000001.5')
+            self.parser.parseCommand('MARK:SRCH:MINL 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 on')
+            self.parser.parseCommand('MARK:SRCH:MINL 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 239999999 0 0')
+            self.parser.parseCommand('MARK:SRCH:MINL on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 0 239999999 0')
+            self.parser.parseCommand('MARK:SRCH:MINL 1 3')
+
+    def testParseCommand_MARK_SRCH_MAXR(self):
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:MAXR 1'), ('MARK:SRCH:MAXR', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:MAXRight 4'), ('MARK:SRCH:MAXR', [4]))
+
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 0 0 -1')
+            self.parser.parseCommand('MARK:SRCH:MAXR')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 959000001 0 0')
+            self.parser.parseCommand('MARK:SRCH:MAXR 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 0 959000001 0 0')
+            self.parser.parseCommand('MARK:SRCH:MAXR 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 0 0 291')
+            self.parser.parseCommand('MARK:SRCH:MAXR 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 240000000 0 0')
+            self.parser.parseCommand('MARK:SRCH:MAXR on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:BEG:HIGH 240000000 240000000 0 959000000')
+            self.parser.parseCommand('MARK:SRCH:MAXR 1 3')
 
-    def testParseCommand_MEAS_SWE_TIME(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:SWE:TIME 0'), ('MEAS:SWE:TIME', [0]))
-        self.assertEqual(self.parser.parseCommand('MEASure:SWEep:TIME 600'), ('MEAS:SWE:TIME', [600]))
+    def testParseCommand_MARK_SRCH_MAXL(self):
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:MAXL 1'), ('MARK:SRCH:MAXL', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:MAXLeft 4'), ('MARK:SRCH:MAXL', [4]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:TIME')
+            self.parser.parseCommand('MARK:SRCH:MAXL')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:TIME -1')
+            self.parser.parseCommand('MARK:SRCH:MAXL 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:TIME 601')
+            self.parser.parseCommand('MARK:SRCH:MAXL 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:TIME 300.5')
+            self.parser.parseCommand('MARK:SRCH:MAXL 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:TIME one')
+            self.parser.parseCommand('MARK:SRCH:MAXL on')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SWE:TIME 1 1')
+            self.parser.parseCommand('MARK:SRCH:MAXL 1 3')
 
-    def testParseCommand_MEAS_SCAN_RAW_START(self):
-        self.assertEqual(self.parser.parseCommand('MEAS:SCAN:RAW:START 0 0 0'), ('MEAS:SCAN:RAW:START', [0, 0, 0]))
-        self.assertEqual(self.parser.parseCommand('MEASure:SCAN:RAW:START 350000000 0 0'), ('MEAS:SCAN:RAW:START', [350000000, 0, 0]))
-        self.assertEqual(self.parser.parseCommand('MEASure:SCAN:RAW:START 0 350000000 0'), ('MEAS:SCAN:RAW:START', [0, 350000000, 0]))
-        self.assertEqual(self.parser.parseCommand('MEAS:SCAN:RAW:START 0 0 2147483647'), ('MEAS:SCAN:RAW:START', [0, 0, 2147483647]))
+    def testParseCommand_MARK_SRCH_FREQ(self):
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:FREQ 0 0'), ('MARK:SRCH:FREQ', [0, 0]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:FREQuency 0 350000000'), ('MARK:SRCH:FREQ', [0, 350000000]))
+        self.assertEqual(self.parser.parseCommand('MARK:SRCH:FREQ 350000000 0'), ('MARK:SRCH:FREQ', [350000000, 0]))
+        self.assertEqual(self.parser.parseCommand('MARKer:SeaRCH:FREQuency 350000000 350000000'), ('MARK:SRCH:FREQ', [350000000, 350000000]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START')
+            self.parser.parseCommand('MARK:SRCH:FREQ')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 100')
+            self.parser.parseCommand('MARK:SRCH:FREQ 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START range')
+            self.parser.parseCommand('MARK:SRCH:FREQ 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 1.5')
+            self.parser.parseCommand('MARK:SRCH:FREQ all')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 100 200')
+            self.parser.parseCommand('MARK:SRCH:FREQ -1 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 100 1.5')
+            self.parser.parseCommand('MARK:SRCH:FREQ 350000001 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 100 on')
+            self.parser.parseCommand('MARK:SRCH:FREQ 0 -1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START -1 0 0')
+            self.parser.parseCommand('MARK:SRCH:FREQ 0 350000001')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 0 -1 0')
+            self.parser.parseCommand('MARK:SRCH:FREQ 0 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 0 0 -1')
+            self.parser.parseCommand('MARK:SRCH:FREQ 0 max')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 350000001 0 0')
+            self.parser.parseCommand('MARK:SRCH:FREQ 0 1 2')
+
+    def testParseCommand_MARK_DEL(self):
+        self.assertEqual(self.parser.parseCommand('MARK:DEL 1'), ('MARK:DEL', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:DELete 4'), ('MARK:DEL', [4]))
+
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DEL')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DEL 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 0 350000001 0 0')
+            self.parser.parseCommand('MARK:DEL 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 0 0 2147483648')
+            self.parser.parseCommand('MARK:DEL 2.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('MEAS:SCAN:RAW:START 0 0 0 0')
+            self.parser.parseCommand('MARK:DEL on')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DEL 1 3')
 
-    def testParseCommand_CAPT(self):
-        self.assertEqual(self.parser.parseCommand('CAPT'), ('CAPT', []))
-        self.assertEqual(self.parser.parseCommand('CAPTure'), ('CAPT', []))
+    def testParseCommand_MARK_RST(self):
+        self.assertEqual(self.parser.parseCommand('MARK:RST'), ('MARK:RST', []))
+        self.assertEqual(self.parser.parseCommand('MARKer:ReSeT'), ('MARK:RST', []))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CAPT?')
+            self.parser.parseCommand('MARK:RST?')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CAPT 1')
+            self.parser.parseCommand('MARK:RST 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CAPT 1.5')
+            self.parser.parseCommand('MARK:RST 3.3')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('CAPT on')
+            self.parser.parseCommand('MARK:RST all')
 
-    def testParseCommand_SYST_THREAD(self):
-        self.assertEqual(self.parser.parseCommand('SYST:THREAD?'), ('SYST:THREAD?', []))
-        self.assertEqual(self.parser.parseCommand('SYSTem:THREADs?'), ('SYST:THREAD?', []))
+    def testParseCommand_MARK_DIFF(self):
+        self.assertEqual(self.parser.parseCommand('MARK:DIFF 1 1'), ('MARK:DIFF', [1, 1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:DIFFerence 1 4'), ('MARK:DIFF', [1, 4]))
+        self.assertEqual(self.parser.parseCommand('MARK:DIFFer 4 1'), ('MARK:DIFF', [4, 1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:DIFF 4  4'), ('MARK:DIFF', [4, 4]))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF 1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF 1.1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:THREAD')
+            self.parser.parseCommand('MARK:DIFF none')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:THREAD? 1')
+            self.parser.parseCommand('MARK:DIFF 0 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:THREAD? 1.5')
+            self.parser.parseCommand('MARK:DIFF 1 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:THREAD? all')
+            self.parser.parseCommand('MARK:DIFF 5 4')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF 4 5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF 4 1.5')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF 4 None')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('MARK:DIFF 1 1 2')
 
-    def testParseCommand_SYST_VOLT_DC_OFFS(self):
-        self.assertEqual(self.parser.parseCommand('SYST:VOLT:DC:OFFS 0'), ('SYST:VOLT:DC:OFFS', [0]))
-        self.assertEqual(self.parser.parseCommand('SYST:VOLTage:DC:OFFSet 4095'), ('SYST:VOLT:DC:OFFS', [4095]))
+    def testParseCommand_MARK_DIFF_OFF(self):
+        self.assertEqual(self.parser.parseCommand('MARK:DIFF:OFF 1'), ('MARK:DIFF:OFF', [1]))
+        self.assertEqual(self.parser.parseCommand('MARKer:DIFFerence:OFF 4'), ('MARK:DIFF:OFF', [4]))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VOLT:DC:OFFS')
+            self.parser.parseCommand('MARK:DIFF:OFF')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VOLT:DC:OFFS -1')
+            self.parser.parseCommand('MARK:DIFF:OFF 0')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VOLT:DC:OFFS 4096')
+            self.parser.parseCommand('MARK:DIFF:OFF 5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VOLT:DC:OFFS 5.2')
+            self.parser.parseCommand('MARK:DIFF:OFF 1.5')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VOLT:DC:OFFS default')
+            self.parser.parseCommand('MARK:DIFF:OFF off')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('SYST:VOLT:DC:OFFS 1 2')
+            self.parser.parseCommand('MARK:DIFF:OFF 1 3')
 
-    def testParseResult(self):
-        self.assertEqual(1, 1)
-        #TODO: Unimplemented Method Stub
 
 
+    def testParseCommand_CONF_CAPT(self):
+        self.assertEqual(self.parser.parseCommand('CONF:CAPT'), ('CONF:CAPT', []))
+        self.assertEqual(self.parser.parseCommand('CONFigure:CAPTure'), ('CONF:CAPT', []))
 
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('CONF:CAPT?')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('CONF:CAPT 0')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('CONF:CAPT 1.1')
+        with self.assertRaises(Exception):
+            self.parser.parseCommand('CONF:CAPT on')
 
 
 if __name__ == '__main__':
