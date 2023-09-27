@@ -39,7 +39,7 @@ FREQuency:
 
 	SPAN:ZERO
 		arguments: none
-                Sets the span to zero
+		Sets the span to zero
 
 	RBW
 		arguments: One of the following values: [3 | 10 | 30 | 100  | 300 | 600]
