@@ -2,7 +2,7 @@ import datetime
 import struct
 import sys
 import time
-import helpers
+from . import helpers
 
 import numpy
 import numpy as np
