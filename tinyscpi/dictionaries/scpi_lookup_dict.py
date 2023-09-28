@@ -1,7 +1,6 @@
 from tinyscpi import scpi_functional as sf
 
 SCPILookUpTable = {
-
     # Standard SCPI Commands
     '*IDN?': 'info',
     '*TST?': 'selftest',
@@ -30,7 +29,7 @@ SCPILookUpTable = {
     'FREQ:RBW': 'rbw',
     'FREQ:RBW:AUTO': 'rbw auto',
     'FREQ:DUMP': 'frequencies',
-
+  
     # LEVEL subsystem
     'LEVEL:ATT': 'attenuate',
     'LEVEL:ATT:AUTO': 'attenuate auto',
@@ -55,28 +54,32 @@ SCPILookUpTable = {
     # DISPlay subsystem
     'DISP:PAUSE': 'pause',
     'DISP:RESUME': 'resume',
-    'DISP:REFR': 'resume',
+    'DISP:REFRESH': 'resume',
     'DISP:COLOR?': 'color',
     'DISP:TIME': 'sweeptime',
     'DISP:COLOR': 'color',
     'DISP:CAPT': sf.SCPI_functional.takeScreenshot,
     'DISP:TOUCH:PUSH': 'touch',
     'DISP:TOUCH:RELE': 'release',
-
-    # MARKer Subsystem
+    'DISP:SPUR': 'spur',
+  
+    # Marker Subsystem
+    'MARK:FREQ': 'marker [src] [dst]',
     'MARK:DELT': 'marker [src] delta [dst]',
     'MARK:DELT:OFF': 'marker [src] delta off',
     'MARK:NOIS:SET': 'marker [src] noise on',
     'MARK:NOIS:OFF': 'marker [src] noise off',
-    # 'MARK:TRAKING': [['int', 1, 4]],
-    # 'MARK:TRAC': [['int', 1, 4], ['int', 1, 3]],
-    # 'MARK:AVER': [['int', 1, 4]],
+    'MARK:TRAK:SET': 'marker [src] tracking on',
+    'MARK:TRAK:OFF': 'marker [src] tracking off',
+    'MARK:TRAC': 'marker [src] trace [dst]',
+    'MARK:AVER:SET': 'marker [src] trace_aver on',
+    'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
+    'MARK:DEL': 'marker [src] off',
     # 'MARK:SRCH:MINR': [['int', 1, 4]],
     # 'MARK:SRCH:MINL': [['int', 1, 4]],
     # 'MARK:SRCH:MAXR': [['int', 1, 4]],
     # 'MARK:SRCH:MAXL': [['int', 1, 4]],
     # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
-    'MARK:DEL': 'marker [src] off',
-    # 'MARK:RST': [],
+    # TODO: Fill in the rest of this
 }
