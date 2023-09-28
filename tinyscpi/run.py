@@ -2,7 +2,7 @@ from . import tinySCPI
 
 
 def main():
-    print(tinySCPI.userInput("TRAC:FREZ:ON 1"))
+    tinySCPI.executeFromFile("script.txt")
 
 
 if __name__ == "__main__":

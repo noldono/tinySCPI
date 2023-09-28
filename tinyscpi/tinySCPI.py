@@ -21,6 +21,15 @@ def debugInput(input: str) -> str:
     return functional.send(input)
 
 
+def executeFromFile(filepath: str) -> None:
+    with open(filepath, "r") as file:
+        list_of_cmds = []
+        for line in file:
+            list_of_cmds.append(line)
+        for cmd in list_of_cmds:
+            print(userInput(cmd.replace("\n", "")))
+    file.close()
+
 def capture(filename: str) -> str:
     parser = scpi_parser.SCPI_Parser()
     functional = scpi_functional.SCPI_functional()

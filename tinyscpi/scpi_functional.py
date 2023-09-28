@@ -77,6 +77,7 @@ class SCPI_functional:
             except Exception as e:
                 return f"Error sending commmand '{command}': {str(e)}"
 
+
     # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
     def takeScreenshot(self, filename: str = "capture"):
         try:
