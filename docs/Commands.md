@@ -21,19 +21,19 @@
 - Only the uppercase letters in the command are needed. So ```FREQ:START``` would work. ```FREQuencyyyyy:START``` would also work too as the parser removes any lowercase letters
 ```
 FREQuency:
-	START
+	START [0M-350M]
 		arguments: A frequency between 0 and 350MHz [0M-350M]
 		Sets starting frequency
 
-	STOP
+	STOP [0M-350M]
 		arguments: A frequency between 0 and 350MHz [0M-350M]
 		Sets stopping frequency 
 
-	CENTer
+	CENTer [0M-350M]
 		arguments: A frequency between 0 and 350MHz [0M-350M]
 		Sets the center frequency 
 
-	SPAN
+	SPAN [0-290]
 		arguments: Integer value between 0 and 290
 		Description still pending
 
@@ -41,7 +41,7 @@ FREQuency:
 		arguments: none
 		Sets the span to zero
 
-	RBW
+	RBW [3 | 10 | 30 | 100  | 300 | 600]
 		arguments: One of the following values: [3 | 10 | 30 | 100  | 300 | 600]
 		Sets the resolution bandwidth to 3k, 10k, 30k, etc.
 
