@@ -5,7 +5,6 @@ validCommandTable = {
                      '*CLR': [],
                      '*TST?': [],
                      '*HLP': [],
-                     'CAPT': [],
 
                      # FREQuency Subsystem
                      'FREQ:START': [['int', 0, 350000000]],
@@ -45,6 +44,7 @@ validCommandTable = {
                      'DISP:COLOR': [['int', 0, 31], ['hex']], #TODO: double check int range
                      'DISP:TIME': [['int', 0, 10]], # TODO: double check range
                      'DISP:SPUR': [['bool']],
+                     'DISP:CAPT': [],
 
                      # MARKer Subsystem
                      'MARK:DIFF': [['int', 1, 4], ['int', 1, 4]],
