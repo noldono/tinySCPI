@@ -10,8 +10,6 @@ import serial
 from PIL import Image
 from serial.tools import list_ports
 
-import tinyscpi.tinySCPI
-
 
 class SCPI_functional:
     def __init__(self):
