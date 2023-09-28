@@ -62,7 +62,7 @@ class SCPI_functional:
             usb_cmd += ' '
 
         print("Running " + usb_cmd)
-        return usb_cmd
+        return usb_cmd.strip()
 
     def send(self, command) -> None:
         if not callable(command):
