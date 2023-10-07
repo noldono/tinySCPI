@@ -1,8 +1,9 @@
 from . import tinySCPI
+from . import scpi_functional
 
 
 def main():
-    tinySCPI.executeFromFile("script.txt")
+    tinySCPI.userInput('SYST:STEST')
 
 
 if __name__ == "__main__":

@@ -152,3 +152,16 @@ class SCPI_functional:
             return dBm_power
         except Exception as e:
             return f"Error sending capture command: {str(e)}"
+
+    def selftest(self):
+        try:
+            self.send('selftest 0')
+
+            time.sleep(30) # Test can take up to 30 seconds to complete
+
+            self.send('touch 0 0')
+            self.send('release')
+        except Exception as e:
+            return f"Error sending selftest command: {str(e)}"
+
+

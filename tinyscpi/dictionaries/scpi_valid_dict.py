@@ -6,6 +6,20 @@ validCommandTable = {
                      '*TST?': [],
                      '*HLP': [],
 
+                     # SYSTem Subsystem
+    # TODO: Update these
+                     'SYST:DAC': [],
+                     'SYST:ID': [],
+                     'SYST:VERS': [],
+                     'SYST:MODE': [],
+                     'SYST:VBAT': [],
+                     'SYST:SAVE': [],
+                     'SYST:SCONF': [],
+                     'SYST:TCAL': [],
+                     'SYST:TTEST': [],
+                     'SYST:THRE': [],
+                     'SYST:STEST': [],
+
                      # FREQuency Subsystem
                      'FREQ:START': [['int', 0, 350000000]],
                      'FREQ:STOP': [['int', 0, 350000000]],

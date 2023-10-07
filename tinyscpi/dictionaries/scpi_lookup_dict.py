@@ -19,6 +19,7 @@ SCPILookUpTable = {
     'SYST:TCAL': 'touchcal',
     'SYST:TTEST': 'touchtest',
     'SYST:THRE': 'threads',
+    'SYST:STEST': sf.SCPI_functional.selftest,
 
     # FREQuency subsystem
     'FREQ:START': 'sweep start',
