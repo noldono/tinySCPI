@@ -4,7 +4,7 @@ from . import tinySCPI
 
 
 def main():
-    print(tinySCPI.userInput('SYST:CLRCONF'))
+    print(tinySCPI.userInput('OUT:CALI 4'))
 
 
 if __name__ == "__main__":

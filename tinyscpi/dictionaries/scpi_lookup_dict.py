@@ -67,6 +67,19 @@ SCPILookUpTable = {
     'DISP:TOUCH:PUSH': 'touch',
     'DISP:TOUCH:RELE': 'release',
     'DISP:SPUR': 'spur',
+
+    # OUTput Subsystem
+    'OUT:LEV': 'level',
+    'OUT:LEVO:LOW': 'leveloffset low',
+    'OUT:LEVO:HIGH': 'leveloffset high',
+    'OUT:LEVO:SWIT': 'leveloffset switch',
+    'OUT:LEVCH': 'levelchange',
+    'OUT:MOD': 'modulation',
+    'OUT:MOD:FREQ': 'modulation freq',
+    'OUT:ON': 'output on',
+    'OUT:OFF': 'output off',
+    'OUT:CALI:OFF': 'caloutput off',
+    'OUT:CALI': 'caloutput',
   
     # Marker Subsystem
     'MARK:FREQ': 'marker [src] [dst]',

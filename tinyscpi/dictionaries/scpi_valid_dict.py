@@ -63,6 +63,19 @@ validCommandTable = {
                      'DISP:SPUR': [['bool']],
                      'DISP:CAPT': [],
 
+                     # OUTput Subsystem
+                     'OUT:LEV': [['int', -76, 13]],
+                     'OUT:LEVO:LOW': [['int', -70, 70]],
+                     'OUT:LEVO:HIGH': [['int', -70, 70]],
+                     'OUT:LEVO:SWIT': [['int', -70, 70]],
+                     'OUT:LEVCH': [['int', -70, 70]],
+                     'OUT:MOD': [['str', 'off', 'am', 'nfm', 'wfm', 'extern']],
+                     'OUT:MOD:FREQ': [['int', 100, 6000]],
+                     'OUT:ON': [],
+                     'OUT:OFF': [],
+                     'OUT:CALI:OFF': [],
+                     'OUT:CALI': [['str', '30', '15', '10', '4', '3', '2', '1']],
+
                      # MARKer Subsystem
                      'MARK:DIFF': [['int', 1, 4], ['int', 1, 4]],
                      'MARK:DIFF:OFF': [['int', 1, 4]],
