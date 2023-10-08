@@ -1,8 +1,10 @@
+import time
+
 from . import tinySCPI
 
 
 def main():
-    tinySCPI.executeFromFile("script.txt")
+    print(tinySCPI.userInput('SYST:CLRCONF'))
 
 
 if __name__ == "__main__":

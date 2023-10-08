@@ -12,13 +12,16 @@ SCPILookUpTable = {
     'SYST:DAC': 'dac',
     'SYST:ID': 'deviceid',
     'SYST:VERS': 'version',
-    'SYST:MODE': 'mode',
+    'SYST:MODE:LOW': 'mode',
+    'SYST:MODE:HIGH': 'mode',
+    'SYST:OFFS': 'vbat_offset',
     'SYST:VBAT': 'vbat',
     'SYST:SAVE': 'save',
     'SYST:SCONF': 'saveconfig',
     'SYST:TCAL': 'touchcal',
     'SYST:TTEST': 'touchtest',
     'SYST:THRE': 'threads',
+    'SYST:CLRCONF': 'clearconfig 1234',
 
     # FREQuency subsystem
     'FREQ:START': 'sweep start',
@@ -29,6 +32,8 @@ SCPILookUpTable = {
     'FREQ:RBW': 'rbw',
     'FREQ:RBW:AUTO': 'rbw auto',
     'FREQ:DUMP': 'frequencies',
+    'FREQ:IF:AUTO': 'if 0',
+    'FREQ:IF': 'if',
   
     # LEVEL subsystem
     'LEVEL:ATT': 'attenuate',

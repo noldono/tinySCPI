@@ -6,6 +6,21 @@ validCommandTable = {
                      '*TST?': [],
                      '*HLP': [],
 
+                     # SYSTem Subtree
+                     'SYST:DAC': [],
+                     'SYST:ID': [],
+                     'SYST:VERS': [],
+                     'SYST:MODE:LOW': [['str', 'input', 'output']],
+                     'SYST:MODE:HIGH': [['str', 'input', 'output']],
+                     'SYST:VBAT': [],
+                     'SYST:SAVE': [['int', 0, 4]],
+                     'SYST:SCONF': [],
+                     'SYST:TCAL': [],
+                     'SYST:TTEST': [],
+                     'SYST:THRE': [],
+                     'SYST:OFFS': [['int', 0, 4095]],
+                     'SYST:CLRCONF': [],
+
                      # FREQuency Subsystem
                      'FREQ:START': [['int', 0, 350000000]],
                      'FREQ:STOP': [['int', 0, 350000000]],
@@ -15,6 +30,8 @@ validCommandTable = {
                      'FREQ:RBW': [['str', '3', '10', '30', '100', '300', '600']],
                      'FREQ:RBW:AUTO': [],
                      'FREQ:DUMP': [],
+                     'FREQ:IF:AUTO': [],
+                     'FREQ:IF': [['int', 433000000, 435000000]],
 
                      # LeVeL Subsystem
                      'LVL:ATT': [['int', 0, 30]],
