@@ -41,16 +41,16 @@ SCPILookUpTable = {
     'FREQ:IF:AUTO': 'if 0',
     'FREQ:IF': 'if',
   
-    # LEVEL subsystem
-    'LEVEL:ATT': 'attenuate',
-    'LEVEL:ATT:AUTO': 'attenuate auto',
-    'LEVEL:ATT?': 'attenuate',
-    'LEVEL:REF': 'trace reflevel',
-    'LEVEL:REF:AUTO': 'trace reflevel auto',
-    'LEVEL:SCAL': 'trace scale',
-    'LEVEL:SCAL:AUTO': 'trace scale auto',
-    'LEVEL:UNIT': 'trace',
-    'LEVEL:EXT': 'ext_gain',
+    # LVL subsystem
+    'LVL:ATT': 'attenuate',
+    'LVL:ATT:AUTO': 'attenuate auto',
+    'LVL:ATT?': 'attenuate',
+    'LVL:REF': 'trace reflevel',
+    'LVL:REF:AUTO': 'trace reflevel auto',
+    'LVL:SCAL': 'trace scale',
+    'LVL:SCAL:AUTO': 'trace scale auto',
+    'LVL:UNIT': 'trace',
+    'LVL:XGAIN': 'ext_gain',
 
     # TRACe subsystem
     'TRAC:FREZ:ON': 'trace [src] freeze on',
@@ -67,7 +67,7 @@ SCPILookUpTable = {
     'DISP:RESUME': 'resume',
     'DISP:REFRESH': 'resume',
     'DISP:COLOR?': 'color',
-    'DISP:TIME': 'sweeptime',
+    'DISP:SWEEPTIME': 'sweeptime',
     'DISP:COLOR': 'color',
     'DISP:CAPT': sf.SCPI_functional.takeScreenshot,
     'DISP:TOUCH:PUSH': 'touch',
@@ -110,6 +110,8 @@ SCPILookUpTable = {
 
     # Measure subsystem
     'MEAS:DUMP' : 'data',
+
+    # TODO: Measure Subsystem
 
     #Config subsystem
     'CONF:CALC' : 'calc',
