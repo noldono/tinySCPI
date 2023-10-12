@@ -115,10 +115,12 @@ validCommandTable = {
                      'MARK:DIFF:OFF': [['int', 1, 4]],
 
                      # MEASure Subsystem
+                     'MEAS:DUMP' :[['int', 0, 2]],
                      #TODO: MEASure section
 
                      # CONFiguration Subsystem
                      'CONF:CAPT': [],
+                     'CONF:CALC' : [['str', 'off', 'minh', 'maxh', 'maxd', 'aver4' , 'aver16' , 'quasip']],
                      'CONF:CORR:LOW' : [['int', 0, 19], ['int', 0, 999999999], ['int', 0, 999999999]],
                      'CONF:CORR:HIGH' :[['int', 0, 19], ['int', 0, 999999999], ['int', 0, 999999999]],
 

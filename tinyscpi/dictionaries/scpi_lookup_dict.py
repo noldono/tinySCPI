@@ -103,7 +103,12 @@ SCPILookUpTable = {
     # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
     # TODO: Fill in the rest of this
 
+
+    # Measure subsystem
+    'MEAS:DUMP' : 'data',
+
     #Config subsystem
+    'CONF:CALC' : 'calc',
     'CONF:CORR:LOW' : 'correction low',
     'CONF:CORR:HIGH' : 'correction high',
 }

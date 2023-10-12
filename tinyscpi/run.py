@@ -4,7 +4,7 @@ from . import tinySCPI
 
 
 def main():
-    print(tinySCPI.userInput('OUT:CALI 4'))
+    print(tinySCPI.executeFromFile('script.txt'))
 
 
 if __name__ == "__main__":
