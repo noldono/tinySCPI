@@ -47,16 +47,16 @@ class ParserTestCase(unittest.TestCase):
             self.parser.parseCommand('*CLR 3.5')
 
     def testParseCommand_TST(self) -> None:
-        self.assertEqual(self.parser.parseCommand('*TST'), ('*TST', []))
+        self.assertEqual(self.parser.parseCommand('*TST?'), ('*TST?', []))
 
         with self.assertRaises(Exception):
-            self.parser.parseCommand('*TST?')
+            self.parser.parseCommand('*TST')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('*TST all')
+            self.parser.parseCommand('*TST? all')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('*TST 1')
+            self.parser.parseCommand('*TST? 1')
         with self.assertRaises(Exception):
-            self.parser.parseCommand('*TST 3.3')
+            self.parser.parseCommand('*TST? 3.3')
 
     def testParseCommand_HLP(self) -> None:
         self.assertEqual(self.parser.parseCommand('*HLP'), ('*HLP', []))

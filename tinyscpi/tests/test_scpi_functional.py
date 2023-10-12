@@ -34,7 +34,7 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convertSCPItoUSB('*CLR', [])
         self.assertEqual(result, 'clearconfig')
         # '*TST'
-        result = self.functional.convertSCPItoUSB('*TST', [])
+        result = self.functional.convertSCPItoUSB('*TST?', [])
         self.assertEqual(result, 'selftest')
         # '*HLP'
         result = self.functional.convertSCPItoUSB('*HLP', [])
@@ -278,13 +278,13 @@ class FunctionalTestCase(unittest.TestCase):
         self.assertEqual(result, 'resume')
         # 'DISP:COLOR 0 0x000000'
         result = self.functional.convertSCPItoUSB('DISP:COLOR', [0, 0x000000])
-        self.assertEqual(result, 'color 0 0x000000')
+        self.assertEqual(result, 'color 0 0')
         # 'DISPlay:COLOR 30 0x000000'
         result = self.functional.convertSCPItoUSB('DISP:COLOR', [30, 0x000000])
-        self.assertEqual(result, 'color 30 0x000000')
+        self.assertEqual(result, 'color 30 0')
         # 'DISP:COLOR 0 0xffffff'
         result = self.functional.convertSCPItoUSB('DISP:COLOR', [0, 0xffffff])
-        self.assertEqual(result, 'color 0 0xffffff')
+        self.assertEqual(result, 'color 0 16777215')
         # 'DISP:SWEEPTIME 0'
         result = self.functional.convertSCPItoUSB('DISP:SWEEPTIME', [0])
         self.assertEqual(result, 'sweeptime 0')
@@ -292,8 +292,10 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convertSCPItoUSB('DISP:SWEEPTIME', [10])
         self.assertEqual(result, 'sweeptime 10')
         # 'DISPlay:SPUR OFF'
-        result = self.functional.convertSCPItoUSB('DISP:SPUR', ['OFF'])
+        result = self.functional.convertSCPItoUSB('DISP:SPUR', [False])
         self.assertEqual(result, 'spur off')
+        result = self.functional.convertSCPItoUSB('DISP:SPUR', [True])
+        self.assertEqual(result, 'spur on')
 
     def testConvertSCPItoUSB_MARK(self):
         # 'MARK:FREQ 1   0'
@@ -372,6 +374,8 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convertSCPItoUSB('MARK:AVER:OFF', [1])
         self.assertEqual(result, 'marker 1 trace_aver off')
         # 'MARKer:AVERage:OFF 4'
+        result = self.functional.convertSCPItoUSB('MARK:AVER:OFF', [4])
+        self.assertEqual(result, 'marker 4 trace_aver off')
         result = self.functional.convertSCPItoUSB('MARK:AVER:OFF', [4])
         self.assertEqual(result, 'marker 4 trace_aver off')
 
