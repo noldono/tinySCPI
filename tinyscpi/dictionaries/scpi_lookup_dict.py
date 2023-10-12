@@ -29,6 +29,9 @@ SCPILookUpTable = {
     'FREQ:RBW': 'rbw',
     'FREQ:RBW:AUTO': 'rbw auto',
     'FREQ:DUMP': 'frequencies',
+    'FREQ:SCAN:FREQ': 'scan [src] [dst] 280 1',
+    'FREQ:SCAN:MEAS': 'scan [src] [dst] 280 2',
+    'FREQ:SCAN:STOR': 'scan [src] [dst] 280 4',
   
     # LEVEL subsystem
     'LEVEL:ATT': 'attenuate',
