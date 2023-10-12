@@ -12,13 +12,18 @@ SCPILookUpTable = {
     'SYST:DAC': 'dac',
     'SYST:ID': 'deviceid',
     'SYST:VERS': 'version',
-    'SYST:MODE': 'mode',
+    'SYST:MODE:LOW:IN': 'mode',
+    'SYST:MODE:LOW:OUT': 'mode',
+    'SYST:MODE:HIGH:IN': 'mode',
+    'SYST:MODE:HIGH:OUT': 'mode',
+    'SYST:OFFS': 'vbat_offset',
     'SYST:VBAT': 'vbat',
     'SYST:SAVE': 'save',
     'SYST:SCONF': 'saveconfig',
     'SYST:TCAL': 'touchcal',
     'SYST:TTEST': 'touchtest',
     'SYST:THRE': 'threads',
+    'SYST:CLRCONF': 'clearconfig 1234',
 
     # FREQuency subsystem
     'FREQ:START': 'sweep start',
@@ -32,6 +37,9 @@ SCPILookUpTable = {
     'FREQ:SCAN:FREQ': 'scan [src] [dst] 280 1',
     'FREQ:SCAN:MEAS': 'scan [src] [dst] 280 2',
     'FREQ:SCAN:STOR': 'scan [src] [dst] 280 4',
+
+    'FREQ:IF:AUTO': 'if 0',
+    'FREQ:IF': 'if',
   
     # LEVEL subsystem
     'LEVEL:ATT': 'attenuate',
@@ -65,6 +73,19 @@ SCPILookUpTable = {
     'DISP:TOUCH:PUSH': 'touch',
     'DISP:TOUCH:RELE': 'release',
     'DISP:SPUR': 'spur',
+
+    # OUTput Subsystem
+    'OUT:LEV': 'level',
+    'OUT:LEVO:LOW': 'leveloffset low',
+    'OUT:LEVO:HIGH': 'leveloffset high',
+    'OUT:LEVO:SWIT': 'leveloffset switch',
+    'OUT:LEVCH': 'levelchange',
+    'OUT:MOD': 'modulation',
+    'OUT:MOD:FREQ': 'modulation freq',
+    'OUT:ON': 'output on',
+    'OUT:OFF': 'output off',
+    'OUT:CALI:OFF': 'caloutput off',
+    'OUT:CALI': 'caloutput',
   
     # Marker Subsystem
     'MARK:FREQ': 'marker [src] [dst]',
@@ -85,4 +106,13 @@ SCPILookUpTable = {
     # 'MARK:SRCH:MAXL': [['int', 1, 4]],
     # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
     # TODO: Fill in the rest of this
+
+
+    # Measure subsystem
+    'MEAS:DUMP' : 'data',
+
+    #Config subsystem
+    'CONF:CALC' : 'calc',
+    'CONF:CORR:LOW' : 'correction low',
+    'CONF:CORR:HIGH' : 'correction high',
 }
