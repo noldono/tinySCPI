@@ -115,6 +115,7 @@ validCommandTable = {
                      'MARK:DIFF:OFF': [['int', 1, 4]],
 
                      # MEASure Subsystem
+                     'MEAS:DUMP' :[['int', 0, 2]],
                      #TODO: MEASure section
 
                      # CONFiguration Subsystem
