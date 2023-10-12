@@ -86,6 +86,8 @@ validCommandTable = {
                      #TODO: MEASure section
 
                      # CONFiguration Subsystem
-                     'CONF:CAPT': []
+                     'CONF:CAPT': [],
+                     'CONF:CORR:LOW' : [['int', 0, 19], ['int', 0, 999999999], ['int', 0, 999999999]],
+                     'CONF:CORR:HIGH' :[['int', 0, 19], ['int', 0, 999999999], ['int', 0, 999999999]],
 
                     }
