@@ -34,6 +34,10 @@ SCPILookUpTable = {
     'FREQ:RBW': 'rbw',
     'FREQ:RBW:AUTO': 'rbw auto',
     'FREQ:DUMP': 'frequencies',
+    'FREQ:SCAN:FREQ': 'scan [src] [dst] 280 1',
+    'FREQ:SCAN:MEAS': 'scan [src] [dst] 280 2',
+    'FREQ:SCAN:STOR': 'scan [src] [dst] 280 4',
+
     'FREQ:IF:AUTO': 'if 0',
     'FREQ:IF': 'if',
   

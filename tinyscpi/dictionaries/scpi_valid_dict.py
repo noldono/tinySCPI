@@ -32,6 +32,11 @@ validCommandTable = {
                      'FREQ:RBW': [['str', '3', '10', '30', '100', '300', '600']],
                      'FREQ:RBW:AUTO': [],
                      'FREQ:DUMP': [],
+                      #Scan commands may may need to be changed, but function accordingly should appropriate freq range be used 
+                     'FREQ:SCAN:FREQ': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+                     'FREQ:SCAN:MEAS': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+                     'FREQ:SCAN:STOR': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+
                      'FREQ:IF:AUTO': [],
                      'FREQ:IF': [['int', 433000000, 435000000]],
 
