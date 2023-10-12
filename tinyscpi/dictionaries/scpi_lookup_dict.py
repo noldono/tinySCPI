@@ -108,6 +108,7 @@ SCPILookUpTable = {
     'MEAS:DUMP' : 'data',
 
     #Config subsystem
+    'CONF:CALC' : 'calc',
     'CONF:CORR:LOW' : 'correction low',
     'CONF:CORR:HIGH' : 'correction high',
 }
