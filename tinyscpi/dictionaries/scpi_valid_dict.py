@@ -6,19 +6,23 @@ validCommandTable = {
                      '*TST?': [],
                      '*HLP': [],
 
-                     # SYSTem Subsystem
-    # TODO: Update these
+                     # SYSTem Subtree
                      'SYST:DAC': [],
                      'SYST:ID': [],
                      'SYST:VERS': [],
-                     'SYST:MODE': [],
+                     'SYST:MODE:LOW:IN': [],
+                     'SYST:MODE:HIGH:IN': [],
+                     'SYST:MODE:LOW:OUT': [],
+                     'SYST:MODE:HIGH:OUT': [],
                      'SYST:VBAT': [],
-                     'SYST:SAVE': [],
+                     'SYST:SAVE': [['int', 0, 4]],
                      'SYST:SCONF': [],
                      'SYST:TCAL': [],
                      'SYST:TTEST': [],
                      'SYST:THRE': [],
                      'SYST:STEST': [],
+                     'SYST:OFFS': [['int', 0, 4095]],
+                     'SYST:CLRCONF': [],
 
                      # FREQuency Subsystem
                      'FREQ:START': [['int', 0, 350000000]],
@@ -29,6 +33,13 @@ validCommandTable = {
                      'FREQ:RBW': [['str', '3', '10', '30', '100', '300', '600']],
                      'FREQ:RBW:AUTO': [],
                      'FREQ:DUMP': [],
+                      #Scan commands may may need to be changed, but function accordingly should appropriate freq range be used 
+                     'FREQ:SCAN:FREQ': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+                     'FREQ:SCAN:MEAS': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+                     'FREQ:SCAN:STOR': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+
+                     'FREQ:IF:AUTO': [],
+                     'FREQ:IF': [['int', 433000000, 435000000]],
 
                      # LeVeL Subsystem
                      'LVL:ATT': [['int', 0, 30]],
@@ -59,6 +70,19 @@ validCommandTable = {
                      'DISP:SWEEPTIME': [['int', 0, 10]], # TODO: double check range
                      'DISP:SPUR': [['bool']],
                      'DISP:CAPT': [],
+
+                     # OUTput Subsystem
+                     'OUT:LEV': [['int', -76, 13]],
+                     'OUT:LEVO:LOW': [['int', -70, 70]],
+                     'OUT:LEVO:HIGH': [['int', -70, 70]],
+                     'OUT:LEVO:SWIT': [['int', -70, 70]],
+                     'OUT:LEVCH': [['int', -70, 70]],
+                     'OUT:MOD': [['str', 'off', 'am', 'nfm', 'wfm', 'extern']],
+                     'OUT:MOD:FREQ': [['int', 100, 6000]],
+                     'OUT:ON': [],
+                     'OUT:OFF': [],
+                     'OUT:CALI:OFF': [],
+                     'OUT:CALI': [['str', '30', '15', '10', '4', '3', '2', '1']],
 
                      # MARKer Subsystem
                      'MARK:DIFF': [['int', 1, 4], ['int', 1, 4]],
@@ -97,9 +121,13 @@ validCommandTable = {
                      'MARK:DIFF:OFF': [['int', 1, 4]],
 
                      # MEASure Subsystem
+                     'MEAS:DUMP' :[['int', 0, 2]],
                      #TODO: MEASure section
 
                      # CONFiguration Subsystem
-                     'CONF:CAPT': []
+                     'CONF:CAPT': [],
+                     'CONF:CALC' : [['str', 'off', 'minh', 'maxh', 'maxd', 'aver4' , 'aver16' , 'quasip']],
+                     'CONF:CORR:LOW' : [['int', 0, 19], ['int', 0, 999999999], ['int', 0, 999999999]],
+                     'CONF:CORR:HIGH' :[['int', 0, 19], ['int', 0, 999999999], ['int', 0, 999999999]],
 
                     }

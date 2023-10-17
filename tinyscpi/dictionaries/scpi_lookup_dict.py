@@ -12,7 +12,11 @@ SCPILookUpTable = {
     'SYST:DAC': 'dac',
     'SYST:ID': 'deviceid',
     'SYST:VERS': 'version',
-    'SYST:MODE': 'mode',
+    'SYST:MODE:LOW:IN': 'mode',
+    'SYST:MODE:LOW:OUT': 'mode',
+    'SYST:MODE:HIGH:IN': 'mode',
+    'SYST:MODE:HIGH:OUT': 'mode',
+    'SYST:OFFS': 'vbat_offset',
     'SYST:VBAT': 'vbat',
     'SYST:SAVE': 'save',
     'SYST:SCONF': 'saveconfig',
@@ -20,6 +24,7 @@ SCPILookUpTable = {
     'SYST:TTEST': 'touchtest',
     'SYST:THRE': 'threads',
     'SYST:STEST': sf.SCPI_functional.selftest,
+    'SYST:CLRCONF': 'clearconfig 1234',
 
     # FREQuency subsystem
     'FREQ:START': 'sweep start',
@@ -30,17 +35,23 @@ SCPILookUpTable = {
     'FREQ:RBW': 'rbw',
     'FREQ:RBW:AUTO': 'rbw auto',
     'FREQ:DUMP': 'frequencies',
+    'FREQ:SCAN:FREQ': 'scan [src] [dst] 280 1',
+    'FREQ:SCAN:MEAS': 'scan [src] [dst] 280 2',
+    'FREQ:SCAN:STOR': 'scan [src] [dst] 280 4',
+
+    'FREQ:IF:AUTO': 'if 0',
+    'FREQ:IF': 'if',
   
-    # LEVEL subsystem
-    'LEVEL:ATT': 'attenuate',
-    'LEVEL:ATT:AUTO': 'attenuate auto',
-    'LEVEL:ATT?': 'attenuate',
-    'LEVEL:REF': 'trace reflevel',
-    'LEVEL:REF:AUTO': 'trace reflevel auto',
-    'LEVEL:SCAL': 'trace scale',
-    'LEVEL:SCAL:AUTO': 'trace scale auto',
-    'LEVEL:UNIT': 'trace',
-    'LEVEL:EXT': 'ext_gain',
+    # LVL subsystem
+    'LVL:ATT': 'attenuate',
+    'LVL:ATT:AUTO': 'attenuate auto',
+    'LVL:ATT?': 'attenuate',
+    'LVL:REF': 'trace reflevel',
+    'LVL:REF:AUTO': 'trace reflevel auto',
+    'LVL:SCAL': 'trace scale',
+    'LVL:SCAL:AUTO': 'trace scale auto',
+    'LVL:UNIT': 'trace',
+    'LVL:XGAIN': 'ext_gain',
 
     # TRACe subsystem
     'TRAC:FREZ:ON': 'trace [src] freeze on',
@@ -57,12 +68,25 @@ SCPILookUpTable = {
     'DISP:RESUME': 'resume',
     'DISP:REFRESH': 'resume',
     'DISP:COLOR?': 'color',
-    'DISP:TIME': 'sweeptime',
+    'DISP:SWEEPTIME': 'sweeptime',
     'DISP:COLOR': 'color',
     'DISP:CAPT': sf.SCPI_functional.takeScreenshot,
     'DISP:TOUCH:PUSH': 'touch',
     'DISP:TOUCH:RELE': 'release',
     'DISP:SPUR': 'spur',
+
+    # OUTput Subsystem
+    'OUT:LEV': 'level',
+    'OUT:LEVO:LOW': 'leveloffset low',
+    'OUT:LEVO:HIGH': 'leveloffset high',
+    'OUT:LEVO:SWIT': 'leveloffset switch',
+    'OUT:LEVCH': 'levelchange',
+    'OUT:MOD': 'modulation',
+    'OUT:MOD:FREQ': 'modulation freq',
+    'OUT:ON': 'output on',
+    'OUT:OFF': 'output off',
+    'OUT:CALI:OFF': 'caloutput off',
+    'OUT:CALI': 'caloutput',
   
     # Marker Subsystem
     'MARK:FREQ': 'marker [src] [dst]',
@@ -83,4 +107,15 @@ SCPILookUpTable = {
     # 'MARK:SRCH:MAXL': [['int', 1, 4]],
     # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
     # TODO: Fill in the rest of this
+
+
+    # Measure subsystem
+    'MEAS:DUMP' : 'data',
+
+    # TODO: Measure Subsystem
+
+    #Config subsystem
+    'CONF:CALC' : 'calc',
+    'CONF:CORR:LOW' : 'correction low',
+    'CONF:CORR:HIGH' : 'correction high',
 }

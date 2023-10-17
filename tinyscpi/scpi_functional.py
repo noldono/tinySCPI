@@ -58,6 +58,12 @@ class SCPI_functional:
 
         usb_cmd += ' '
         for arg in args:
+            if isinstance(arg, bool):
+                if arg:
+                    arg = "on"
+                else:
+                    arg = "off"
+
             usb_cmd += str(arg)
             usb_cmd += ' '
 
