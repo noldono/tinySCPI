@@ -325,3 +325,58 @@ MARKer:
 		arguments: [src:1-4] [dst:1-4]
 		This, unlike DELT, returns the difference data to the user.
 ```
+
+## Measure Subtree
+```
+MEASure: 
+	OFF
+		arguments: none
+		switches off any measurement related setting and behavior and returns the tinySA to regular operation
+
+	HARMonic [frequency of fundamental]
+		arguments: [frequency]
+		switches to a marker configuration for measuring the level of harmonics of a signal frequency of fundamental is the lowest frequency of a periodic waveform
+
+	OIP3 (output third order intermodulation) [frequency of left signal] [frequency of right signal]
+		arguments: [frequency of left signal] [frequency of right signal]
+		switches to a marker configuration for measuring the Output IP3 level of a signal configures itself with a span of five times the difference in frequency and the center at the average of the two frequencies
+
+	PHase NOIse (PHNOI) [frequency of signal] [frequency offset]
+		arguments: [frequency of signal] [frequency offset]
+		switches to a marker configuration for measuring phase noise of a signal. Shows the noise spectrum that is seen spreading out on either side of a signal
+
+	SNR [frequency of signal] [bandwidth]
+		arguments: [frequency of signal] [bandwidth]
+		switches to a marker configuration for SNR measurement ratio between the desired information or the power of a signal and the undesired signal or the power of the background noise. in unit calculator to find 
+                the desired SNR through logarithms
+
+	3DB
+		arguments: none
+		switches to a marker configuration for -3dB width measurement.
+
+	AM [frequency of signal] [modulation frequency: 3-10k Hz]
+		arguments: [frequency of signal] [modulation frequency: 3-10k Hz]
+		sets various settings to optimize observations of an AM modulated signal
+
+	FM [frequency of signal] [modulation frequency: 1-2.5k Hz]
+		arguments: [frequency of signal] [modulation frequency: 1-2.5k Hz]
+		sets various settings to optimize observations of an FM modulated signal
+
+	THD (Total Harmonic Distortion)
+		arguments: none
+		enables the measurement of the THD defined as the percentage of energy in the harmonics versus the energy in the fundamental. Looks at the output spectrum and observes values of the second, third, fourth, 
+                etc., harmonics with respect to the amplitude of the fundamental signal
+
+	CHannel POWer (CHPOW) [channel frequency] [channel width]
+		arguments: [channel frequency] [channel width]
+		Enables ACP (adjacent channel power) and channel power measurement. Measures the power leakage from carrier channels into the neighboring frequency channels
+
+	LINEar
+		arguments: none
+		steps the internal attenuator through all attenuation levels and draws a green line showing the measured maximum level for each attenuation setting.
+
+	DUMP [id:0-2]
+		arguments: [id:0-2]
+		Dumps all information related to trace data, id 0 for temporary data, 1 for stored trace, 2 for measurement.
+
+```
