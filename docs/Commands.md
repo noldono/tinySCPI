@@ -222,3 +222,38 @@ TRACe:
 		Turns the subtraction off, reverts to previous readings.
 ```
 
+## Display Subtree
+```
+DISPlay
+	PAUSE
+		arguments: none
+		Pauses the sweeping in either input or output mode indefinitely.
+
+	RESUME
+		arguments: none
+		resumes the display/sweep
+
+	COLOR?
+		arguments: none
+		Dumps the colors used.
+
+	COLOR [0 - 30] [0x000000 - 0xFFFFFF]
+		arguments: [value between 0-30] [RGB hex value between 0x000000 and 0xFFFFFF]
+		Changes the color of various parts of the display, each number 0-30 represents a different part of the tinySA display. Some of which are not immediately visible.
+	
+	SWEEPTIME [0 - 10]
+		arguments: [value between 0 and 10]
+		Sets the target time to complete 1 sweep time in seconds.
+
+	TOUCH:PUSH [0 - 320] [0 - 140]
+		arguments: [value between 0 - 320] [value between 0 - 140]
+		Emulates the action of touching and holding on the tinySA screen. Top left is 0,0. Screen is 320x240 pixels.
+
+	TOUCH:RELEase
+		arguments: none
+		Emulates a release of a touch on the tinySA screen
+
+	SPUR {on|off}
+		arguments: [on or off]
+		Enables / disables spur removal
+```
