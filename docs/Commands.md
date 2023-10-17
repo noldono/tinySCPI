@@ -66,7 +66,7 @@ FREQuency:
 
 	SCAN:STORed
 		arguments: [start frequency] [stop frequency]
-		Outputs 290 signal strength values between the start and stop frequency (difference between MEAS and STOR currently unknown)
+		Outputs 290 signal strength values along with some stored values.
 ```
 
 ## System Subtree
@@ -152,7 +152,7 @@ LeVeL:
 		In decibels, still scales by decibels even when units are different. Basically the # of units between each square.
 
 	SCALe:AUTO
-		trace scale auto
+		arguments: none
 		Automatically sets the scale
 
 	UNITs {dBm|dBmV|dBuV|V|W}
@@ -165,3 +165,60 @@ LeVeL:
 		Sets a digital external gain offset to display. Does not control internal attenuation and is used for
 		display / calculation purposes only.
 ```
+
+## Trigger Subtree
+```
+TRIGger:
+	TYPE:AUTO
+		arguments: none
+		Normal spectrum analyzer scanning mode, triggering is not active.
+
+	TYPE:NORMal
+		arguments: none
+		Displays a new scan as soon as a signal in the scan causes a trigger event.
+
+	TYPE:SiNGLe
+		arguments: none
+		Waits for a signal to cause a trigger event and display the scan. 
+		Restart the waiting for an event by activating SINGLE again.
+
+	LeVeL [signal strength]
+		arguments: [signal strength value in the device's current unit]
+		Enters the trigger level. Trigger level is shown as a blue line. In current units 
+		I.e. current LVL:UNIT is dBm, then entering -90 as src will set trigger level at -90 dBm
+
+```
+
+## Trace Subtree
+```
+TRACe:
+	FREeZe:
+		ON [1-3]
+			arguments: [value between 1 and 3]
+			Freezes the trace of [1-3]. Note that this does not stop the sweep.
+
+		OFF [1-3]
+			arguments: [value between 1 and 3]
+			Unfreezes the trace of [1-3]. Note that this does not resume the sweep. 
+
+	VIEW:ON [1-3]
+		arguments: [value between 1 and 3]
+		Turns a trace on
+
+	VIEW:OFF [1-3]
+		arguments: [value between 1 and 3]
+		Turns a trace off
+	
+	COPY [src:1-3] [dst:1-3]
+		arguments: [value between 1 and 3] [value between 1 and 3]
+		Copies the trace data of [src] to [dst]
+
+	SUBtract:[src:1-3] [dst:1-3]
+		arguments: [value between 1 and 3] [value between 1 and 3]
+		Subtracts [src] by the [dst] amount. If [src] == [dst] then nothing happens.
+
+	SUBtract:OFF
+		arguments: [value between 1 and 3] [value between 1 and 3]
+		Turns the subtraction off, reverts to previous readings.
+```
+
