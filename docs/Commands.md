@@ -257,3 +257,71 @@ DISPlay
 		arguments: [on or off]
 		Enables / disables spur removal
 ```
+
+## Marker Subtree
+```
+MARKer:
+	FREQuency [src:1-4] [dst:frequency_range]
+		arguments: [src:1-4] [dst:frequency_range]
+		Places marker `src` on `freq` Hz in the trace. Note that dst has to be in raw numbers in Hz or in 
+		units of k, M, G and in valid frequency range.. 
+
+	DELTa [src:1-4] [dst: 1-4] 
+		arguments: [src:1-4] [dst:1-4]
+		Subtracts frequency and power level in units from `dst` to `src` and displays on the tinySA as a
+  		‘delta' mode. Does not return values. For that, see DIFFerence.
+
+	DELTa:OFF [src:1-4]: 
+		arguments: [src:1-4]
+		Turns off the delta mode on the selected marker `src`, if on. 
+
+	NOISe:SET [src:1-4]
+		arguments: [src:1-4]
+		Sets `src` marker as the noise marker
+
+	NOISe:OFF [src:1-4]
+		arguments: [src:1-4]
+		Unsets the `src` marker as the noise marker
+
+	TRAcK:SET [src:1-4] 
+		arguments: [src:1-4]
+		Sets the marker of `src` to tracking mode- i.e. tracking the largest signal in the sweep
+
+	TRAcK:OFF [src:1-4] 
+		arguments: [src:1-4]
+		Unsets the marker from track mode and fixes it to the frequency it was at.
+
+	TRACe [src:1-4] [dst:1-3] 
+		arguments: [src:1-4] [dst: 1-3]
+		Assigns marker `src` to the trace `dst`
+
+	AVERage:SET [src:1-4] 
+		arguments: [src:1-4]
+		Sets the marker to display the current trace’s average 
+
+	AVERage:OFF [src:1-4] 
+		arguments: [src:1-4]
+		Unsets the marker to display the current trace’s average
+
+	SeaRCH:
+		PEAK [src: 1-4]
+			arguments: [src:1-4]
+			Sets `src` marker to global maximum. Note this returns a serial output.
+
+		FREQuency [src: 1-4] [freq: in frequency range]
+			arguments: [src: 1-4]
+			Sets marker `src` to a specific frequency. Keep in mind that `freq` has to be a valid frequency, more than 10kHz otherwise anything entered 0-290 will be treated as an index instead (needs input 
+                        checking).
+
+	DELete [src: 1-4]
+		arguments: [src: 1-4]
+		Removes marker `src` from display.
+
+	ReSeT 
+		arguments: none
+		Removes all markers from display
+
+	DIFFerence [src:1-4] [dst:1-4]
+		arguments: [src:1-4] [dst:1-4]
+		This, unlike DELT, returns the difference data to the user.
+```
