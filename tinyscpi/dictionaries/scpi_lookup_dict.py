@@ -23,6 +23,7 @@ SCPILookUpTable = {
     'SYST:TCAL': 'touchcal',
     'SYST:TTEST': 'touchtest',
     'SYST:THRE': 'threads',
+    'SYST:STEST': sf.SCPI_functional.selftest,
     'SYST:CLRCONF': 'clearconfig 1234',
 
     # FREQuency subsystem

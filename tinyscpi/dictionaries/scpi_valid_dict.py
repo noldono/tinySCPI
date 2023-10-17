@@ -20,6 +20,7 @@ validCommandTable = {
                      'SYST:TCAL': [],
                      'SYST:TTEST': [],
                      'SYST:THRE': [],
+                     'SYST:STEST': [],
                      'SYST:OFFS': [['int', 0, 4095]],
                      'SYST:CLRCONF': [],
 
