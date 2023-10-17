@@ -77,7 +77,6 @@ class SCPI_functional:
             except Exception as e:
                 return f"Error sending commmand '{command}': {str(e)}"
 
-
     # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
     def takeScreenshot(self, filename: str = "capture"):
         try:
@@ -157,11 +156,9 @@ class SCPI_functional:
         try:
             self.send('selftest 0')
 
-            time.sleep(30) # Test can take up to 30 seconds to complete
+            time.sleep(30)  # Test can take up to 30 seconds to complete
 
             self.send('touch 0 0')
             self.send('release')
         except Exception as e:
             return f"Error sending selftest command: {str(e)}"
-
-
