@@ -1,4 +1,3 @@
-import datetime
 import struct
 import sys
 import time
@@ -30,7 +29,7 @@ class SCPI_functional:
     desc: finds the tinySA device if it is connected
     '''
 
-    def getDevice(self) -> str:
+    def get_device(self) -> str:
         # In the future, append the device to a list to enable the use of multiple tinySA's
         device_list = list_ports.comports()
         for device in device_list:
@@ -42,9 +41,8 @@ class SCPI_functional:
     Create tinySA usb command, given the valid command and arguments.
     '''
 
-    def convertSCPItoUSB(self, command: str, args: list) -> str:
+    def convert_scpi_to_usb(self, command: str, args: list):
         from .dictionaries import scpi_lookup_dict
-        print(command)
         usb_cmd = scpi_lookup_dict.SCPILookUpTable[command]
 
         if callable(usb_cmd):
@@ -70,10 +68,10 @@ class SCPI_functional:
         print("Running " + usb_cmd)
         return usb_cmd.strip()
 
-    def send(self, command) -> None:
+    def send(self, command) -> str:
         if not callable(command):
             try:
-                device = self.getDevice()
+                device = self.get_device()
                 with serial.Serial(device, timeout=1) as tinySA_device:
                     tinySA_device.write(command.encode() + self.cr)
                     echo = tinySA_device.read_until(command.encode() + self.crlf)
@@ -83,10 +81,10 @@ class SCPI_functional:
             except Exception as e:
                 return f"Error sending commmand '{command}': {str(e)}"
 
-    # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
-    def takeScreenshot(self, filename: str = "capture"):
+    # From https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
+    def take_screenshot(self, filename: str = "capture"):
         try:
-            device = self.getDevice()
+            device = self.get_device()
             with serial.Serial(device, timeout=1) as tinySA_device:
                 tinySA_device.write(b'pause\r')  # stop screen update
                 echo = tinySA_device.read_until(b'pause' + self.crlf + self.prompt)  # wait for completion
@@ -100,7 +98,6 @@ class SCPI_functional:
             rgba8888 = 0xFF000000 + (
                     ((rgb565_32 & 0xF800) >> 8) + ((rgb565_32 & 0x07E0) << 5) + ((rgb565_32 & 0x001F) << 19))
             image = Image.frombuffer('RGBA', (self.screen_width, self.screen_height), rgba8888, 'raw', 'RGBA', 0, 1)
-            file = filename or datetime.now().strftime(f'{self.device_name}_%Y%m%d_%H%M%S.png')
             try:
                 image.save(filename)  # .. and save it to file (format according extension)
             except ValueError:  # unknown (or missing) exension
@@ -108,10 +105,10 @@ class SCPI_functional:
         except Exception as e:
             return f"Error sending capture command: {str(e)}"
 
-    # Taken from https://github.com/Ho-Ro/nanovna-tools/blob/main/tinysa_scanraw.py
-    def scanRaw(self, f_low: int, f_high: int, points: int, filename: str = "", verbose=None, rbw=0):
+    # From https://github.com/Ho-Ro/nanovna-tools/blob/main/tinysa_scanraw.py
+    def scan_raw(self, f_low: int, f_high: int, points: int, filename: str = "", verbose=None, rbw=0):
         try:
-            device = self.getDevice()
+            device = self.get_device()
             with serial.Serial(device, timeout=1) as tinySA:
                 tinySA.timeout = 1
                 while tinySA.inWaiting():

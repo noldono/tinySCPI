@@ -1,10 +1,9 @@
-import re
 import string
 
 from .dictionaries import scpi_cmds_mapped_to_funcs_dict
 from .dictionaries import scpi_lookup_dict as scpi_lookup_dict
 from .dictionaries import scpi_valid_dict as scpi_valid_dict
-from . import helpers
+
 
 class SCPI_Parser:
 
@@ -19,7 +18,8 @@ class SCPI_Parser:
     '''
     Parse a command string from user and validate command and parameters
     '''
-    def parseCommand(self, command: str):
+
+    def parse_command(self, command: str):
 
         #
         if len(command.strip()) == 0:
@@ -41,7 +41,7 @@ class SCPI_Parser:
             return self.cmd, []
 
         if (len(strs) - 1) != len(validation):
-            raise Exception(len(validation), ' inputs required but ', len(strs - 1), ' inputs given' )
+            raise Exception(len(validation), ' inputs required but ', len(strs) - 1, ' inputs given')
 
         new_args = []
         args = strs[1:]
