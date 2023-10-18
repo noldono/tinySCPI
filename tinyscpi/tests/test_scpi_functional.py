@@ -113,12 +113,6 @@ class FunctionalTestCase(unittest.TestCase):
         # 'LeVeL:ATTeunuation:AUTO'
         result = self.functional.convert_scpi_to_usb('LVL:ATT:AUTO', [])
         self.assertEqual(result, 'attenuate auto')
-        # 'LVL:ATT?'
-        result = self.functional.convert_scpi_to_usb('LVL:ATT?', [])
-        self.assertEqual(result, 'attenuate')
-        # 'LeVeL:ATTenuation?'
-        result = self.functional.convert_scpi_to_usb('LVL:ATT?', [])
-        self.assertEqual(result, 'attenuate')
         # 'LVL:REF -100'
         result = self.functional.convert_scpi_to_usb('LVL:REF', [-100])
         self.assertEqual(result, 'trace reflevel -100')

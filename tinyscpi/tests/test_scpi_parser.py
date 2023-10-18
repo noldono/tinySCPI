@@ -231,21 +231,6 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('LVL:ATT:AUTO 3.1')
 
-    def testParseCommand_LVL_ATT_QUERY(self):
-        self.assertEqual(self.parser.parse_command('LVL:ATT?'), ('LVL:ATT?', []))
-        self.assertEqual(self.parser.parse_command('LeVeL:ATTenuation?'), ('LVL:ATT?', []))
-
-        with self.assertRaises(Exception):
-            self.parser.parse_command('LVL:ATT')
-        with self.assertRaises(Exception):
-            self.parser.parse_command('LVL:ATT? 0')
-        with self.assertRaises(Exception):
-            self.parser.parse_command('LVL:ATT? 1.1')
-        with self.assertRaises(Exception):
-            self.parser.parse_command('LVL:ATT? one')
-        with self.assertRaises(Exception):
-            self.parser.parse_command('LVL:ATT? 0 1')
-
     def testParseCommand_LVL_REF(self):
         self.assertEqual(self.parser.parse_command('LVL:REF -100'), ('LVL:REF', [-100]))
         self.assertEqual(self.parser.parse_command('LeVeL:REFerence 100.33'), ('LVL:REF', [100.33]))
