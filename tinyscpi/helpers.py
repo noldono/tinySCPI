@@ -4,6 +4,7 @@ def find_key_by_value(dictionary, target_value):
             return key
     return None
 
+
 def replace_src_dst(command, args):
     new_cmd = command
     new_cmd = new_cmd.replace("[src]", str(args[0]))
