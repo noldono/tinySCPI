@@ -44,7 +44,6 @@ validCommandTable = {
                      # LeVeL Subsystem
                      'LVL:ATT': [['int', 0, 30]],
                      'LVL:ATT:AUTO': [],
-                     'LVL:ATT?': [],
                      'LVL:REF': [['float', float('-inf'), float('inf')]], #TODO: double check range
                      'LVL:REF:AUTO': [],
                      'LVL:SCAL': [['str', '1', '2', '5', '10', '20']],

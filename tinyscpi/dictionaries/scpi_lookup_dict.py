@@ -45,7 +45,6 @@ SCPILookUpTable = {
     # LVL subsystem
     'LVL:ATT': 'attenuate',
     'LVL:ATT:AUTO': 'attenuate auto',
-    'LVL:ATT?': 'attenuate',
     'LVL:REF': 'trace reflevel',
     'LVL:REF:AUTO': 'trace reflevel auto',
     'LVL:SCAL': 'trace scale',
@@ -70,7 +69,7 @@ SCPILookUpTable = {
     'DISP:COLOR?': 'color',
     'DISP:SWEEPTIME': 'sweeptime',
     'DISP:COLOR': 'color',
-    'DISP:CAPT': sf.SCPI_functional.takeScreenshot,
+    'DISP:CAPT': sf.SCPI_functional.take_screenshot,
     'DISP:TOUCH:PUSH': 'touch',
     'DISP:TOUCH:RELE': 'release',
     'DISP:SPUR': 'spur',
