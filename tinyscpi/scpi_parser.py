@@ -8,11 +8,12 @@ from .dictionaries import scpi_valid_dict as scpi_valid_dict
 class SCPI_Parser:
 
     def __init__(self):
-        self.a = 0
         self.validCommandTable = scpi_valid_dict.validCommandTable
         self.scpiLookupTable = scpi_lookup_dict.SCPILookUpTable
         self.scpiCmdsMappedToFuncs = scpi_cmds_mapped_to_funcs_dict.SCPI_Commands_Mapped_To_Funcs
         self.cmd = ""
+
+        ''' Table used to drop all the lowercase letters from a SCPI command'''
         self.table = str.maketrans('', '', string.ascii_lowercase)
 
     '''
@@ -21,7 +22,6 @@ class SCPI_Parser:
 
     def parse_command(self, command: str):
 
-        #
         if len(command.strip()) == 0:
             raise KeyError('no string value provided')
 
