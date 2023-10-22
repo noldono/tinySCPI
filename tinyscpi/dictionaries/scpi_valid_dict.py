@@ -34,9 +34,11 @@ validCommandTable = {
                      'FREQ:RBW:AUTO': [],
                      'FREQ:DUMP': [],
                       #Scan commands may may need to be changed, but function accordingly should appropriate freq range be used 
-                     'FREQ:SCAN:FREQ': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
-                     'FREQ:SCAN:MEAS': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
-                     'FREQ:SCAN:STOR': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+                      #Negative frequency does not exist.
+
+                     'FREQ:SCAN:FREQ': [['float', 0, float('inf')], ['float', 0, float('inf')]],
+                     'FREQ:SCAN:MEAS': [['float', 0, float('inf')], ['float', 0, float('inf')]],
+                     'FREQ:SCAN:STOR': [['float', 0, float('inf')], ['float', 0, float('inf')]],
 
                      'FREQ:IF:AUTO': [],
                      'FREQ:IF': [['int', 433000000, 435000000]],
@@ -84,8 +86,7 @@ validCommandTable = {
                      'OUT:CALI': [['str', '30', '15', '10', '4', '3', '2', '1']],
 
                      # MARKer Subsystem
-                     'MARK:DIFF': [['int', 1, 4], ['int', 1, 4]],
-                     'MARK:DIFF:OFF': [['int', 1, 4]],
+
                      'MARK:NOIS:SET': [['int', 1, 4]],
                      'MARK:NOIS:OFF': [['int', 1, 4]],
                      'MARK:TRAKING': [['int', 1, 4]],
@@ -93,9 +94,6 @@ validCommandTable = {
 
                      'MARK:DELT': [['int', 1, 4], ['int', 1, 4]],
                      'MARK:DELT:OFF': [['int', 1, 4]],
-
-                     'MARK:NOIS:SET': [['int', 1, 4]],
-                     'MARK:NOIS:OFF': [['int', 1, 4]],
 
                      'MARK:TRAK:SET': [['int', 1, 4]],
                      'MARK:TRAK:OFF': [['int', 1, 4]],
