@@ -12,10 +12,10 @@ SCPILookUpTable = {
     'SYST:DAC': 'dac',
     'SYST:ID': 'deviceid',
     'SYST:VERS': 'version',
-    'SYST:MODE:LOW:IN': 'mode',
-    'SYST:MODE:LOW:OUT': 'mode',
-    'SYST:MODE:HIGH:IN': 'mode',
-    'SYST:MODE:HIGH:OUT': 'mode',
+    'SYST:MODE:LOW:IN': 'mode low input',
+    'SYST:MODE:LOW:OUT': 'mode low output',
+    'SYST:MODE:HIGH:IN': 'mode high input',
+    'SYST:MODE:HIGH:OUT': 'mode high output',
     'SYST:OFFS': 'vbat_offset',
     'SYST:VBAT': 'vbat',
     'SYST:SAVE': 'save',
@@ -35,9 +35,9 @@ SCPILookUpTable = {
     'FREQ:RBW': 'rbw',
     'FREQ:RBW:AUTO': 'rbw auto',
     'FREQ:DUMP': 'frequencies',
-    'FREQ:SCAN:FREQ': 'scan [src] [dst] 280 1',
-    'FREQ:SCAN:MEAS': 'scan [src] [dst] 280 2',
-    'FREQ:SCAN:STOR': 'scan [src] [dst] 280 4',
+    'FREQ:SCAN:FREQ': 'scan [src] [dst] 290 1',
+    'FREQ:SCAN:MEAS': 'scan [src] [dst] 290 2',
+    'FREQ:SCAN:STOR': 'scan [src] [dst] 290 4',
 
     'FREQ:IF:AUTO': 'if 0',
     'FREQ:IF': 'if',
@@ -69,7 +69,6 @@ SCPILookUpTable = {
     'DISP:COLOR?': 'color',
     'DISP:SWEEPTIME': 'sweeptime',
     'DISP:COLOR': 'color',
-    'DISP:CAPT': sf.SCPI_functional.take_screenshot,
     'DISP:TOUCH:PUSH': 'touch',
     'DISP:TOUCH:RELE': 'release',
     'DISP:SPUR': 'spur',
@@ -100,11 +99,11 @@ SCPILookUpTable = {
     'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
     'MARK:DEL': 'marker [src] off',
-    # 'MARK:SRCH:MINR': [['int', 1, 4]],
-    # 'MARK:SRCH:MINL': [['int', 1, 4]],
-    # 'MARK:SRCH:MAXR': [['int', 1, 4]],
-    # 'MARK:SRCH:MAXL': [['int', 1, 4]],
-    # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+    'MARK:SRCH:MINR': [['int', 1, 4]],
+    'MARK:SRCH:MINL': [['int', 1, 4]],
+    'MARK:SRCH:MAXR': [['int', 1, 4]],
+    'MARK:SRCH:MAXL': [['int', 1, 4]],
+    'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
     # TODO: Fill in the rest of this
 
 
@@ -115,6 +114,7 @@ SCPILookUpTable = {
 
     #Config subsystem
     'CONF:CALC' : 'calc',
+    'CONF:CAPT': sf.SCPI_functional.take_screenshot,
     'CONF:CORR:LOW' : 'correction low',
     'CONF:CORR:HIGH' : 'correction high',
 }
