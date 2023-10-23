@@ -1,4 +1,6 @@
 import unittest
+from typing import Callable
+
 from tinyscpi.scpi_functional import SCPI_functional
 from tinyscpi.scpi_parser import SCPI_Parser
 class FunctionalTestCase(unittest.TestCase):
@@ -6,6 +8,7 @@ class FunctionalTestCase(unittest.TestCase):
         self.functional = SCPI_functional()
         self.parser = SCPI_Parser()
 
+    ''' test scpi_functional constructor '''
     def testBasics(self):
         self.assertEqual(self.functional.VID, 0x0483)
         self.assertEqual(self.functional.PID, 0x5740)
@@ -17,11 +20,7 @@ class FunctionalTestCase(unittest.TestCase):
         self.assertEqual(self.functional.screen_height, 240)
         self.assertEqual(self.functional.device_name, "TinySA")
 
-    #TODO: This test will pass if and only if tinySA and some other USB device is connected
-    def testGetDevice(self):
-        self.assertEqual(1, 1)
-        #TODO: implement this test
-
+    ''' test basic commands'''
     def testConvertSCPItoUSB_BASIC(self):
         # '*IDN?'
         result = self.functional.convert_scpi_to_usb('*IDN?', [])
@@ -29,7 +28,6 @@ class FunctionalTestCase(unittest.TestCase):
         # '*RST'
         result = self.functional.convert_scpi_to_usb('*RST', [])
         self.assertEqual(result, 'reset')
-
         # '*CLR'
         result = self.functional.convert_scpi_to_usb('*CLR', [])
         self.assertEqual(result, 'clearconfig')
@@ -40,7 +38,64 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convert_scpi_to_usb('*HLP', [])
         self.assertEqual(result, 'help')
 
+    ''' test commands in SYSTem subtree '''
+    def testConvertSCPItoUSB_SYST(self):
+        # 'SYST:DAC'
+        result = self.functional.convert_scpi_to_usb('SYST:DAC', [])
+        self.assertEqual(result, 'dac')
+        # 'SYST:ID'
+        result = self.functional.convert_scpi_to_usb('SYST:ID', [])
+        self.assertEqual(result, 'deviceid')
+        # 'SYST:VERS'
+        result = self.functional.convert_scpi_to_usb('SYST:VERS', [])
+        self.assertEqual(result, 'version')
+        # 'SYST:MODE:LOW:IN'
+        result = self.functional.convert_scpi_to_usb('SYST:MODE:LOW:IN', [])
+        self.assertEqual(result, 'mode low input')
+        # 'SYST:MODE:HIGH:IN'
+        result = self.functional.convert_scpi_to_usb('SYST:MODE:HIGH:IN', [])
+        self.assertEqual(result, 'mode high input')
+        # 'SYST:MODE:LOW:OUT'
+        result = self.functional.convert_scpi_to_usb('SYST:MODE:LOW:OUT', [])
+        self.assertEqual(result, 'mode low output')
+        # 'SYST:MODE:HIGH:OUT'
+        result = self.functional.convert_scpi_to_usb('SYST:MODE:HIGH:OUT', [])
+        self.assertEqual(result, 'mode high output')
+        # 'SYST:VBAT'
+        result = self.functional.convert_scpi_to_usb('SYST:VBAT', [])
+        self.assertEqual(result, 'vbat')
+        # 'SYST:SAVE 0'
+        result = self.functional.convert_scpi_to_usb('SYST:SAVE', [0])
+        self.assertEqual(result, 'save 0')
+        # 'SYST:SAVE 4'
+        result = self.functional.convert_scpi_to_usb('SYST:SAVE', [4])
+        self.assertEqual(result, 'save 4')
+        # 'SYST:SCONF'
+        result = self.functional.convert_scpi_to_usb('SYST:SCONF', [])
+        self.assertEqual(result, 'saveconfig')
+        # 'SYST:TCAL'
+        result = self.functional.convert_scpi_to_usb('SYST:TCAL', [])
+        self.assertEqual(result, 'touchcal')
+        # 'SYST:TTEST'
+        result = self.functional.convert_scpi_to_usb('SYST:TTEST', [])
+        self.assertEqual(result, 'touchtest')
+        # 'SYST:THRE'
+        result = self.functional.convert_scpi_to_usb('SYST:THRE', [])
+        self.assertEqual(result, 'threads')
+        # 'SYST:STEST'
+        result = self.functional.convert_scpi_to_usb('SYST:STEST', [])
+        self.assertEqual(result, 'selftest 0')
+        # 'SYST:OFFS 0'
+        result = self.functional.convert_scpi_to_usb('SYST:OFFS', [0])
+        self.assertEqual(result, 'Vbat_offset 0')
+        # 'SYST:OFFS 4095'
+        result = self.functional.convert_scpi_to_usb('SYST:OFFS', [4095])
+        self.assertEqual(result, 'Vbat_offset 4095')
+        # 'SYST:CLRCONF'
+        result = self.functional.convert_scpi_to_usb('SYST:CLRCONF', [])
+        self.assertEqual(result, 'clearconfig')
 
+    ''' test commands in FREQuency subtree'''
     def testConvertSCPItoUSB_FREQ(self):
         # 'FREQ:START 0'
         result = self.functional.convert_scpi_to_usb('FREQ:START', [0])
@@ -100,6 +155,35 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convert_scpi_to_usb('FREQ:DUMP', [])
         self.assertEqual(result, 'frequencies')
 
+        # 'FREQ:SCAN:FREQ 0 350000000'
+        result = self.functional.convert_scpi_to_usb('FREQ:SCAN:FREQ', [0, 350000000])
+        self.assertEqual(result, 'scan 0 350000000 290 1')
+        # 'FREQuency:SCAN:FREQuency 0.1 34999999.9'
+        result = self.functional.convert_scpi_to_usb('FREQ:SCAN:FREQ', [0.1, 34999999.9])
+        self.assertEqual(result, 'scan 0.1 34999999.9 290 1')
+        # 'FREQ:SCAN:MEAS 0 900000'
+        result = self.functional.convert_scpi_to_usb('FREQ:SCAN:MEAS', [0, 900000])
+        self.assertEqual(result, 'scan 0 900000 290 2')
+        # 'FREQuency:SCAN:MEAS 0.1 899999.9'
+        result = self.functional.convert_scpi_to_usb('FREQ:SCAN:MEAS', [0.1, 899999.9])
+        self.assertEqual(result, 'scan 0.1 899999.9 290 2')
+        # 'FREQ:SCAN:STOR 0 900000'
+        result = self.functional.convert_scpi_to_usb('FREQ:SCAN:STOR', [0, 900000])
+        self.assertEqual(result, 'scan 0 900000 290 4')
+        # 'FREQuency:SCAN:STOR 900000 0'
+        result = self.functional.convert_scpi_to_usb('FREQ:SCAN:STOR', [900000, 0])
+        self.assertEqual(result, 'scan 900000 0 290 4')
+        # 'FREQ:IF:AUTO'
+        result = self.functional.convert_scpi_to_usb('FREQ:IF:AUTO', [])
+        self.assertEqual(result, 'if 0')
+        # 'FREQ:IF 433000000'
+        result = self.functional.convert_scpi_to_usb('FREQ:IF', [433000000])
+        self.assertEqual(result, 'if 433000000')
+        # 'FREQuency:IF 435000000'
+        result = self.functional.convert_scpi_to_usb('FREQ:IF', [435000000])
+        self.assertEqual(result, 'if 435000000')
+
+    ''' test commands in LeVeL subtree '''
     def testConvertSCPItoUSB_LVL(self):
         # 'LVL:ATT 0'
         result = self.functional.convert_scpi_to_usb('LVL:ATT', [0])
@@ -170,7 +254,7 @@ class FunctionalTestCase(unittest.TestCase):
         # 'LVL:XGAIN -100'
         result = self.functional.convert_scpi_to_usb('LVL:XGAIN', [-100])
         self.assertEqual(result, 'ext_gain -100')
-
+    ''' test commands in TRACe subtree '''
     def testConvertSCPItoUSB_TRAC(self):
         # 'TRAC:FREZ:ON 1'
         result = self.functional.convert_scpi_to_usb('TRAC:FREZ:ON', [1])
@@ -251,6 +335,7 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convert_scpi_to_usb('TRAC:SUB:OFF', [3])
         self.assertEqual(result, 'trace 3 subtract off')
 
+    ''' test commands in DISPlay subtree '''
     def testConvertSCPItoUSB_DISP(self):
         # 'DISP:PAUSE '
         result = self.functional.convert_scpi_to_usb('DISP:PAUSE', [])
@@ -291,6 +376,86 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convert_scpi_to_usb('DISP:SPUR', [True])
         self.assertEqual(result, 'spur on')
 
+    ''' test commands in OUTput subtree '''
+    def testConvertSCPItoUSB_OUT(self):
+        # 'OUT:LEV -76'
+        result = self.functional.convert_scpi_to_usb('OUT:LEV', [-76])
+        self.assertEqual(result, 'level -76')
+        # 'OUTput:LEVel 13'
+        result = self.functional.convert_scpi_to_usb('OUT:LEV', [13])
+        self.assertEqual(result, 'level 13')
+        # 'OUT:LEVO:LOW -70'
+        result = self.functional.convert_scpi_to_usb('OUT:LEVO:LOW', [-70])
+        self.assertEqual(result, 'leveloffset low -70')
+        # 'OUTput:LEVelOffset:LOW 70'
+        result = self.functional.convert_scpi_to_usb('OUT:LEVO:LOW', [70])
+        self.assertEqual(result, 'leveloffset low 70')
+        # 'OUT:LEVO:HIGH -70'
+        result = self.functional.convert_scpi_to_usb('OUT:LEVO:HIGH', [-70])
+        self.assertEqual(result, 'leveloffset high -70')
+        # 'OUTput:LEVelOffset:HIGH 70'
+        result = self.functional.convert_scpi_to_usb('OUT:LEVO:HIGH', [70])
+        self.assertEqual(result, 'leveloffset high 70')
+        # 'OUT:LEVO:SWIT -70'
+        result = self.functional.convert_scpi_to_usb('OUT:LEVO:SWIT', [-70])
+        self.assertEqual(result, 'leveloffset switch -70')
+        # 'OUTput:LEVelOffset:SWITch 70'
+        result = self.functional.convert_scpi_to_usb('OUT:LEVO:SWIT', [70])
+        self.assertEqual(result, 'leveloffset switch 70')
+        # 'OUT:MOD off'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD', ['off'])
+        self.assertEqual(result, 'modulation off')
+        # 'OUT:MODe am'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD', ['am'])
+        self.assertEqual(result, 'modulation am')
+        # 'OUTput:MOD nfm'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD', ['nfm'])
+        self.assertEqual(result, 'modulation nfm')
+        # 'OUT:MODee wfm'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD', ['wfm'])
+        self.assertEqual(result, 'modulation wfm')
+        # 'OUT:MOdD extern'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD', ['extern'])
+        self.assertEqual(result, 'modulation extern')
+        # 'OUT:MOD:FREQ 100'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD:FREQ', [100])
+        self.assertEqual(result, 'modulation freq 100')
+        # 'OUT:MODe:FREQuency 6000'
+        result = self.functional.convert_scpi_to_usb('OUT:MOD:FREQ', [6000])
+        self.assertEqual(result, 'modulation freq 6000')
+        # 'OUT:ON'
+        result = self.functional.convert_scpi_to_usb('OUT:ON', [])
+        self.assertEqual(result, 'output on')
+        # 'OUT:OFF'
+        result = self.functional.convert_scpi_to_usb('OUT:OFF', [])
+        self.assertEqual(result, 'output off')
+        # 'OUT:CALI:OFF'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI:OFF', [])
+        self.assertEqual(result, 'caloutput off')
+
+        # 'OUT:CALI 30'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [30])
+        self.assertEqual(result, 'caloutput 30')
+        #'OUT:CALIbration 15'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [15])
+        self.assertEqual(result, 'caloutput 15')
+        #'OUT:CALI 10'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [10])
+        self.assertEqual(result, 'caloutput 10')
+        #'OUTput:CALI 4'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [4])
+        self.assertEqual(result, 'caloutput 4')
+        #'OUT:CALI 3'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [3])
+        self.assertEqual(result, 'caloutput 3')
+        #'OUT:CALIb 2'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [2])
+        self.assertEqual(result, 'caloutput 2')
+        #'OUT:CALI 1'
+        result = self.functional.convert_scpi_to_usb('OUT:CALI', [1])
+        self.assertEqual(result, 'caloutput 1')
+
+    ''' test commands in MARKer subtree '''
     def testConvertSCPItoUSB_MARK(self):
         # 'MARK:FREQ 1   0'
         result = self.functional.convert_scpi_to_usb('MARK:FREQ', [1, 0])
@@ -373,33 +538,149 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convert_scpi_to_usb('MARK:AVER:OFF', [4])
         self.assertEqual(result, 'marker 4 trace_aver off')
 
-        #TODO: implement the rest of these
         # 'MARK:SRCH:PEAK 1'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:PEAK', [1])
+        self.assertEqual(result, 'marker 1 peak')
         # 'MARKer:SeaRCH:PEAK 4'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:PEAK', [4])
+        self.assertEqual(result, 'marker 4 peak')
         # 'MARK:SRCH:MINR 1'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINR', [1])
+        #TODO: no usb command equivalent
         # 'MARKer:SeaRCH:MINRight 4'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINR', [4])
+        #TODO: no usb command equivalent
+
         # 'MARK:SRCH:MINL 1'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINL', [1])
+        #TODO: no usb command equivalent
+
         # 'MARKer:SeaRCH:MINLeft 4'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINL', [4])
+        #TODO: no usb command equivalent
+
         #  'MARK:SRCH:MAXR 1'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXR', [1])
+        #TODO: no usb command equivalent
+
         #  'MARKer:SeaRCH:MAXRight 4'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXR', [4])
+        #TODO: no usb command equivalent
+
         # 'MARK:SRCH:MAXL 1'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXL', [1])
+        #TODO: no usb command equivalent
+
         # 'MARKer:SeaRCH:MAXLeft 4'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXL', [4])
+        #TODO: no usb command equivalent
+
         # 'MARK:SRCH:FREQ 0 0'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [0, 0])
+        self.assertEqual(result, 'marker 0 0')
         # 'MARKer:SeaRCH:FREQuency 0 350000000'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [0, 350000000])
+        self.assertEqual(result, 'marker 0 350000000')
         # 'MARK:SRCH:FREQ 350000000 0'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [350000000, 0])
+        self.assertEqual(result, 'marker 350000000 0')
         # 'MARKer:SeaRCH:FREQuency 350000000 350000000'
+        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [350000000, 350000000])
+        self.assertEqual(result, 'marker 350000000 350000000')
         # 'MARK:DEL 1'
+        result = self.functional.convert_scpi_to_usb('MARK:DEL', [1])
+        self.assertEqual(result, 'marker 1 off')
         # 'MARKer:DELete 4'
+        result = self.functional.convert_scpi_to_usb('MARK:DEL', [4])
+        self.assertEqual(result, 'marker 4 off')
         # 'MARK:RST'
+        result = self.functional.convert_scpi_to_usb('MARK:RST', [])
+        self.assertEqual(result, 'marker off')
         # 'MARKer:ReSeT'
+        result = self.functional.convert_scpi_to_usb('MARK:RST', [])
+        self.assertEqual(result, 'marker off')
         # 'MARK:DIFF 1 1'
+        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [1, 1])
+        # TODO
         # 'MARKer:DIFFerence 1 4'
+        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [1, 4])
+        # TODO
+
         # 'MARK:DIFFer 4 1'
+        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [4, 1])
+        # TODO
+
         # 'MARKer:DIFF 4  4'
+        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [4, 4])
+        # TODO
+
         # 'MARK:DIFF:OFF 1'
+        result = self.functional.convert_scpi_to_usb('MARK:DIFF:OFF', [1])
+        # TODO
+
         # 'MARKer:DIFFerence:OFF 4'
+        result = self.functional.convert_scpi_to_usb('MARK:DIFF:OFF', [4])
+        # TODO
+
+    ''' test commands in MEASure subtree '''
+    def testConvertSCPItoUSB_MEAS(self):
+        # 'MEAS:DUMP 0'
+        result = self.functional.convert_scpi_to_usb('MEAS:DUMP', [0])
+        self.assertEqual(result, 'data 0')
+        # 'MEASure:DUMP 2'
+        result = self.functional.convert_scpi_to_usb('MEAS:DUMP', [2])
+        self.assertEqual(result, 'data 2')
+
+    ''' test commands in CONFiguration subtree '''
+    def testConvertSCPItoUSB_CONF(self):
         # 'CONF:CAPT'
-        # 'CONFigure:CAPTure'
+        result = self.functional.convert_scpi_to_usb('CONF:CAPT', [])
+        self.assertTrue(isinstance(result, Callable))
+        # 'CONF:CALC off'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['off'])
+        self.assertEqual(result, 'calc off')
+        # 'CONF:CALC minh'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['minh'])
+        self.assertEqual(result, 'calc minh')
+        # 'CONF:CALC maxh'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['maxh'])
+        self.assertEqual(result, 'calc maxh')
+        # 'CONF:CALC maxd'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['maxd'])
+        self.assertEqual(result, 'calc maxd')
+        # 'CONF:CALC aver4'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['aver4'])
+        self.assertEqual(result, 'calc aver4')
+        # 'CONF:CALC aver16'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['aver16'])
+        self.assertEqual(result, 'calc aver16')
+        # 'CONF:CALC quasip'
+        result = self.functional.convert_scpi_to_usb('CONF:CALC', ['quasip'])
+        self.assertEqual(result, 'calc quasip')
+        # 'CONF:CORR:LOW 0 0 0'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:LOW', [0, 0, 0])
+        self.assertEqual(result, 'correction low 0 0 0')
+        # 'CONFigure:CORRection:LOW 19 0 0'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:LOW', [19, 0, 0])
+        self.assertEqual(result, 'correction low 19 0 0')
+        # 'CONFigure:CORRection:LOW 0 999999999 0'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:LOW', [0, 999999999, 0])
+        self.assertEqual(result, 'correction low 0 999999999 0')
+        # 'CONFigure:CORRection:LOW 0 0 999999999'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:LOW', [0, 0, 999999999])
+        self.assertEqual(result, 'correction low 0 0 999999999')
+        # 'CONF:CORR:HIGH 0 0 0'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:HIGH', [0, 0, 0])
+        self.assertEqual(result, 'correction high 0 0 0')
+        # 'CONFigure:CORRection:HIGH 19 0 0'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:HIGH', [19, 0, 0])
+        self.assertEqual(result, 'correction high 19 0 0')
+        # 'CONFigure:CORRection:HIGH 0 999999999 0'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:HIGH', [0, 999999999, 0])
+        self.assertEqual(result, 'correction high 0 999999999 0')
+        # 'CONFigure:CORRection:HIGH 0 0 999999999'
+        result = self.functional.convert_scpi_to_usb('CONF:CORR:HIGH', [0, 0, 999999999])
+        self.assertEqual(result, 'correction high 0 0 999999999')
 
 if __name__ == '__main__':
     unittest.main()
