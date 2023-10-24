@@ -106,21 +106,19 @@ SCPILookUpTable = {
     'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
 
 
-    # TODO: Fill in the rest of this
-
-
     # Measure subsystem
-    'MEAS:DUMP': 'data',
-
-
-    # Example method for MEASure subsystem implementation.
-    # obj: reserved for scpi_functional object (i.e. "self")
-    # args: list of arguments from scpi_parser.
 
     'MEAS:HARM': (lambda obj, args: sf.SCPI_functional.MEASure_HARMonic(obj, args)),
     'MEAS:OIP3': (lambda obj, args: sf.SCPI_functional.MEASure_OIP3(obj, args)),
-
-    # TODO: Measure Subsystem
+    'MEAS:PNOIS': (lambda obj, args: sf.SCPI_functional.MEASure_PhaseNOISe(obj, args)),
+    'MEAS:SNR': (lambda obj, args: sf.SCPI_functional.MEASure_SNR(obj, args)),
+    'MEAS:3DB': (lambda obj, args: sf.SCPI_functional.MEASure_3DB(obj, args)),
+    'MEAS:AM': (lambda obj, args: sf.SCPI_functional.MEASure_AM(obj, args)),
+    'MEAS:FM': (lambda obj, args: sf.SCPI_functional.MEASure_FM(obj, args)),
+    'MEAS:THD': (lambda obj, args: sf.SCPI_functional.MEASure_THD(obj, args)),
+    'MEAS:CHPOW': (lambda obj, args: sf.SCPI_functional.MEASure_CHPOW(obj, args)),
+    'MEAS:LINE': (lambda obj, args: sf.SCPI_functional.MEASure_LINEar(obj, args)),
+    'MEAS:DUMP': 'data',
 
     #Config subsystem
     'CONF:CALC' : 'calc',
