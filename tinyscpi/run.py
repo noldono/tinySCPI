@@ -6,8 +6,10 @@ from tinyscpi import tinySCPI
 
 def main():
 
-    tinySCPI.user_input('MEAS:HARM 10000')
-    tinySCPI.user_input('MEAS:OIP3 90 1200')
+    tinySCPI.user_input('TRIG:LVL -30.2')
+
+    # tinySCPI.user_input('MEAS:HARM 10000')
+    # tinySCPI.user_input('MEAS:OIP3 90 1200')
 
     # functional = tinyscpi.scpi_functional.SCPI_functional()
     # functional.convert_scpi_to_usb('MEAS:STH', [3, 3])

@@ -52,6 +52,12 @@ SCPILookUpTable = {
     'LVL:UNIT': 'trace',
     'LVL:XGAIN': 'ext_gain',
 
+    # TRIGger subsystem
+    'TRIG:TYPE:AUTO': 'trigger auto',
+    'TRIG:TYPE:NORM': 'trigger normal',
+    'TRIG:TYPE:SNGL': 'trigger single',
+    'TRIG:LVL': 'trigger [src]',
+
     # TRACe subsystem
     'TRAC:FREZ:ON': 'trace [src] freeze on',
     'TRAC:FREZ:OFF': 'trace [src] freeze off',
@@ -99,11 +105,13 @@ SCPILookUpTable = {
     'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
     'MARK:DEL': 'marker [src] off',
-    'MARK:SRCH:MINR': [['int', 1, 4]],
-    'MARK:SRCH:MINL': [['int', 1, 4]],
-    'MARK:SRCH:MAXR': [['int', 1, 4]],
-    'MARK:SRCH:MAXL': [['int', 1, 4]],
-    'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+    # 'MARK:SRCH:MINR': [['int', 1, 4]],
+    # 'MARK:SRCH:MINL': [['int', 1, 4]],
+    # 'MARK:SRCH:MAXR': [['int', 1, 4]],
+    # 'MARK:SRCH:MAXL': [['int', 1, 4]],
+    # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+
+
 
 
     # TODO: Fill in the rest of this
