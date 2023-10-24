@@ -104,11 +104,21 @@ SCPILookUpTable = {
     'MARK:SRCH:MAXR': [['int', 1, 4]],
     'MARK:SRCH:MAXL': [['int', 1, 4]],
     'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+
+
     # TODO: Fill in the rest of this
 
 
     # Measure subsystem
-    'MEAS:DUMP' : 'data',
+    'MEAS:DUMP': 'data',
+
+
+    # Example method for MEASure subsystem implementation.
+    # obj: reserved for scpi_functional object (i.e. "self")
+    # args: list of arguments from scpi_parser.
+
+    'MEAS:HARM': (lambda obj, args: sf.SCPI_functional.MEASure_HARMonic(obj, args)),
+    'MEAS:OIP3': (lambda obj, args: sf.SCPI_functional.MEASure_OIP3(obj, args)),
 
     # TODO: Measure Subsystem
 
@@ -117,4 +127,5 @@ SCPILookUpTable = {
     'CONF:CAPT': sf.SCPI_functional.take_screenshot,
     'CONF:CORR:LOW' : 'correction low',
     'CONF:CORR:HIGH' : 'correction high',
+
 }

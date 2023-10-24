@@ -119,6 +119,8 @@ validCommandTable = {
 
                      # MEASure Subsystem
                      'MEAS:DUMP' :[['int', 0, 2]],
+                     'MEAS:HARM' :[['int', 0, 999999999]],
+                     'MEAS:OIP3' :[['int', 0, 999999999], ['int', 0, 999999999]],
                      #TODO: MEASure section
 
                      # CONFiguration Subsystem
