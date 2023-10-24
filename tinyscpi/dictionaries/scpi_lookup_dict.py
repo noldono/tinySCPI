@@ -12,10 +12,10 @@ SCPILookUpTable = {
     'SYST:DAC': 'dac',
     'SYST:ID': 'deviceid',
     'SYST:VERS': 'version',
-    'SYST:MODE:LOW:IN': 'mode',
-    'SYST:MODE:LOW:OUT': 'mode',
-    'SYST:MODE:HIGH:IN': 'mode',
-    'SYST:MODE:HIGH:OUT': 'mode',
+    'SYST:MODE:LOW:IN': 'mode low input',
+    'SYST:MODE:LOW:OUT': 'mode low output',
+    'SYST:MODE:HIGH:IN': 'mode high input',
+    'SYST:MODE:HIGH:OUT': 'mode high output',
     'SYST:OFFS': 'vbat_offset',
     'SYST:VBAT': 'vbat',
     'SYST:SAVE': 'save',
@@ -45,7 +45,6 @@ SCPILookUpTable = {
     # LVL subsystem
     'LVL:ATT': 'attenuate',
     'LVL:ATT:AUTO': 'attenuate auto',
-    'LVL:ATT?': 'attenuate',
     'LVL:REF': 'trace reflevel',
     'LVL:REF:AUTO': 'trace reflevel auto',
     'LVL:SCAL': 'trace scale',
@@ -101,16 +100,18 @@ SCPILookUpTable = {
     'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
     'MARK:DEL': 'marker [src] off',
+    'MARK:SRCH:FREQ': 'marker [src]',
+
+    # TODO: Pseudo-commands to add in the future (should be mapped to funcs)
     # 'MARK:SRCH:MINR': [['int', 1, 4]],
     # 'MARK:SRCH:MINL': [['int', 1, 4]],
     # 'MARK:SRCH:MAXR': [['int', 1, 4]],
     # 'MARK:SRCH:MAXL': [['int', 1, 4]],
-    # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
-    # TODO: Fill in the rest of this
+
 
 
     # Measure subsystem
-    'MEAS:DUMP' : 'data',
+    'MEAS:OFF': '',
 
     # TODO: Measure Subsystem
 

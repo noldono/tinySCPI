@@ -25,18 +25,18 @@ validCommandTable = {
                      'SYST:CLRCONF': [],
 
                      # FREQuency Subsystem
-                     'FREQ:START': [['int', 0, 350000000]],
-                     'FREQ:STOP': [['int', 0, 350000000]],
-                     'FREQ:CENT': [['int', 0, 350000000]],
+                     'FREQ:START': [['int', 0, 900000000]],
+                     'FREQ:STOP': [['int', 0, 900000000]],
+                     'FREQ:CENT': [['int', 0, 900000000]],
                      'FREQ:SPAN': [['int', 0, 290]],
                      'FREQ:SPAN:ZERO': [],
                      'FREQ:RBW': [['str', '3', '10', '30', '100', '300', '600']],
                      'FREQ:RBW:AUTO': [],
                      'FREQ:DUMP': [],
-                      #Scan commands may may need to be changed, but function accordingly should appropriate freq range be used 
-                     'FREQ:SCAN:FREQ': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
-                     'FREQ:SCAN:MEAS': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
-                     'FREQ:SCAN:STOR': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]], 
+                      #Scan commands may may need to be changed, but function accordingly should appropriate freq range be used
+                     'FREQ:SCAN:FREQ': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]],
+                     'FREQ:SCAN:MEAS': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]],
+                     'FREQ:SCAN:STOR': [['float', float('-inf'), float('inf')], ['float', float('-inf'), float('inf')]],
 
                      'FREQ:IF:AUTO': [],
                      'FREQ:IF': [['int', 433000000, 435000000]],
@@ -95,9 +95,6 @@ validCommandTable = {
                      'MARK:DELT': [['int', 1, 4], ['int', 1, 4]],
                      'MARK:DELT:OFF': [['int', 1, 4]],
 
-                     'MARK:NOIS:SET': [['int', 1, 4]],
-                     'MARK:NOIS:OFF': [['int', 1, 4]],
-
                      'MARK:TRAK:SET': [['int', 1, 4]],
                      'MARK:TRAK:OFF': [['int', 1, 4]],
 
@@ -108,17 +105,15 @@ validCommandTable = {
 
                      'MARK:SRCH:PEAK': [['int', 1, 4]],
 
-                     'MARK:SRCH:MINR': [['int', 1, 4]],
-                     'MARK:SRCH:MINL': [['int', 1, 4]],
-                     'MARK:SRCH:MAXR': [['int', 1, 4]],
-                     'MARK:SRCH:MAXL': [['int', 1, 4]],
-
                      'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
                      'MARK:DEL': [['int', 1, 4]],
                      'MARK:RST': [],
 
-                     'MARK:DIFF': [['int', 1, 4], ['int', 1, 4]],
-                     'MARK:DIFF:OFF': [['int', 1, 4]],
+                     # Not implemented
+                     'MARK:SRCH:MINR': [['int', 1, 4]],
+                     'MARK:SRCH:MINL': [['int', 1, 4]],
+                     'MARK:SRCH:MAXR': [['int', 1, 4]],
+                     'MARK:SRCH:MAXL': [['int', 1, 4]],
 
                      # MEASure Subsystem
                      'MEAS:DUMP' :[['int', 0, 2]],
