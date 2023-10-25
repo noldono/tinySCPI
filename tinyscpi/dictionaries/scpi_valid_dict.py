@@ -53,6 +53,12 @@ validCommandTable = {
                      'LVL:UNIT': [['str', 'dBm', 'dBmV', 'dBuV', 'V', 'W']],
                      'LVL:XGAIN': [['int', -100, 100]],
 
+                     # TRIGger Subsystem
+                     'TRIG:TYPE:AUTO': [],
+                     'TRIG:TYPE:NORM': [],
+                     'TRIG:TYPE:SNGL': [],
+                     'TRIG:LVL': [['float', float('-inf'), float('inf')]],
+
                      # TRACe Subsystem
                      'TRAC:FREZ:ON': [['int', 1, 3]],
                      'TRAC:FREZ:OFF': [['int', 1, 3]],
@@ -119,6 +125,8 @@ validCommandTable = {
 
                      # MEASure Subsystem
                      'MEAS:DUMP' :[['int', 0, 2]],
+                     'MEAS:HARM' :[['int', 0, 999999999]],
+                     'MEAS:OIP3' :[['int', 0, 999999999], ['int', 0, 999999999]],
                      #TODO: MEASure section
 
                      # CONFiguration Subsystem

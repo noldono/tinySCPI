@@ -52,6 +52,12 @@ SCPILookUpTable = {
     'LVL:UNIT': 'trace',
     'LVL:XGAIN': 'ext_gain',
 
+    # TRIGger subsystem
+    'TRIG:TYPE:AUTO': 'trigger auto',
+    'TRIG:TYPE:NORM': 'trigger normal',
+    'TRIG:TYPE:SNGL': 'trigger single',
+    'TRIG:LVL': 'trigger [src]',
+
     # TRACe subsystem
     'TRAC:FREZ:ON': 'trace [src] freeze on',
     'TRAC:FREZ:OFF': 'trace [src] freeze off',
@@ -99,16 +105,28 @@ SCPILookUpTable = {
     'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
     'MARK:DEL': 'marker [src] off',
-    'MARK:SRCH:MINR': [['int', 1, 4]],
-    'MARK:SRCH:MINL': [['int', 1, 4]],
-    'MARK:SRCH:MAXR': [['int', 1, 4]],
-    'MARK:SRCH:MAXL': [['int', 1, 4]],
-    'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+    # 'MARK:SRCH:MINR': [['int', 1, 4]],
+    # 'MARK:SRCH:MINL': [['int', 1, 4]],
+    # 'MARK:SRCH:MAXR': [['int', 1, 4]],
+    # 'MARK:SRCH:MAXL': [['int', 1, 4]],
+    # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+
+
+
+
     # TODO: Fill in the rest of this
 
 
     # Measure subsystem
-    'MEAS:DUMP' : 'data',
+    'MEAS:DUMP': 'data',
+
+
+    # Example method for MEASure subsystem implementation.
+    # obj: reserved for scpi_functional object (i.e. "self")
+    # args: list of arguments from scpi_parser.
+
+    'MEAS:HARM': (lambda obj, args: sf.SCPI_functional.MEASure_HARMonic(obj, args)),
+    'MEAS:OIP3': (lambda obj, args: sf.SCPI_functional.MEASure_OIP3(obj, args)),
 
     # TODO: Measure Subsystem
 
@@ -117,4 +135,5 @@ SCPILookUpTable = {
     'CONF:CAPT': sf.SCPI_functional.take_screenshot,
     'CONF:CORR:LOW' : 'correction low',
     'CONF:CORR:HIGH' : 'correction high',
+
 }

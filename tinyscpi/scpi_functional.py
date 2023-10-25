@@ -46,8 +46,13 @@ class SCPI_functional:
         usb_cmd = scpi_lookup_dict.SCPILookUpTable[command]
 
         if callable(usb_cmd):
-            usb_cmd(self)
+            usb_cmd(self, args)
             return usb_cmd
+
+
+        # if callable(usb_cmd):
+        #     usb_cmd(self)
+        #     return usb_cmd
 
         if "[src]" in usb_cmd or "[dst]" in usb_cmd:
             usb_cmd = helpers.replace_src_dst(usb_cmd, args)
@@ -165,3 +170,40 @@ class SCPI_functional:
             self.send('release')
         except Exception as e:
             return f"Error sending selftest command: {str(e)}"
+
+    '''
+    Example method for MEASure subsystem implementation
+    
+    self: scpi_functional object
+    args: list of arguments from scpi_parser.
+    
+    MEASure_HARMonic has one argument, frequency of fundamental (saved in args[0])
+    
+    Since scpi_parser checks whether the argument is valid or not, 
+    it is guaranteed that there is only one argument in args.
+    '''
+    def MEASure_HARMonic(self, args):
+        #TODO: Placeholder
+        print("inside MEASure_HARMonic function")
+        print("verification: PID = " + str(self.PID))
+        print("touch " + str(args[0]) + " " + str(args[0]))
+
+
+    '''
+    Example method for MEASure subsystem implementation
+    
+    self: scpi_functional object
+    args: list of arguments from scpi_parser.
+    
+    MEASure_OIP3 has two arguments, left frequency (saved in args[0])
+    and right frequency (saved in args[1])
+    
+    Since scpi_parser checks whether the argument is valid or not, 
+    it is guaranteed that there are exactly two arguments in args.
+    
+    '''
+    def MEASure_OIP3(self, args):
+        #TODO: Placeholder
+        print("Inside MEASure_OIP3 function")
+        print("verification with PID = " + str(self.PID))
+        print("touch " + str(args[0]) + " " + str(args[1]))
