@@ -2,6 +2,8 @@ import struct
 import sys
 import time
 from . import helpers
+from datetime import datetime
+from .dictionaries import digit_mappings_dict
 
 import numpy
 import numpy as np
@@ -46,7 +48,12 @@ class SCPI_functional:
         usb_cmd = scpi_lookup_dict.SCPILookUpTable[command]
 
         if callable(usb_cmd):
-            usb_cmd(self, args)
+            if 'MEAS' in command:
+                # MEASure subsystem commands require arguments to be passed to their functions
+                usb_cmd(self, args)
+            else:
+                usb_cmd(self)
+
             return usb_cmd
 
 
@@ -87,7 +94,7 @@ class SCPI_functional:
                 return f"Error sending commmand '{command}': {str(e)}"
 
     # From https://github.com/Ho-Ro/nanovna-tools/blob/main/nanovna_capture.py
-    def take_screenshot(self, filename: str = "capture"):
+    def take_screenshot(self):
         try:
             device = self.get_device()
             with serial.Serial(device, timeout=1) as tinySA_device:
@@ -103,11 +110,10 @@ class SCPI_functional:
             rgba8888 = 0xFF000000 + (
                     ((rgb565_32 & 0xF800) >> 8) + ((rgb565_32 & 0x07E0) << 5) + ((rgb565_32 & 0x001F) << 19))
             image = Image.frombuffer('RGBA', (self.screen_width, self.screen_height), rgba8888, 'raw', 'RGBA', 0, 1)
-            try:
-                image.save(filename)  # .. and save it to file (format according extension)
-            except ValueError:  # unknown (or missing) exension
-                image.save(filename + '.png')  # force PNG format
+            current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            image.save(f"tinysa_capture_{current_datetime}.png")
         except Exception as e:
+            print(str(e))
             return f"Error sending capture command: {str(e)}"
 
     # From https://github.com/Ho-Ro/nanovna-tools/blob/main/tinysa_scanraw.py
@@ -172,38 +178,128 @@ class SCPI_functional:
             return f"Error sending selftest command: {str(e)}"
 
     '''
-    Example method for MEASure subsystem implementation
-    
-    self: scpi_functional object
-    args: list of arguments from scpi_parser.
-    
-    MEASure_HARMonic has one argument, frequency of fundamental (saved in args[0])
-    
-    Since scpi_parser checks whether the argument is valid or not, 
-    it is guaranteed that there is only one argument in args.
+    MEASure Subsystem Functions
     '''
+
+    def MEASure_OFF(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 10')
+        self.send('release')
+
     def MEASure_HARMonic(self, args):
-        #TODO: Placeholder
-        print("inside MEASure_HARMonic function")
-        print("verification: PID = " + str(self.PID))
-        print("touch " + str(args[0]) + " " + str(args[0]))
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 35')
+        self.send('release')
+        self._enter_digits_on_screen(args)
 
-
-    '''
-    Example method for MEASure subsystem implementation
-    
-    self: scpi_functional object
-    args: list of arguments from scpi_parser.
-    
-    MEASure_OIP3 has two arguments, left frequency (saved in args[0])
-    and right frequency (saved in args[1])
-    
-    Since scpi_parser checks whether the argument is valid or not, 
-    it is guaranteed that there are exactly two arguments in args.
-    
-    '''
     def MEASure_OIP3(self, args):
-        #TODO: Placeholder
-        print("Inside MEASure_OIP3 function")
-        print("verification with PID = " + str(self.PID))
-        print("touch " + str(args[0]) + " " + str(args[1]))
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 60')
+        self.send('release')
+        print(self._enter_digits_on_screen(args))
+
+    def MEASure_PhaseNOISe(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 90')
+        self.send('release')
+        print(self._enter_digits_on_screen(args))
+
+    def MEASure_SNR(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 120')
+        self.send('release')
+        self._enter_digits_on_screen(args)
+
+    def MEASure_3DB(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 150')
+        self.send('release')
+
+    def MEASure_AM(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 180')
+        self.send('release')
+        self.send('touch 320 10')
+        self.send('release')
+        print(self._enter_digits_on_screen(args))
+
+    def MEASure_FM(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 180')
+        self.send('release')
+        self.send('touch 320 40')
+        self.send('release')
+        print(self._enter_digits_on_screen(args))
+
+    def MEASure_THD(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 180')
+        self.send('release')
+        self.send('touch 320 80')
+        self.send('release')
+
+    def MEASure_CHPOW(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 180')
+        self.send('release')
+        self.send('touch 320 110')
+        self.send('release')
+        print(self._enter_digits_on_screen(args))
+
+    def MEASure_LINEar(self, args):
+        self.send('touch 300 100')
+        self.send('release')
+        self.send('touch 320 160')
+        self.send('release')
+        self.send('touch 320 180')
+        self.send('release')
+        self.send('touch 320 150')
+        self.send('release')
+
+    def _enter_digits_on_screen(self, args) -> None:
+        command_sequence = []
+        for arg in args:
+            shortened_freq = helpers.shorten_frequency(arg)
+            for c in shortened_freq:
+                command_sequence.append(digit_mappings_dict.commands[c])
+                command_sequence.append('release')
+
+            # If the arg is just in Hz, press x1 to go to the next screen
+            if str(arg) == shortened_freq:
+                command_sequence.append(digit_mappings_dict.commands['x1'])
+                command_sequence.append('release')
+
+        for command in command_sequence:
+            self.send(command)
+
+

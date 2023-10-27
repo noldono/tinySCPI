@@ -124,10 +124,17 @@ validCommandTable = {
                      'MARK:DIFF:OFF': [['int', 1, 4]],
 
                      # MEASure Subsystem
-                     'MEAS:DUMP' :[['int', 0, 2]],
-                     'MEAS:HARM' :[['int', 0, 999999999]],
-                     'MEAS:OIP3' :[['int', 0, 999999999], ['int', 0, 999999999]],
-                     #TODO: MEASure section
+                    'MEAS:DUMP': [['int', 0, 2]],
+                    'MEAS:HARM': [['int', 0, 999999999]],
+                    'MEAS:OIP3': [['int', 0, 999999999], ['int', 0, 999999999]],
+                    'MEAS:PNOIS': [['int', 0, 999999999], ['int', 0, 999999999]],
+                    'MEAS:SNR': [['int', 0, 999999999], ['int', 0, 999999999]],
+                    'MEAS:3DB': [],
+                    'MEAS:AM': [['int', 0, 999999999], ['int', 3000, 10000]],
+                    'MEAS:FM': [['int', 0, 999999999], ['int', 1000, 2500]],
+                    'MEAS:THD': [],
+                    'MEAS:CHPOW': [['int', 0, 999999999], ['int', 0, 999999999]],
+                    'MEAS:LINE': [],
 
                      # CONFiguration Subsystem
                      'CONF:CAPT': [],
