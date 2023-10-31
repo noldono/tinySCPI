@@ -34,9 +34,9 @@ def capture(filename: str) -> str:
     return f"Success, saved as {filename} in current directory"
 
 
-def scan_raw_points(savedata: bool) -> str:
+def scan_raw_points(savedata: bool, start_freq: int, stop_freq: int, num_points: int) -> str:
     functional = scpi_functional.SCPI_functional()
-    result = functional.scan_raw(0, 350000000, 200)
+    result = functional.scan_raw(start_freq, stop_freq, 200)
     if savedata:
         np.savetxt('data.csv', result, delimiter=',', fmt='%.8f')
         print(f"Successfully saved data in current working directory as data.csv")
