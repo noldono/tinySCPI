@@ -9,9 +9,6 @@
 *CLR
 	Clears configuration data.
 
-*TST
-	Runs the tinySA diagnostics test.
-
 *HLP
 	Returns a list of all available tinySA USB serial commands
 ```
