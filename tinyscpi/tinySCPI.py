@@ -7,7 +7,6 @@ from . import scpi_parser
 def user_input(input_cmd: str) -> str:
     parser = scpi_parser.SCPI_Parser()
     functional = scpi_functional.SCPI_functional()
-    # Consider adding an args checking function here so that we don't waste resources trying to send an invalid command
     cmd, args = parser.parse_command(input_cmd)
     usb_str = functional.convert_scpi_to_usb(cmd, args)
     return functional.send(usb_str)
@@ -36,7 +35,7 @@ def capture(filename: str) -> str:
 
 def scan_raw_points(savedata: bool, start_freq: int, stop_freq: int, num_points: int) -> str:
     functional = scpi_functional.SCPI_functional()
-    result = functional.scan_raw(start_freq, stop_freq, 200)
+    result = functional.scan_raw(start_freq, stop_freq, num_points)
     if savedata:
         np.savetxt('data.csv', result, delimiter=',', fmt='%.8f')
         print(f"Successfully saved data in current working directory as data.csv")

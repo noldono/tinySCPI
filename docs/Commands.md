@@ -380,3 +380,23 @@ MEASure:
 		Dumps all information related to trace data, id 0 for temporary data, 1 for stored trace, 2 for measurement.
 
 ```
+
+## Config Subtree
+```
+CONFig:	
+	CALCulate [off|minh|maxh|maxd|aver4|aver16|quasip]
+	    arguments: [off|minh|maxh|maxd|aver4|aver16|quasip]
+        Sets the mode of calculation according to different types of modes. Further explanation of each mode can be found in the tinySCPI documentation.
+	
+	CORRection:LOW [id] [frequency] [dB value]
+		arguments: [id # (between 0-19)] [frequency in Hz] [value in dB]
+        Sets the low correction value in dB for the specified frequency to the ID.
+
+    CORRection:HIGH [id] [frequency] [dB value]
+		arguments: correction high [id # (between 0-19)] [frequency in Hz] [value in dB]
+        Sets the low correction value in dB for the specified frequency to the ID.
+	
+	CAPTure
+	    arguments: none
+	    Takes a screenshot of the tinySA, saves it in the current working directory
+```
