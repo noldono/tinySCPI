@@ -1,3 +1,7 @@
+### Read before continuing:
+- Commands can be interpreted in "tree" format. So the first command in the Frequency Subtree is FREQuency:START
+- Only the uppercase letters in the command are needed. So ```FREQ:START``` would work. ```FREQuencyyyyy:START``` would also work too as the parser removes any lowercase letters
+  
 ## System Commands
 ```
 *IDN?
@@ -14,9 +18,6 @@
 ```
 
 ## Frequency Subtree
-### Read before continuing:
-- Commands can be interpreted in "tree" format. So the first command in the list is FREQuency:START
-- Only the uppercase letters in the command are needed. So ```FREQ:START``` would work. ```FREQuencyyyyy:START``` would also work too as the parser removes any lowercase letters
 ```
 FREQuency:
 	START [0M-350M]
