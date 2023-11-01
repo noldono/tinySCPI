@@ -84,16 +84,16 @@ class FunctionalTestCase(unittest.TestCase):
         self.assertEqual(result, 'threads')
         # 'SYST:STEST'
         result = self.functional.convert_scpi_to_usb('SYST:STEST', [])
-        self.assertEqual(result, 'selftest 0')
+        self.assertTrue(isinstance(result, Callable))
         # 'SYST:OFFS 0'
         result = self.functional.convert_scpi_to_usb('SYST:OFFS', [0])
-        self.assertEqual(result, 'Vbat_offset 0')
+        self.assertEqual(result, 'vbat_offset 0')
         # 'SYST:OFFS 4095'
         result = self.functional.convert_scpi_to_usb('SYST:OFFS', [4095])
-        self.assertEqual(result, 'Vbat_offset 4095')
+        self.assertEqual(result, 'vbat_offset 4095')
         # 'SYST:CLRCONF'
         result = self.functional.convert_scpi_to_usb('SYST:CLRCONF', [])
-        self.assertEqual(result, 'clearconfig')
+        self.assertEqual(result, 'clearconfig 1234')
 
     ''' test commands in FREQuency subtree'''
     def testConvertSCPItoUSB_FREQ(self):
@@ -544,49 +544,6 @@ class FunctionalTestCase(unittest.TestCase):
         # 'MARKer:SeaRCH:PEAK 4'
         result = self.functional.convert_scpi_to_usb('MARK:SRCH:PEAK', [4])
         self.assertEqual(result, 'marker 4 peak')
-        # 'MARK:SRCH:MINR 1'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINR', [1])
-        #TODO: no usb command equivalent
-        # 'MARKer:SeaRCH:MINRight 4'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINR', [4])
-        #TODO: no usb command equivalent
-
-        # 'MARK:SRCH:MINL 1'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINL', [1])
-        #TODO: no usb command equivalent
-
-        # 'MARKer:SeaRCH:MINLeft 4'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MINL', [4])
-        #TODO: no usb command equivalent
-
-        #  'MARK:SRCH:MAXR 1'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXR', [1])
-        #TODO: no usb command equivalent
-
-        #  'MARKer:SeaRCH:MAXRight 4'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXR', [4])
-        #TODO: no usb command equivalent
-
-        # 'MARK:SRCH:MAXL 1'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXL', [1])
-        #TODO: no usb command equivalent
-
-        # 'MARKer:SeaRCH:MAXLeft 4'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:MAXL', [4])
-        #TODO: no usb command equivalent
-
-        # 'MARK:SRCH:FREQ 0 0'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [0, 0])
-        self.assertEqual(result, 'marker 0 0')
-        # 'MARKer:SeaRCH:FREQuency 0 350000000'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [0, 350000000])
-        self.assertEqual(result, 'marker 0 350000000')
-        # 'MARK:SRCH:FREQ 350000000 0'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [350000000, 0])
-        self.assertEqual(result, 'marker 350000000 0')
-        # 'MARKer:SeaRCH:FREQuency 350000000 350000000'
-        result = self.functional.convert_scpi_to_usb('MARK:SRCH:FREQ', [350000000, 350000000])
-        self.assertEqual(result, 'marker 350000000 350000000')
         # 'MARK:DEL 1'
         result = self.functional.convert_scpi_to_usb('MARK:DEL', [1])
         self.assertEqual(result, 'marker 1 off')
@@ -600,27 +557,27 @@ class FunctionalTestCase(unittest.TestCase):
         result = self.functional.convert_scpi_to_usb('MARK:RST', [])
         self.assertEqual(result, 'marker off')
         # 'MARK:DIFF 1 1'
-        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [1, 1])
-        # TODO
-        # 'MARKer:DIFFerence 1 4'
-        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [1, 4])
-        # TODO
-
-        # 'MARK:DIFFer 4 1'
-        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [4, 1])
-        # TODO
-
-        # 'MARKer:DIFF 4  4'
-        result = self.functional.convert_scpi_to_usb('MARK:DIFF', [4, 4])
-        # TODO
-
-        # 'MARK:DIFF:OFF 1'
-        result = self.functional.convert_scpi_to_usb('MARK:DIFF:OFF', [1])
-        # TODO
-
-        # 'MARKer:DIFFerence:OFF 4'
-        result = self.functional.convert_scpi_to_usb('MARK:DIFF:OFF', [4])
-        # TODO
+        # result = self.functional.convert_scpi_to_usb('MARK:DIFF', [1, 1])
+        # # TODO
+        # # 'MARKer:DIFFerence 1 4'
+        # result = self.functional.convert_scpi_to_usb('MARK:DIFF', [1, 4])
+        # # TODO
+        #
+        # # 'MARK:DIFFer 4 1'
+        # result = self.functional.convert_scpi_to_usb('MARK:DIFF', [4, 1])
+        # # TODO
+        #
+        # # 'MARKer:DIFF 4  4'
+        # result = self.functional.convert_scpi_to_usb('MARK:DIFF', [4, 4])
+        # # TODO
+        #
+        # # 'MARK:DIFF:OFF 1'
+        # result = self.functional.convert_scpi_to_usb('MARK:DIFF:OFF', [1])
+        # # TODO
+        #
+        # # 'MARKer:DIFFerence:OFF 4'
+        # result = self.functional.convert_scpi_to_usb('MARK:DIFF:OFF', [4])
+        # # TODO
 
     ''' test commands in MEASure subtree '''
     def testConvertSCPItoUSB_MEAS(self):

@@ -105,6 +105,7 @@ SCPILookUpTable = {
     'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
     'MARK:DEL': 'marker [src] off',
+    'MARK:RST': 'marker off',
 
     # MEASure subsystem
     'MEAS:HARM': (lambda obj, args: sf.SCPI_functional.MEASure_HARMonic(obj, args)),
