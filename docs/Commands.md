@@ -1,3 +1,7 @@
+### Read before continuing:
+- Commands can be interpreted in "tree" format. So the first command in the Frequency Subtree is FREQuency:START
+- Only the uppercase letters in the command are needed. So ```FREQ:START``` would work. ```FREQuencyyyyy:START``` would also work too as the parser removes any lowercase letters
+  
 ## System Commands
 ```
 *IDN?
@@ -9,17 +13,11 @@
 *CLR
 	Clears configuration data.
 
-*TST
-	Runs the tinySA diagnostics test.
-
 *HLP
 	Returns a list of all available tinySA USB serial commands
 ```
 
 ## Frequency Subtree
-### Read before continuing:
-- Commands can be interpreted in "tree" format. So the first command in the list is FREQuency:START
-- Only the uppercase letters in the command are needed. So ```FREQ:START``` would work. ```FREQuencyyyyy:START``` would also work too as the parser removes any lowercase letters
 ```
 FREQuency:
 	START [0M-350M]
@@ -386,15 +384,15 @@ MEASure:
 CONFig:	
 	CALCulate [off|minh|maxh|maxd|aver4|aver16|quasip]
 	    arguments: [off|minh|maxh|maxd|aver4|aver16|quasip]
-        Sets the mode of calculation according to different types of modes. Further explanation of each mode can be found in the tinySCPI documentation.
+            Sets the mode of calculation according to different types of modes. Further explanation of each mode can be found in the tinySCPI documentation.
 	
 	CORRection:LOW [id] [frequency] [dB value]
-		arguments: [id # (between 0-19)] [frequency in Hz] [value in dB]
-        Sets the low correction value in dB for the specified frequency to the ID.
+	    arguments: [id # (between 0-19)] [frequency in Hz] [value in dB]
+	    Sets the low correction value in dB for the specified frequency to the ID.
 
-    CORRection:HIGH [id] [frequency] [dB value]
-		arguments: correction high [id # (between 0-19)] [frequency in Hz] [value in dB]
-        Sets the low correction value in dB for the specified frequency to the ID.
+        CORRection:HIGH [id] [frequency] [dB value]
+	    arguments: correction high [id # (between 0-19)] [frequency in Hz] [value in dB]
+	    Sets the low correction value in dB for the specified frequency to the ID.
 	
 	CAPTure
 	    arguments: none
