@@ -41,7 +41,7 @@ SCPILookUpTable = {
 
     'FREQ:IF:AUTO': 'if 0',
     'FREQ:IF': 'if',
-  
+
     # LVL subsystem
     'LVL:ATT': 'attenuate',
     'LVL:ATT:AUTO': 'attenuate auto',
@@ -91,7 +91,7 @@ SCPILookUpTable = {
     'OUT:OFF': 'output off',
     'OUT:CALI:OFF': 'caloutput off',
     'OUT:CALI': 'caloutput',
-  
+
     # Marker Subsystem
     'MARK:FREQ': 'marker [src] [dst]',
     'MARK:DELT': 'marker [src] delta [dst]',
@@ -105,17 +105,9 @@ SCPILookUpTable = {
     'MARK:AVER:OFF': 'marker [src] trace_aver off',
     'MARK:SRCH:PEAK': 'marker [src] peak',
     'MARK:DEL': 'marker [src] off',
-    # 'MARK:SRCH:MINR': [['int', 1, 4]],
-    # 'MARK:SRCH:MINL': [['int', 1, 4]],
-    # 'MARK:SRCH:MAXR': [['int', 1, 4]],
-    # 'MARK:SRCH:MAXL': [['int', 1, 4]],
-    # 'MARK:SRCH:FREQ': [['int', 0, 350000000], ['int', 0, 350000000]],
+    'MARK:RST': 'marker off',
 
-
-
-
-    # Measure subsystem
-
+    # MEASure subsystem
     'MEAS:HARM': (lambda obj, args: sf.SCPI_functional.MEASure_HARMonic(obj, args)),
     'MEAS:OIP3': (lambda obj, args: sf.SCPI_functional.MEASure_OIP3(obj, args)),
     'MEAS:PNOIS': (lambda obj, args: sf.SCPI_functional.MEASure_PhaseNOISe(obj, args)),
@@ -128,10 +120,10 @@ SCPILookUpTable = {
     'MEAS:LINE': (lambda obj, args: sf.SCPI_functional.MEASure_LINEar(obj, args)),
     'MEAS:DUMP': 'data',
 
-    #Config subsystem
-    'CONF:CALC' : 'calc',
+    # CONFig subsystem
+    'CONF:CALC': 'calc',
     'CONF:CAPT': sf.SCPI_functional.take_screenshot,
-    'CONF:CORR:LOW' : 'correction low',
-    'CONF:CORR:HIGH' : 'correction high',
+    'CONF:CORR:LOW': 'correction low',
+    'CONF:CORR:HIGH': 'correction high',
 
 }

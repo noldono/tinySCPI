@@ -7,7 +7,7 @@ See the [Commands](https://github.com/noldono/tinySCPI/blob/main/docs/Commands.m
 
 1. [**Getting Started**](#getting-started)
 2. [**Dependencies**](#dependencies)
-3. [**Section Three**](#unit-test)
+3. [**Unit Testing**](#unit-test)
 4. [**Coverage**](#coverage)
 5. [**Contact Us**](#contact)
 
