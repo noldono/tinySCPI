@@ -54,10 +54,20 @@ tinySCPI requires python >= 3.6, pyserial, pytest, and pytest-cov
 ```pip install pytest-cov```
 
 ## Unit Test: <a name="unit-test"></a>
-```pytest```
+```pytest``` is required to execute unit tests.
+
+You can install pytest library by typing `pip install pytest` in your terminal/command line
+
+You can execute unit tests by typing `pytest` in your terminal/command line root directoryscpi`
 
 ## Coverage: <a name="coverage"></a>
-```pytest --cov-config=.coveragerc --cov=tinyscpi tinyscpi/tests/ --cov-report html ```
+`pytest` and `pytest-cov` are required to execute code coverage analysis. 
+
+You can install pytest andn pytest-ocv library by typing `pip install pytest pytest-cov` in your temrinal/command line.
+
+You can execute unit tests by typing `pytest --cov-config=.coveragerc --cov=tinyscpi tinyscpi/tests/ --cov-report html`
+
+After the execution you will be able to find the coverage report at `./htmlcov/index.html`
 
 ## Contact Us: <a name="contact"></a>
 Email: tinyscpi@vt.edu
