@@ -392,7 +392,7 @@ CONFig:
 
         CORRection:HIGH [id] [frequency] [dB value]
 	    arguments: correction high [id # (between 0-19)] [frequency in Hz] [value in dB]
-	    Sets the low correction value in dB for the specified frequency to the ID.
+	    Sets the high correction value in dB for the specified frequency to the ID.
 	
 	CAPTure
 	    arguments: none
