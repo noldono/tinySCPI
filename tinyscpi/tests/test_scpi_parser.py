@@ -13,9 +13,7 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('')
 
-    '''
-    test *IDN? command
-    '''
+    ''' test *IDN? command '''
     def test_parse_command_IDN(self) -> None:
         self.assertEqual(self.parser.parse_command('*IDN?'), ('*IDN?', []))
 
@@ -315,14 +313,14 @@ class ParserTestCase(unittest.TestCase):
     ''' test FREQ:START command '''
     def test_parse_command_FREQ_START(self):
         self.assertEqual(self.parser.parse_command('FREQ:START 0'), ('FREQ:START', [0]))
-        self.assertEqual(self.parser.parse_command('FREQuency:START 350000000'), ('FREQ:START', [350000000]))
+        self.assertEqual(self.parser.parse_command('FREQuency:START 959000000'), ('FREQ:START', [959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:START')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:START -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:START 350000001')
+            self.parser.parse_command('FREQ:START 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:START start')
         with self.assertRaises(Exception):
@@ -333,32 +331,32 @@ class ParserTestCase(unittest.TestCase):
     ''' test FREQ:STOP command '''
     def test_parse_command_FREQ_STOP(self):
         self.assertEqual(self.parser.parse_command('FREQ:STOP 0'), ('FREQ:STOP', [0]))
-        self.assertEqual(self.parser.parse_command('FREQuency:STOP 350000000'), ('FREQ:STOP', [350000000]))
+        self.assertEqual(self.parser.parse_command('FREQuency:STOP 959000000'), ('FREQ:STOP', [959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:STOP')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:STOP -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:STOP 350000001')
+            self.parser.parse_command('FREQ:STOP 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:STOP default')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:STOP 350000.5')
+            self.parser.parse_command('FREQ:STOP 959000.5')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:STOP 340000000 350000000')
+            self.parser.parse_command('FREQ:STOP 340000000 959000000')
 
     ''' test FREQ:CENT command '''
     def test_parse_command_FREQ_CENT(self):
         self.assertEqual(self.parser.parse_command('FREQ:CENT 0'), ('FREQ:CENT', [0]))
-        self.assertEqual(self.parser.parse_command('FREQuency:CENTer 350000000'), ('FREQ:CENT', [350000000]))
+        self.assertEqual(self.parser.parse_command('FREQuency:CENTer 959000000'), ('FREQ:CENT', [959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:CENT')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:CENT -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:CENT 350000001')
+            self.parser.parse_command('FREQ:CENT 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:CENT peak')
         with self.assertRaises(Exception):
@@ -377,7 +375,7 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SPAN -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SPAN 350000001')
+            self.parser.parse_command('FREQ:SPAN 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SPAN span')
         with self.assertRaises(Exception):
@@ -453,9 +451,10 @@ class ParserTestCase(unittest.TestCase):
 
     ''' test FREQ:SCAN:FREQ command '''
     def test_parse_command_FREQ_SCAN_FREQ(self):
-        self.assertEqual(self.parser.parse_command('FREQ:SCAN:FREQ 0 350000000'), ('FREQ:SCAN:FREQ', [0, 350000000]))
-        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:FREQuency 0.1 34999999.9'),
-                         ('FREQ:SCAN:FREQ', [0.1, 34999999.9]))
+        self.assertEqual(self.parser.parse_command('FREQ:SCAN:FREQ 0 0'), ('FREQ:SCAN:FREQ', [0, 0]))
+        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:FREQuency 0 959000000'),('FREQ:SCAN:FREQ', [0, 959000000]))
+        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:FREQuency 959000000 0'), ('FREQ:SCAN:FREQ', [959000000, 0]))
+        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:FREQuency 959000000 959000000'), ('FREQ:SCAN:FREQ', [959000000, 959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:FREQ')
@@ -464,16 +463,18 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:FREQ scan')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:FREQ -1 350000000')
+            self.parser.parse_command('FREQ:SCAN:FREQ -1 959000000')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:FREQ 350000001 -1')
+            self.parser.parse_command('FREQ:SCAN:FREQ 959000001 -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:FREQ 350000001 350000000 350000000')
+            self.parser.parse_command('FREQ:SCAN:FREQ 959000001 959000000 959000000')
 
     ''' test FREQ:SCAN:MEAS command '''
     def test_parse_command_FREQ_SCAN_MEAS(self)->None:
-        self.assertEqual(self.parser.parse_command('FREQ:SCAN:MEAS 0 900000'), ('FREQ:SCAN:MEAS', [0, 900000]))
-        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:MEASure 899999.9 0.1'), ('FREQ:SCAN:MEAS', [899999.9, 0.1]))
+        self.assertEqual(self.parser.parse_command('FREQ:SCAN:MEAS 0 0'), ('FREQ:SCAN:MEAS', [0, 0]))
+        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:MEASure 0 959000000'), ('FREQ:SCAN:MEAS', [0, 959000000]))
+        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:MEASure 959000000 0 '), ('FREQ:SCAN:MEAS', [959000000, 0]))
+        self.assertEqual(self.parser.parse_command('FREQuency:SCAN:MEASure 959000000 959000000 '), ('FREQ:SCAN:MEAS', [959000000, 959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:MEAS')
@@ -482,16 +483,23 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:MEAS scan')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:MEAS -1 900000')
+            self.parser.parse_command('FREQ:SCAN:MEAS -1 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:MEAS 900001 -1')
+            self.parser.parse_command('FREQ:SCAN:MEAS 959000001 0')
+        with self.assertRaises(Exception):
+            self.parser.parse_command('FREQ:SCAN:MEAS 0 -1')
+        with self.assertRaises(Exception):
+            self.parser.parse_command('FREQ:SCAN:MEAS 0 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:MEAS 900001 900000 900000')
 
     ''' test FREQ:SCAN:STOR command '''
     def test_parse_command_FREQ_SCAN_STOR(self) -> None:
-        self.assertEqual(self.parser.parse_command('FREQ:SCAN:STOR 0 900000'), ('FREQ:SCAN:STOR', [0, 900000]))
-        self.assertEqual(self.parser.parse_command('FREQ:SCAN:STOR 900000 0'), ('FREQ:SCAN:STOR', [900000, 0]))
+        self.assertEqual(self.parser.parse_command('FREQ:SCAN:STOR 0 0'), ('FREQ:SCAN:STOR', [0, 0]))
+        self.assertEqual(self.parser.parse_command('FREQ:SCAN:STOR 959000000 0'), ('FREQ:SCAN:STOR', [959000000, 0]))
+        self.assertEqual(self.parser.parse_command('FREQ:SCAN:STOR 0 959000000'), ('FREQ:SCAN:STOR', [0, 959000000]))
+        self.assertEqual(self.parser.parse_command('FREQ:SCAN:STOR 959000000 959000000'), ('FREQ:SCAN:STOR', [959000000, 959000000]))
+
 
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:STOR')
@@ -500,9 +508,13 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:STOR scan')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:STOR -1 900000')
+            self.parser.parse_command('FREQ:SCAN:STOR -1 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('FREQ:SCAN:STOR 900001 -1')
+            self.parser.parse_command('FREQ:SCAN:STOR 959000001 0')
+        with self.assertRaises(Exception):
+            self.parser.parse_command('FREQ:SCAN:STOR 0 -1')
+        with self.assertRaises(Exception):
+            self.parser.parse_command('FREQ:SCAN:STOR 0 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('FREQ:SCAN:STOR 900001 900000 900000')
 
@@ -1150,8 +1162,8 @@ class ParserTestCase(unittest.TestCase):
     def test_parse_command_MARK_FREQ(self):
         self.assertEqual(self.parser.parse_command('MARK:FREQ 1   0'), ('MARK:FREQ', [1, 0]))
         self.assertEqual(self.parser.parse_command('MARKer:FREQuency 4 0'), ('MARK:FREQ', [4, 0]))
-        self.assertEqual(self.parser.parse_command('MARK:FREQ 1      350000000'), ('MARK:FREQ', [1, 350000000]))
-        self.assertEqual(self.parser.parse_command('MARK:FREQ 4      350000000'), ('MARK:FREQ', [4, 350000000]))
+        self.assertEqual(self.parser.parse_command('MARK:FREQ 1      959000000'), ('MARK:FREQ', [1, 959000000]))
+        self.assertEqual(self.parser.parse_command('MARK:FREQ 4      959000000'), ('MARK:FREQ', [4, 959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:FREQ')
@@ -1168,7 +1180,7 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:FREQ  1  -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('MARK:FREQ  1  350000001')
+            self.parser.parse_command('MARK:FREQ  1  959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:FREQ  1  1.5')
         with self.assertRaises(Exception):
@@ -1455,10 +1467,10 @@ class ParserTestCase(unittest.TestCase):
 
     ''' test MARK:SRCH:FREQ command '''
     def test_parse_command_MARK_SRCH_FREQ(self):
-        self.assertEqual(self.parser.parse_command('MARK:SRCH:FREQ 0 0'), ('MARK:SRCH:FREQ', [0, 0]))
-        self.assertEqual(self.parser.parse_command('MARKer:SeaRCH:FREQuency 0 350000000'), ('MARK:SRCH:FREQ', [0, 350000000]))
-        self.assertEqual(self.parser.parse_command('MARK:SRCH:FREQ 350000000 0'), ('MARK:SRCH:FREQ', [350000000, 0]))
-        self.assertEqual(self.parser.parse_command('MARKer:SeaRCH:FREQuency 350000000 350000000'), ('MARK:SRCH:FREQ', [350000000, 350000000]))
+        self.assertEqual(self.parser.parse_command('MARK:SRCH:FREQ 1 0'), ('MARK:SRCH:FREQ', [1, 0]))
+        self.assertEqual(self.parser.parse_command('MARKer:SeaRCH:FREQuency 1 959000000'), ('MARK:SRCH:FREQ', [1, 959000000]))
+        self.assertEqual(self.parser.parse_command('MARK:SRCH:FREQ 4 0'), ('MARK:SRCH:FREQ', [4, 0]))
+        self.assertEqual(self.parser.parse_command('MARKer:SeaRCH:FREQuency 4 959000000'), ('MARK:SRCH:FREQ', [4, 959000000]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:SRCH:FREQ')
@@ -1471,11 +1483,11 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:SRCH:FREQ -1 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('MARK:SRCH:FREQ 350000001 0')
+            self.parser.parse_command('MARK:SRCH:FREQ 959000001 0')
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:SRCH:FREQ 0 -1')
         with self.assertRaises(Exception):
-            self.parser.parse_command('MARK:SRCH:FREQ 0 350000001')
+            self.parser.parse_command('MARK:SRCH:FREQ 0 959000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('MARK:SRCH:FREQ 0 1.5')
         with self.assertRaises(Exception):
@@ -1605,10 +1617,10 @@ class ParserTestCase(unittest.TestCase):
 
     ''' test CONF:CORR:LOW command '''
     def test_parse_command_CONF_CORR_LOW(self):
-        self.assertEqual(self.parser.parse_command('CONF:CORR:LOW 0 0 0', ), ('CONF:CORR:LOW', [0, 0, 0]))
+        self.assertEqual(self.parser.parse_command('CONF:CORR:LOW 0 0 -200', ), ('CONF:CORR:LOW', [0, 0, -200]))
         self.assertEqual(self.parser.parse_command('CONFigure:CORRection:LOW 19 0 0', ), ('CONF:CORR:LOW', [19, 0, 0]))
-        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:LOW 0 999999999 0', ), ('CONF:CORR:LOW', [0, 999999999, 0]))
-        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:LOW 0 0 999999999', ), ('CONF:CORR:LOW', [0, 0, 999999999]))
+        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:LOW 0 959000000 0', ), ('CONF:CORR:LOW', [0, 959000000, 0]))
+        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:LOW 0 0 13.0', ), ('CONF:CORR:LOW', [0, 0, 13.0]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:LOW')
@@ -1623,28 +1635,25 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:LOW 0 -1 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:LOW 0 1000000000 0')
+            self.parser.parse_command('CONF:CORR:LOW 0 959000001 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:LOW 0 0 -1')
+            self.parser.parse_command('CONF:CORR:LOW 0 0 -201.0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:LOW 0 0 1000000000')
-
+            self.parser.parse_command('CONF:CORR:LOW 0 0 13.1')
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:LOW 1.5 0 0')
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:LOW 0 1.5 0')
-        with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:LOW 0 0 1.5')
 
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:LOW 0 0 0 0')
 
     ''' test CONF:CORR:HIGH command '''
     def test_parse_command_CONF_CORR_HIGH(self):
-        self.assertEqual(self.parser.parse_command('CONF:CORR:HIGH 0 0 0', ), ('CONF:CORR:HIGH', [0, 0, 0]))
+        self.assertEqual(self.parser.parse_command('CONF:CORR:HIGH 0 0 -200.0', ), ('CONF:CORR:HIGH', [0, 0, -200.0]))
         self.assertEqual(self.parser.parse_command('CONFigure:CORRection:HIGH 19 0 0', ), ('CONF:CORR:HIGH', [19, 0, 0]))
-        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:HIGH 0 999999999 0', ), ('CONF:CORR:HIGH', [0, 999999999, 0]))
-        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:HIGH 0 0 999999999', ), ('CONF:CORR:HIGH', [0, 0, 999999999]))
+        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:HIGH 0 959000000 0', ), ('CONF:CORR:HIGH', [0, 959000000, 0]))
+        self.assertEqual(self.parser.parse_command('CONFigure:CORRection:HIGH 0 0 13.0', ), ('CONF:CORR:HIGH', [0, 0, 13.0]))
 
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:HIGH')
@@ -1659,18 +1668,15 @@ class ParserTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:HIGH 0 -1 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:HIGH 0 1000000000 0')
+            self.parser.parse_command('CONF:CORR:HIGH 0 959000001 0')
         with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:HIGH 0 0 -1')
+            self.parser.parse_command('CONF:CORR:HIGH 0 0 -200.00000001')
         with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:HIGH 0 0 1000000000')
-
+            self.parser.parse_command('CONF:CORR:HIGH 0 0 13.0000000001')
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:HIGH 1.5 0 0')
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:HIGH 0 1.5 0')
-        with self.assertRaises(Exception):
-            self.parser.parse_command('CONF:CORR:HIGH 0 0 1.5')
 
         with self.assertRaises(Exception):
             self.parser.parse_command('CONF:CORR:HIGH 0 0 0 0')

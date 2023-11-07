@@ -3,7 +3,9 @@ import time
 import tinyscpi
 from tinyscpi import tinySCPI
 
-
+'''
+    Example main method. This program will set upper and lower frequency level then capture the tinySA screen.
+'''
 def main():
     start_freq = 90000000
     stop_freq = 105000000
