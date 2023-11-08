@@ -30,7 +30,6 @@ class SCPI_functional:
     args: self
     desc: finds the tinySA device if it is connected
     '''
-
     def get_device(self) -> str:
         # In the future, append the device to a list to enable the use of multiple tinySA's
         device_list = list_ports.comports()
@@ -40,9 +39,11 @@ class SCPI_functional:
         raise OSError("device not found")
 
     '''
-    Create tinySA usb command, given the valid command and arguments.
+    args: self, command, args
+        command: SCPI command in str format
+        args: SCPI command arguments/parameters in list format
+    desc: Create tinySA usb command, given the valid command and arguments.
     '''
-
     def convert_scpi_to_usb(self, command: str, args: list):
         from .dictionaries import scpi_lookup_dict
         usb_cmd = scpi_lookup_dict.SCPILookUpTable[command]
@@ -74,6 +75,7 @@ class SCPI_functional:
 
         print("Running " + usb_cmd)
         return usb_cmd.strip()
+
 
     def send(self, command) -> str:
         if not callable(command):
@@ -173,9 +175,11 @@ class SCPI_functional:
             return f"Error sending selftest command: {str(e)}"
 
     '''
-    MEASure Subsystem Functions
+    MEASure subsystem pseudo-command functions
     '''
-
+    '''
+    desc: pseudo-command function for MEASure:HARMonic
+    '''
     def MEASure_OFF(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -184,6 +188,9 @@ class SCPI_functional:
         self.send('touch 320 10')
         self.send('release')
 
+    '''
+    desc: pseudo-command function for MEASure:HARMonic
+    '''
     def MEASure_HARMonic(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -193,6 +200,9 @@ class SCPI_functional:
         self.send('release')
         self._enter_digits_on_screen(args)
 
+    '''
+    desc: pseudo-command function for MEASure:OIP3
+    '''
     def MEASure_OIP3(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -202,6 +212,9 @@ class SCPI_functional:
         self.send('release')
         print(self._enter_digits_on_screen(args))
 
+    '''
+    desc: pseudo-command function for MEASure:PhaseNOISe
+    '''
     def MEASure_PhaseNOISe(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -211,6 +224,9 @@ class SCPI_functional:
         self.send('release')
         print(self._enter_digits_on_screen(args))
 
+    '''
+    desc: pseudo-command function for MEASure:SNR
+    '''
     def MEASure_SNR(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -220,6 +236,9 @@ class SCPI_functional:
         self.send('release')
         self._enter_digits_on_screen(args)
 
+    '''
+    desc: pseudo-command function for MEASure:3DB
+    '''
     def MEASure_3DB(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -228,6 +247,9 @@ class SCPI_functional:
         self.send('touch 320 150')
         self.send('release')
 
+    '''
+    desc: pseudo-command function for MEASure:AM
+    '''
     def MEASure_AM(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -239,6 +261,9 @@ class SCPI_functional:
         self.send('release')
         print(self._enter_digits_on_screen(args))
 
+    '''
+    desc: pseudo-command function for MEASure:FM
+    '''
     def MEASure_FM(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -250,6 +275,9 @@ class SCPI_functional:
         self.send('release')
         print(self._enter_digits_on_screen(args))
 
+    '''
+    desc: pseudo-command function for MEASure:THD
+    '''
     def MEASure_THD(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -259,7 +287,9 @@ class SCPI_functional:
         self.send('release')
         self.send('touch 320 80')
         self.send('release')
-
+    '''
+    desc: pseudo-command function for MEASure:CHPOW
+    '''
     def MEASure_CHPOW(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -271,6 +301,9 @@ class SCPI_functional:
         self.send('release')
         print(self._enter_digits_on_screen(args))
 
+    '''
+    desc: pseudo-command function for MEASure:LINEar
+    '''
     def MEASure_LINEar(self, args):
         self.send('touch 300 100')
         self.send('release')
@@ -281,6 +314,9 @@ class SCPI_functional:
         self.send('touch 320 150')
         self.send('release')
 
+    '''
+    desc: pseudo-command function for MEASure:LINEar
+    '''
     def _enter_digits_on_screen(self, args) -> None:
         command_sequence = []
         for arg in args:
@@ -296,5 +332,3 @@ class SCPI_functional:
 
         for command in command_sequence:
             self.send(command)
-
-

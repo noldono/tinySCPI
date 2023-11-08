@@ -33,7 +33,7 @@ class SCPI_Parser:
 
         #
         if self.cmd not in self.validCommandTable:
-            raise Exception('"', self.cmd + '" is not a valid scpi command')
+            raise KeyError('"', self.cmd + '" is not a valid scpi command')
 
         validation = self.validCommandTable.get(self.cmd)
 
@@ -41,7 +41,7 @@ class SCPI_Parser:
             return self.cmd, []
 
         if (len(strs) - 1) != len(validation):
-            raise Exception(len(validation), ' inputs required but ', len(strs) - 1, ' inputs given')
+            raise SyntaxError(len(validation), ' inputs required but ', len(strs) - 1, ' inputs given')
 
         new_args = []
         args = strs[1:]
@@ -49,12 +49,12 @@ class SCPI_Parser:
             if val[0] == 'int':
                 arg = int(arg)
                 if val[1] > arg or val[2] < arg:
-                    raise Exception('Invalid Param')
+                    raise ValueError('Invalid Param')
 
             elif val[0] == 'float':
                 arg = float(arg)
                 if val[1] > arg or val[2] < arg:
-                    raise Exception('Invalid Param')
+                    raise ValueError('Invalid Param')
 
             elif val[0] == 'bool':
                 if arg == 'ON':
@@ -62,15 +62,15 @@ class SCPI_Parser:
                 elif arg == 'OFF':
                     arg = False
                 else:
-                    raise Exception('Invalid Param')
+                    raise ValueError('Invalid Param')
 
             elif val[0] == 'str':
                 if arg == 'str' or arg not in val:
-                    raise Exception('Invalid Param')
+                    raise ValueError('Invalid Param')
 
             elif val[0] == 'hex':
                 if int(val[1]) > int(arg, 16) or int(val[2]) < int(arg, 16):
-                    raise Exception('Invalid Param')
+                    raise ValueError('Invalid Param')
                 arg = hex(int(arg, 16))
 
             new_args.append(arg)
