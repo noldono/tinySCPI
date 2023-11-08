@@ -178,7 +178,7 @@ class SCPI_functional:
     MEASure subsystem pseudo-command functions
     '''
     '''
-    disc: pseudo-command function for MEASure:HARMonic
+    desc: pseudo-command function for MEASure:HARMonic
     '''
     def MEASure_OFF(self, args):
         self.send('touch 300 100')
@@ -189,7 +189,7 @@ class SCPI_functional:
         self.send('release')
 
     '''
-    disc: pseudo-command function for MEASure:HARMonic
+    desc: pseudo-command function for MEASure:HARMonic
     '''
     def MEASure_HARMonic(self, args):
         self.send('touch 300 100')
@@ -201,7 +201,7 @@ class SCPI_functional:
         self._enter_digits_on_screen(args)
 
     '''
-    disc: pseudo-command function for MEASure:OIP3
+    desc: pseudo-command function for MEASure:OIP3
     '''
     def MEASure_OIP3(self, args):
         self.send('touch 300 100')
@@ -213,7 +213,7 @@ class SCPI_functional:
         print(self._enter_digits_on_screen(args))
 
     '''
-    disc: pseudo-command function for MEASure:PhaseNOISe
+    desc: pseudo-command function for MEASure:PhaseNOISe
     '''
     def MEASure_PhaseNOISe(self, args):
         self.send('touch 300 100')
@@ -225,7 +225,7 @@ class SCPI_functional:
         print(self._enter_digits_on_screen(args))
 
     '''
-    disc: pseudo-command function for MEASure:SNR
+    desc: pseudo-command function for MEASure:SNR
     '''
     def MEASure_SNR(self, args):
         self.send('touch 300 100')
@@ -237,7 +237,7 @@ class SCPI_functional:
         self._enter_digits_on_screen(args)
 
     '''
-    disc: pseudo-command function for MEASure:3DB
+    desc: pseudo-command function for MEASure:3DB
     '''
     def MEASure_3DB(self, args):
         self.send('touch 300 100')
@@ -248,7 +248,7 @@ class SCPI_functional:
         self.send('release')
 
     '''
-    disc: pseudo-command function for MEASure:AM
+    desc: pseudo-command function for MEASure:AM
     '''
     def MEASure_AM(self, args):
         self.send('touch 300 100')
@@ -262,7 +262,7 @@ class SCPI_functional:
         print(self._enter_digits_on_screen(args))
 
     '''
-    disc: pseudo-command function for MEASure:FM
+    desc: pseudo-command function for MEASure:FM
     '''
     def MEASure_FM(self, args):
         self.send('touch 300 100')
@@ -276,7 +276,7 @@ class SCPI_functional:
         print(self._enter_digits_on_screen(args))
 
     '''
-    disc: pseudo-command function for MEASure:THD
+    desc: pseudo-command function for MEASure:THD
     '''
     def MEASure_THD(self, args):
         self.send('touch 300 100')
@@ -288,7 +288,7 @@ class SCPI_functional:
         self.send('touch 320 80')
         self.send('release')
     '''
-    disc: pseudo-command function for MEASure:CHPOW
+    desc: pseudo-command function for MEASure:CHPOW
     '''
     def MEASure_CHPOW(self, args):
         self.send('touch 300 100')
@@ -302,7 +302,7 @@ class SCPI_functional:
         print(self._enter_digits_on_screen(args))
 
     '''
-    disc: pseudo-command function for MEASure:LINEar
+    desc: pseudo-command function for MEASure:LINEar
     '''
     def MEASure_LINEar(self, args):
         self.send('touch 300 100')
@@ -315,7 +315,7 @@ class SCPI_functional:
         self.send('release')
 
     '''
-    disc: pseudo-command function for MEASure:LINEar
+    desc: pseudo-command function for MEASure:LINEar
     '''
     def _enter_digits_on_screen(self, args) -> None:
         command_sequence = []
