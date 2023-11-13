@@ -20,16 +20,16 @@
 ## Frequency Subtree
 ```
 FREQuency:
-	START [0M-350M]
-		arguments: A frequency between 0 and 350MHz [0M-350M]
+	START [0M-959M]
+		arguments: A frequency between 0 and 959Mhz [0M-959M]
 		Sets starting frequency
 
-	STOP [0M-350M]
-		arguments: A frequency between 0 and 350MHz [0M-350M]
+	STOP [0M-959M]
+		arguments: A frequency between 0 and 959Mhz [0M-350M]
 		Sets stopping frequency 
 
-	CENTer [0M-350M]
-		arguments: A frequency between 0 and 350MHz [0M-350M]
+	CENTer [0M-959M]
+		arguments: A frequency between 0 and 959Mhz [0M-350M]
 		Sets the center frequency 
 
 	SPAN [0-290]
