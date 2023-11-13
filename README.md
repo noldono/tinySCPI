@@ -11,6 +11,7 @@ See the [Commands](https://github.com/noldono/tinySCPI/blob/main/docs/Commands.m
 4. [**Coverage**](#coverage)
 5. [**Contact Us**](#contact)
 6. [**Safety**](#safety)
+7. [**Output**](#output) 
 
 ## Getting Started <a name="getting-started"></a>
 1. Create a new Python file.
@@ -75,3 +76,6 @@ Email: tinyscpi@vt.edu
 
 ## Safety: <a name="safety"></a>
 Like with all RF devices, there involves some risk in operation. For more information, please refer to [Safety](https://github.com/noldono/tinySCPI/blob/main/SAFETY.md).
+
+## Output: <a name="output"></a>
+On older firmware, output mode control over serial may not be stable and can return the "FATAL ERROR" message on screen. [Updating to a newer firmware](https://github.com/noldono/tinySCPI/blob/main/docs/tinySA_Firmware_Update_Manual.pdf) seems to resolve this issue.
