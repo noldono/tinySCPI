@@ -10,6 +10,7 @@ See the [Commands](https://github.com/noldono/tinySCPI/blob/main/docs/Commands.m
 3. [**Unit Testing**](#unit-test)
 4. [**Coverage**](#coverage)
 5. [**Contact Us**](#contact)
+6. [**Safety**](#safety)
 
 ## Getting Started <a name="getting-started"></a>
 1. Create a new Python file.
@@ -71,3 +72,6 @@ After the execution you will be able to find the coverage report at `./htmlcov/i
 
 ## Contact Us: <a name="contact"></a>
 Email: tinyscpi@vt.edu
+
+## Safety: <a name="safety"></a>
+Like with all RF devices, there involves some risk in operation. For more information, please refer to [Safety](https://github.com/noldono/tinySCPI/blob/main/SAFETY.md).
